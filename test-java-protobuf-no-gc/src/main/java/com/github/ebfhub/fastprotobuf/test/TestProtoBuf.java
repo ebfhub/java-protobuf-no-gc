@@ -9,6 +9,7 @@ import com.github.ebfhub.fastprotobuf.FastProtoWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class TestProtoBuf {
     public static void main(String[]args) throws IOException, NoSuchFieldException, NoSuchMethodException {
@@ -53,15 +54,46 @@ public class TestProtoBuf {
 
         byte[] bytes2=os1.toByteArray();
 
-
+        byte[] bytes3=null;
         TestMessageFast.Message msg2 = new TestMessageFast.Message();
-        msg2.setSymbol("hello1");
-        msg2.setTs(System.currentTimeMillis());
-        msg2.setSymbolId(123);
-        TestMessageFast.FieldAndValue val = msg2.addValues();
-        val.set_string("fifty");
-        val.setField(1000);
-        val.setFieldName("jonb");
+        TestMessageFast.Message msg3 = new TestMessageFast.Message();
+        msg2.setSymbol("bye");
+
+        for(int k=0;k<10;k++){
+            TestMessageFast.FieldAndValue val = msg2.addValues();
+            val.set_string("fifty"+k);
+            val.set_bool(true);
+            val.setField(k);
+            val.setFieldName("jonb"+k);
+        }
+
+
+        for(int n=0;n<3;n++) {
+            msg2.clear();
+
+            msg2.setSymbol("hello1");
+            msg2.setTs(System.currentTimeMillis());
+            msg2.setSymbolId(123);
+            TestMessageFast.FieldAndValue val = msg2.addValues();
+            val.set_string("fifty");
+            val.setField(1000);
+            val.setFieldName("jonb");
+
+
+            os1.reset();
+            msg1.write(o2,writer);
+            o2.flush();
+            byte[] tmp=os1.toByteArray();
+            if(n>0){
+                System.out.println("eq="+Arrays.equals(tmp,bytes3)+":"+new String(tmp));
+            }
+            bytes3=tmp;
+
+            CodedInputStream is3=CodedInputStream.newInstance(tmp);
+
+            msg3.clear();
+            reader.parse(is3,msg3);
+        }
 
 
     }

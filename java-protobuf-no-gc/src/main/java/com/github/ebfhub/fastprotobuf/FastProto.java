@@ -112,7 +112,8 @@ public class FastProto extends Generator {
                         info.bits.put(field.getName(),1<<fieldNum++);
                     }
 
-                    sb.line("public static class "+pp.getName()+" implements "+FastProtoSetter.class.getName()+"{");
+                    sb.line("public static class "+pp.getName()+" implements "+FastProtoSetter.class.getName()+","+
+                            FastProtoWritable.class.getName()+"{");
                     sb.line("static class FieldNum {");
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
                         sb.line("static final int "+field.getName()+"="+field.getNumber()+";");
@@ -231,11 +232,9 @@ public class FastProto extends Generator {
                         TypeInfo ti = getJavaTypeInfo(field);
                         sb.line("if((fieldsSet & FieldBit."+field.getName()+")!=0) {");
                         if(ti.repeated){
-                            sb.line("os.writeTag(FieldNum."+field.getName()+",WireFormat.WIRETYPE_LENGTH_DELIMITED);");
-                            sb.line("os.writeUInt32NoTag(size_"+field.getName()+");");
 
                             sb.line("for(int n=0;n<size_"+field.getName()+";n++){");
-                            sb.line("this."+field.getName()+".get(n).write(os,writer);");
+                            sb.line("writer.writeMessage(FieldNum."+field.getName()+",os,this."+field.getName()+".get(n));");
                             sb.line("}");
                         } else {
                             switch(field.getType()) {
@@ -243,10 +242,10 @@ public class FastProto extends Generator {
                                     sb.line("os.writeBool(FieldNum."+field.getName()+"," + field.getName() + ");");
                                     break;
                                 case TYPE_INT32:
-                                    sb.line("os.writeInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                                    sb.line("os.writeSInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
                                     break;
                                 case TYPE_INT64:
-                                    sb.line("os.writeInt64(FieldNum." +field.getName()+"," +field.getName() + ");");
+                                    sb.line("os.writeSInt64(FieldNum." +field.getName()+"," +field.getName() + ");");
                                     break;
                                 case TYPE_DOUBLE:
                                     sb.line("os.writeDouble(FieldNum." +field.getName()+"," + field.getName() + ");");
