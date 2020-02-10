@@ -11,20 +11,20 @@ import com.salesforce.jprotoc.ProtocPlugin;
 
 import java.util.*;
 
-public class FastProto extends Generator {
+public class FastProtoGenerator extends Generator {
     private final boolean debug;
 
-    public FastProto(boolean debug) {
+    public FastProtoGenerator(boolean debug) {
         this.debug=debug;
     }
 
     public static void main(String[] args) {
         if (args.length == 0) {
             // Generate from protoc via stdin
-            ProtocPlugin.generate(new FastProto(false));
+            ProtocPlugin.generate(new FastProtoGenerator(false));
         } else {
             // Process from a descriptor_dump file via command line arg
-            ProtocPlugin.debug(new FastProto(true), args[0]);
+            ProtocPlugin.debug(new FastProtoGenerator(true), args[0]);
         }
     }
 

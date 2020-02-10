@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>java-protobuf-no-gc-project</artifactId>
+        <artifactId>java-protobuf-no-gc</artifactId>
         <groupId>com.github.ebfhub</groupId>
         <version>1.0</version>
-        <relativePath>../config</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0</version>
-    <artifactId>java-protobuf-no-gc</artifactId>
+    <artifactId>java-protobuf-no-gc-gen</artifactId>
 
     <properties>
         <jdk.version>1.8</jdk.version>

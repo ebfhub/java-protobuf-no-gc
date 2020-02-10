@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>java-protobuf-no-gc-project</artifactId>
+        <artifactId>java-protobuf-no-gc</artifactId>
         <groupId>com.github.ebfhub</groupId>
         <version>1.0</version>
-        <relativePath>../config</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>test-java-protobuf-no-gc</artifactId>
+    <artifactId>sample-java-protobuf-no-gc</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -91,9 +90,9 @@
                                 <protocPlugin>
                                     <id>java8</id>
                                     <groupId>com.github.ebfhub</groupId>
-                                    <artifactId>java-protobuf-no-gc</artifactId>
+                                    <artifactId>java-protobuf-no-gc-gen</artifactId>
                                     <version>1.0</version>
-                                    <mainClass>com.github.ebfhub.fastprotobuf.FastProto</mainClass>
+                                    <mainClass>com.github.ebfhub.fastprotobuf.FastProtoGenerator</mainClass>
                                 </protocPlugin>
 
                                 <protocPlugin>
@@ -125,39 +124,30 @@
     </build>
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.1</version>
             <scope>compile</scope>
         </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4jVersion}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.11.3</version>
         </dependency>
-
         <dependency>
             <groupId>com.salesforce.servicelibs</groupId>
             <artifactId>jprotoc</artifactId>
             <version>1.0.1</version>
         </dependency>
-
-
         <dependency>
             <groupId>com.github.ebfhub</groupId>
-            <artifactId>java-protobuf-no-gc</artifactId>
+            <artifactId>java-protobuf-no-gc-gen</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
