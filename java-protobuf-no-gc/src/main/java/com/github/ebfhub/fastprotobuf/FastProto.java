@@ -333,7 +333,7 @@ public class FastProto extends Generator {
         }
 
         createAdd(sb, info, byType);
-        createSet(sb, info, byType);
+        createSet (sb, info, byType);
     }
 
     public void createSet(Output sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType) {
@@ -348,41 +348,46 @@ public class FastProto extends Generator {
                 continue;
             }
             if(type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING){
-                sb.line("@Override");
-                sb.line("public StringBuilder field_builder(int field) {");
-                sb.line("switch(field) {");
+                makeStringBuilderGetter(sb, info, fields);
+            } else {
 
-                for(DescriptorProtos.FieldDescriptorProto field:fields){
-                    sb.line("case FieldNum."+field.getName()+":");
-                    sb.line(info.fieldSetVar+"|="+info.bits.get(field.getName())+";");
-                    sb.line("if(this."+field.getName() + "==null) {");
-                    sb.line("this."+field.getName() + "=new StringBuilder();");
-                    sb.line("}");
-                    sb.line("return this."+field.getName() + ";");
+                sb.line("@Override");
+                sb.line("public void field_set(int field, " + javaType + " val) {");
+                sb.line("    switch(field) {");
+
+                for (DescriptorProtos.FieldDescriptorProto field : fields) {
+                    sb.line("case FieldNum." + field.getName() + ":");
+                    addSetValue(sb, type, field, "val", info);
+
+                    sb.line("break;");
                 }
 
-                sb.line("default: throw new UnsupportedOperationException(\"Unable to set field \"+field+\" from "+javaType+"\");");
+                sb.line("default: throw new UnsupportedOperationException(\"Unable to set field \"+field+\" from " + javaType + "\");");
+
+
                 sb.line("}");
                 sb.line("}");
             }
-
-            sb.line("@Override");
-            sb.line("public void field_set(int field, "+javaType+" val) {");
-            sb.line("    switch(field) {");
-
-            for(DescriptorProtos.FieldDescriptorProto field:fields){
-                sb.line("case FieldNum."+field.getName()+":");
-                addSetValue(sb, type, field, "val",info);
-
-                sb.line("break;");
-            }
-
-            sb.line("default: throw new UnsupportedOperationException(\"Unable to set field \"+field+\" from "+javaType+"\");");
-
-
-            sb.line("}");
-            sb.line("}");
         }
+    }
+
+    private void makeStringBuilderGetter(Output sb, ClassInfo info, List<DescriptorProtos.FieldDescriptorProto> fields) {
+        sb.line("@Override");
+        sb.line("public StringBuilder field_builder(int field) {");
+        sb.line("switch(field) {");
+
+        for(DescriptorProtos.FieldDescriptorProto field:fields){
+            sb.line("case FieldNum."+field.getName()+":");
+            sb.line(info.fieldSetVar+"|="+info.bits.get(field.getName())+";");
+            sb.line("if(this."+field.getName() + "==null) {");
+            sb.line("this."+field.getName() + "=new StringBuilder();");
+            sb.line("}");
+            sb.line("return this."+field.getName() + ";");
+        }
+
+        sb.line("default: throw new UnsupportedOperationException(\"Unable to get string builder field \"+field);");
+        sb.line("}");
+        sb.line("}");
     }
 
     public void createAdd(Output sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType) {
