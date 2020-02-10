@@ -346,8 +346,26 @@ public class FastProto extends Generator {
 
             if (type.repeated) {
                 continue;
-
             }
+            if(type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING){
+                sb.line("@Override");
+                sb.line("public StringBuilder field_builder(int field) {");
+                sb.line("switch(field) {");
+
+                for(DescriptorProtos.FieldDescriptorProto field:fields){
+                    sb.line("case FieldNum."+field.getName()+":");
+                    sb.line(info.fieldSetVar+"|="+info.bits.get(field.getName())+";");
+                    sb.line("if(this."+field.getName() + "==null) {");
+                    sb.line("this."+field.getName() + "=new StringBuilder();");
+                    sb.line("}");
+                    sb.line("return this."+field.getName() + ";");
+                }
+
+                sb.line("default: throw new UnsupportedOperationException(\"Unable to set field \"+field+\" from "+javaType+"\");");
+                sb.line("}");
+                sb.line("}");
+            }
+
             sb.line("@Override");
             sb.line("public void field_set(int field, "+javaType+" val) {");
             sb.line("    switch(field) {");
@@ -405,116 +423,6 @@ public class FastProto extends Generator {
 
         sb.line("return res;");
     }
-
-//    public void addParseMethod(Output sb) {
-//        sb.line("public void parse(CodedInputStream is) throws java.io.IOException {");
-//        sb.line("while(!is.isAtEnd()) {");
-//        sb.line("int tag = is.readTag();");
-//        sb.line("int wt = WireFormat.getTagWireType(tag);");
-//        sb.line("int field = WireFormat.getTagFieldNumber(tag);");
-//        sb.line(FastProtoField.class.getName()+" fd = getField(field);");
-//        sb.line("WireFormat.FieldType lt = fd.ft;");
-//
-//        sb.line("switch(wt){");
-//
-//        sb.line("case WireFormat.WIRETYPE_VARINT:");
-//        sb.line("{");
-//        sb.line("long value = is.readInt64();");
-//        sb.line("switch(lt){");
-//
-//        sb.line("case INT32:");
-//        sb.line("set(field,(int)value);");
-//        sb.line("break;");
-//        sb.line("case INT64:");
-//        sb.line("set(field,value);");
-//        sb.line("break;");
-//        sb.line("case BOOL:");
-//        sb.line("set(field, value != 0);");
-//        sb.line("break;");
-//
-//        sb.line("default: throw new UnsupportedOperationException();");
-//
-//        sb.line("}");
-//        sb.line("}");
-//        sb.line("break;");
-//        sb.line("case WireFormat.WIRETYPE_FIXED32:");
-//        sb.line("{");
-//        sb.line("int value = is.readRawLittleEndian32();");
-//        sb.line("switch(lt){");
-//        sb.line("case FLOAT:");
-//        sb.line("float f = Float.intBitsToFloat(value);");
-//        sb.line("set(field,f);");
-//        sb.line("break;");
-//        sb.line("default: throw new UnsupportedOperationException();");
-//        sb.line("}");
-//        sb.line("}");
-//        sb.line("break;");
-//
-//        sb.line("case WireFormat.WIRETYPE_FIXED64:");
-//        sb.line("{");
-//        sb.line("long value = is.readRawLittleEndian64();");
-//        sb.line("switch(lt){");
-//        sb.line("case FLOAT:");
-//        sb.line("double f = Double.longBitsToDouble(value);");
-//        sb.line("set(field,f);");
-//        sb.line("break;");
-//        sb.line("default: throw new UnsupportedOperationException();");
-//        sb.line("}");
-//        sb.line("}");
-//        sb.line("break;");
-//
-//        sb.line("case WireFormat.WIRETYPE_LENGTH_DELIMITED:");
-//        sb.line("{");
-//
-//        sb.line("final int size = is.readRawVarint32();");
-//
-//        sb.line("if(size<0){");
-//        sb.line("throw new IllegalStateException();");
-//        sb.line("}");
-//
-//        sb.line("switch(lt){");
-//        sb.line("case STRING:");
-//        sb.line("{");
-//        sb.line("StringBuilder sb=new StringBuilder();");
-//        sb.line("byte[] bb=new byte[size];");
-//        sb.line("for(int n=0;n<size;n++) {");
-//        sb.line("byte b = is.readRawByte();");
-//        sb.line("bb[n]=b;");
-//        sb.line("}");
-//
-//
-//        sb.line("Utf8.getCharsFromUtf8(0,size,sb,ARRAY_BYTE_BASE_OFFSET,bb);");
-//        sb.line("set(field,sb);");
-//        sb.line("}");
-//        sb.line("break;");
-//
-//        sb.line("case MESSAGE:");
-//        sb.line("{");
-//        sb.line("int l = is.pushLimit(size);");
-//
-//        sb.line("add(field, is);");
-//        sb.line("is.popLimit(l);");
-//
-//        sb.line("}");
-//        sb.line("break;");
-//
-//        sb.line("default: throw new UnsupportedOperationException();");
-//        sb.line("}");
-//        sb.line("}");
-//        sb.line("break;");
-//        sb.line("case WireFormat.WIRETYPE_START_GROUP:");
-//        sb.line("break;");
-//        sb.line("case WireFormat.WIRETYPE_END_GROUP:");
-//        sb.line("break;");
-//        sb.line("default: throw new UnsupportedOperationException();");
-//
-//
-//        sb.line("}");
-//        sb.line("}");
-//        sb.line("}");
-//        sb.blank();
-//    }
-
 
     private String upperCaseName(String name) {
 

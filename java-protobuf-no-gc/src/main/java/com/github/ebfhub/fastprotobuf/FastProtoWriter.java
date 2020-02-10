@@ -10,22 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FastProtoWriter {
-    byte[] buf = new byte[1024];
-    public void writeString(CodedOutputStream os, int field, CharSequence str) throws IOException {
+    private byte[] buf = new byte[1024];
 
+    public void writeString(CodedOutputStream os, int field, CharSequence str) throws IOException {
         long len = Utf8.putCharsToUtf8(0,str,buf.length, Unsafe.ARRAY_BYTE_BASE_OFFSET,buf);
         os.writeTag(field, WireFormat.WIRETYPE_LENGTH_DELIMITED);
-
         os.writeUInt32NoTag((int)len);
         os.writeLazy(buf, 0, (int)len);
-
-//        os.writeSInt32NoTag((int)len);
-//        for(int n=0;n<len;n++){
-//            os.write(buf[n]);
-//        }
     }
 
-    static class Helper
+    private static class Helper
     {
         ByteArrayOutputStream bos = new ByteArrayOutputStream(){
             @Override

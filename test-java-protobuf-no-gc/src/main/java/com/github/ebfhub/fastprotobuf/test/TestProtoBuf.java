@@ -9,6 +9,7 @@ import com.github.ebfhub.fastprotobuf.FastProtoWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class TestProtoBuf {
@@ -45,7 +46,7 @@ public class TestProtoBuf {
         reader.parse(is,msg1);
 
 
-        ByteArrayOutputStream os1 = new ByteArrayOutputStream();
+        ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
         CodedOutputStream o2 =  CodedOutputStream.newInstance(os1);
         FastProtoWriter writer=new FastProtoWriter();
         msg1.write(o2,writer);
@@ -67,35 +68,73 @@ public class TestProtoBuf {
             val.setFieldName("jonb"+k);
         }
 
+        MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
+        CodedInputStream is3=CodedInputStream.newInstance(mis);
 
-        for(int n=0;n<3;n++) {
+        for(int n=0;n<3e10;n++) {
             msg2.clear();
 
-            msg2.setSymbol("hello1");
+            msg2.setSymbol("sym12");
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
             TestMessageFast.FieldAndValue val = msg2.addValues();
-            val.set_string("fifty");
+            val.set_string("sym14");
             val.setField(1000);
-            val.setFieldName("jonb");
-
+            val.setFieldName("sym13");
 
             os1.reset();
             msg1.write(o2,writer);
             o2.flush();
-            byte[] tmp=os1.toByteArray();
-            if(n>0){
-                System.out.println("eq="+Arrays.equals(tmp,bytes3)+":"+new String(tmp));
-            }
-            bytes3=tmp;
 
-            CodedInputStream is3=CodedInputStream.newInstance(tmp);
+
+            if(n<2) {
+                byte[] tmp=os1.toByteArray();
+
+                if (n > 0) {
+                    System.out.println("eq=" + Arrays.equals(tmp, bytes3) + ":" + new String(tmp));
+                }
+                bytes3 = tmp;
+                System.gc();
+            }
+
+            byte[] tmp=os1.getBytes();
+            int tmpLen = os1.size();
+
+            mis.setBytes(tmp,tmpLen);
+
 
             msg3.clear();
             reader.parse(is3,msg3);
         }
+    }
 
+    static class ReusableByteArrayOutputStream extends ByteArrayOutputStream
+    {
+        public byte[] getBytes(){
+            return buf;
+        }
 
+    }
+
+    static class MutableByteArrayInputStream extends InputStream
+    {
+        byte[] buf;
+        int len;
+        int pos;
+
+        @Override
+        public int read() throws IOException {
+            if(pos==len){
+                return -1;
+            }
+            return buf[pos++];
+        }
+
+        public void setBytes(byte[] tmp, int tmpLen) {
+            buf=tmp;
+            len=tmpLen;
+            pos=0;
+        }
     }
 
     static class ProtoDebug

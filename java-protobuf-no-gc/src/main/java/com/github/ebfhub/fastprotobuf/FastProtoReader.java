@@ -5,7 +5,6 @@ import com.google.protobuf.WireFormat;
 
 public class FastProtoReader {
 
-    private StringBuilder sb = new StringBuilder();
     private byte[] bb = new byte[0];
 
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
@@ -36,24 +35,22 @@ public class FastProtoReader {
                 case WireFormat.WIRETYPE_FIXED32:
                 {
                     int value = is.readRawLittleEndian32();
-                    switch(lt){
-                        case FLOAT:
-                            float f = Float.intBitsToFloat(value);
-                            setter.field_set(field,f);
-                            break;
-                        default: throw new UnsupportedOperationException();
+                    if (lt == WireFormat.FieldType.FLOAT) {
+                        float f = Float.intBitsToFloat(value);
+                        setter.field_set(field, f);
+                    } else {
+                        throw new UnsupportedOperationException();
                     }
                 }
                 break;
                 case WireFormat.WIRETYPE_FIXED64:
                 {
                     long value = is.readRawLittleEndian64();
-                    switch(lt){
-                        case DOUBLE:
-                            double f = Double.longBitsToDouble(value);
-                            setter.field_set(field,f);
-                            break;
-                        default: throw new UnsupportedOperationException();
+                    if (lt == WireFormat.FieldType.DOUBLE) {
+                        double f = Double.longBitsToDouble(value);
+                        setter.field_set(field, f);
+                    } else {
+                        throw new UnsupportedOperationException();
                     }
                 }
                 break;
@@ -66,7 +63,6 @@ public class FastProtoReader {
                     switch(lt){
                         case STRING:
                         {
-                            sb.setLength(0);
                             if(bb.length<size){
                                 bb=new byte[size];
                             }
@@ -74,8 +70,9 @@ public class FastProtoReader {
                                 byte b = is.readRawByte();
                                 bb[n]=b;
                             }
+                            StringBuilder sb = setter.field_builder(field);
+                            sb.setLength(0);
                             Utf8.getCharsFromUtf8(0,size,sb,UnsafeUtil.ARRAY_BYTE_BASE_OFFSET,bb);
-                            setter.field_set(field,sb);
                         }
                         break;
                         case MESSAGE:
@@ -89,11 +86,13 @@ public class FastProtoReader {
                     }
                 }
                 break;
+
                 case WireFormat.WIRETYPE_START_GROUP:
-                    break;
                 case WireFormat.WIRETYPE_END_GROUP:
                     break;
-                default: throw new UnsupportedOperationException();
+
+                default:
+                    throw new UnsupportedOperationException();
             }
         }
     }

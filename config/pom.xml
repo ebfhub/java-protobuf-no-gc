@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>java-protobuf-no-gc</module>
-        <module>test-java-protobuf-no-gc</module>
+        <module>../java-protobuf-no-gc</module>
+        <module>../test-java-protobuf-no-gc</module>
     </modules>
+
     <artifactId>java-protobuf-no-gc-project</artifactId>
     <groupId>com.github.ebfhub</groupId>
     <version>1.0</version>
