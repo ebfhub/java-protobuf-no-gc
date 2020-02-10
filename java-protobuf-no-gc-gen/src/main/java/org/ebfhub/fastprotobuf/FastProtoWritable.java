@@ -1,4 +1,4 @@
-package com.github.ebfhub.fastprotobuf;
+package org.ebfhub.fastprotobuf;
 
 import com.google.protobuf.CodedOutputStream;
 

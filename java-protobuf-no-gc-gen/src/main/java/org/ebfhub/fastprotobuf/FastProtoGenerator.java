@@ -1,4 +1,4 @@
-package com.github.ebfhub.fastprotobuf;
+package org.ebfhub.fastprotobuf;
 
 import com.google.common.base.Strings;
 import com.google.common.html.HtmlEscapers;
@@ -88,8 +88,8 @@ public class FastProtoGenerator extends Generator {
                 sb.line("import com.google.protobuf.WireFormat;\n");
                 sb.line("import com.google.protobuf.CodedInputStream;\n");
                 sb.line("import com.google.protobuf.CodedOutputStream;\n");
-                sb.line("import static com.github.ebfhub.fastprotobuf.UnsafeUtil.ARRAY_BYTE_BASE_OFFSET;");
-                sb.line("import com.github.ebfhub.fastprotobuf.Utf8;");
+                sb.line("import static org.ebfhub.fastprotobuf.UnsafeUtil.ARRAY_BYTE_BASE_OFFSET;");
+                sb.line("import org.ebfhub.fastprotobuf.Utf8;");
 
                 sb.blank();
 

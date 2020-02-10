@@ -1,18 +1,18 @@
-package com.github.ebfhub.fastprotobuf.test;
+package org.ebfhub.fastprotobuf.sample;
 
 import com.github.ebfhub.fastprotobuf.test.proto.TestMessage;
 import com.github.ebfhub.fastprotobuf.test.proto.TestMessageFast;
 import com.google.common.base.Charsets;
 import com.google.protobuf.*;
-import com.github.ebfhub.fastprotobuf.FastProtoReader;
-import com.github.ebfhub.fastprotobuf.FastProtoWriter;
+import org.ebfhub.fastprotobuf.FastProtoReader;
+import org.ebfhub.fastprotobuf.FastProtoWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-public class TestProtoBuf {
+public class FastProtoSampleMain {
     public static void main(String[]args) throws IOException, NoSuchFieldException, NoSuchMethodException {
 
         TestMessage.Message msg = TestMessage.Message.newBuilder()

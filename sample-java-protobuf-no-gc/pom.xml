@@ -92,7 +92,7 @@
                                     <groupId>com.github.ebfhub</groupId>
                                     <artifactId>java-protobuf-no-gc-gen</artifactId>
                                     <version>1.0</version>
-                                    <mainClass>com.github.ebfhub.fastprotobuf.FastProtoGenerator</mainClass>
+                                    <mainClass>org.ebfhub.fastprotobuf.FastProtoGenerator</mainClass>
                                 </protocPlugin>
 
                                 <protocPlugin>

@@ -1,11 +1,11 @@
-package com.github.ebfhub.fastprotobuf;
+package org.ebfhub.fastprotobuf;
 
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.CharBuffer;
 
 import static java.lang.Character.*;
-import static com.github.ebfhub.fastprotobuf.UnsafeUtil.unsafe;
+import static org.ebfhub.fastprotobuf.UnsafeUtil.unsafe;
 
 /**
  *
