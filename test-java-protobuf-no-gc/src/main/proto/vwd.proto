@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tutorial;
+
+option java_package = "com.github.ebfhub.fastprotobuf.test.proto";
+option java_outer_classname = "TestMessage";
+
+message FieldAndValue {
+    int32 field = 1;            // field number
+    string fieldName = 2;       // field name
+    oneof value {
+        string _string = 3;
+        int32 _int32 = 4;
+        int64 _int64 = 5;
+        bool _bool = 6;
+        double _double = 7;
+        float _float = 8;
+        int32 _ts = 9;
+    } ;
+};
+
+message Message {
+  string symbol = 1;                        // String symbol
+  int32 symbolId = 2;                       // Numeric equivalent (used for smaller msgs)
+  int64 ts = 3;                             // TS
+  int32 smallTs = 4;                        // Since last ts/sod?
+  int32 fieldSet = 5;                       // Set of fields
+  int32 defineFieldSet = 6;                 // Define of fields
+  repeated FieldAndValue values = 10;
+}

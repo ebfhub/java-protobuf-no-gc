@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <modules>
+        <module>java-protobuf-no-gc</module>
+        <module>test-java-protobuf-no-gc</module>
+    </modules>
+    <artifactId>java-protobuf-no-gc-project</artifactId>
+    <groupId>com.github.ebfhub</groupId>
+    <version>1.0</version>
+
+    <properties>
+        <slf4jVersion>1.6.5</slf4jVersion>
+        <lombok.version>1.14.8</lombok.version>
+        <protobuf.input.directory>${project.basedir}/src/main/proto</protobuf.input.directory>
+        <protobuf.output.directory>${project.build.directory}/generated-sources</protobuf.output.directory>
+        <!-- library versions -->
+        <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+        <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+        <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+        <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
+        <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
+        <protobuf.version>3.7.1</protobuf.version>
+
+
+
+    </properties>
+
+</project>

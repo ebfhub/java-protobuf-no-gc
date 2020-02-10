@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>java-protobuf-no-gc-project</artifactId>
+        <groupId>com.github.ebfhub</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>test-java-protobuf-no-gc</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <slf4jVersion>1.6.5</slf4jVersion>
+        <lombok.version>1.14.8</lombok.version>
+        <protobuf.input.directory>${project.basedir}/src/main/proto</protobuf.input.directory>
+        <protobuf.output.directory>${project.build.directory}/generated-sources</protobuf.output.directory>
+        <!-- library versions -->
+        <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+        <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+        <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+        <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
+        <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
+        <protobuf.version>3.7.1</protobuf.version>
+
+
+
+    </properties>
+
+    <build>
+        <extensions>
+            <!-- provides os.detected.classifier (i.e. linux-x86_64, osx-x86_64) property -->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>${os-maven-plugin.version}</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <!-- copy protoc binary into build directory -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-protoc</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.google.protobuf</groupId>
+                                    <artifactId>protoc</artifactId>
+                                    <version>${protobuf.version}</version>
+                                    <classifier>${os.detected.classifier}</classifier>
+                                    <type>exe</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- compile proto buffer files using copied protoc binary -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:3.0.2:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.2.0:exe:${os.detected.classifier}</pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-compile-custom</goal>
+                        </goals>
+                        <configuration>
+                            <protocPlugins>
+                                <protocPlugin>
+                                    <id>java8</id>
+                                    <groupId>com.github.ebfhub</groupId>
+                                    <artifactId>java-protobuf-no-gc</artifactId>
+                                    <version>1.0</version>
+                                    <mainClass>com.github.ebfhub.fastprotobuf.FastProto</mainClass>
+                                </protocPlugin>
+
+                                <protocPlugin>
+                                    <id>dump</id>
+                                    <groupId>com.salesforce.servicelibs</groupId>
+                                    <artifactId>jprotoc</artifactId>
+                                    <version>1.0.1</version>
+                                    <mainClass>com.salesforce.jprotoc.dump.DumpGenerator</mainClass>
+                                </protocPlugin>
+
+                            </protocPlugins>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+
+    </build>
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.11.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.salesforce.servicelibs</groupId>
+            <artifactId>jprotoc</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.ebfhub</groupId>
+            <artifactId>java-protobuf-no-gc</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>
