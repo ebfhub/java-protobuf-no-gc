@@ -1,31 +1,35 @@
-package org.ebfhub.fastprotobuf.sample;
+package com.github.ebfhub.fastprotobuf;
 
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessage;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessageFast;
-import com.google.protobuf.*;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
 import org.ebfhub.fastprotobuf.*;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class FastProtoSampleMain {
-    public static void main(String[]args) throws IOException, NoSuchFieldException, NoSuchMethodException {
+import static org.junit.Assert.assertTrue;
 
+public class TestEncoding {
+    @Test
+    public void encodingTest() throws IOException {
         SampleMessage.Message msg = SampleMessage.Message.newBuilder()
                 .setSymbol("sym1")
                 .setSymbolId(12)
                 .setTs(System.currentTimeMillis())
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
+                .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setField(123).setBool(true))
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
+                .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setField(126).setString("hello"))
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
+                .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setField(124).setFieldName("myField").setInt32(97))
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
+                .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setField(190).setFloat(98.97f))
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
+                .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setField(126).setDouble(98.99)
-                            .build())
+                        .build())
                 .build();
 
 
@@ -67,7 +71,7 @@ public class FastProtoSampleMain {
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
         CodedInputStream is3=CodedInputStream.newInstance(mis);
 
-        for(int n=0;n<3e10;n++) {
+        for(int n=0;n<4;n++) {
             msg2.clear();
 
             msg2.setSymbol("sym12");
@@ -83,25 +87,19 @@ public class FastProtoSampleMain {
             o2.flush();
 
 
-            if(n<2) {
-                byte[] tmp=os1.toByteArray();
+            byte[] tmp=os1.toByteArray();
 
-                if (n > 0) {
-                    System.out.println("eq=" + Arrays.equals(tmp, bytes3) + ":" + new String(tmp));
-                }
-                bytes3 = tmp;
-                System.gc();
+            if (n > 0) {
+                assertTrue("eq=" + new String(tmp), Arrays.equals(tmp, bytes3));
             }
+            bytes3 = tmp;
+            System.gc();
 
-            byte[] tmp=os1.getBytes();
+            byte[] tmp1=os1.getBytes();
             int tmpLen = os1.size();
-
-            mis.setBytes(tmp,tmpLen);
-
-
+            mis.setBytes(tmp1,tmpLen);
             msg3.clear();
             reader.parse(is3,msg3);
         }
     }
-
 }

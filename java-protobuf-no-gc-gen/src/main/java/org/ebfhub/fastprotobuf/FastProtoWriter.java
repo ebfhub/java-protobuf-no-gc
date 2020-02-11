@@ -12,7 +12,7 @@ public class FastProtoWriter {
     // TODO allow for longer
     private byte[] buf = new byte[1024];
 
-    public void writeString(CodedOutputStream os, int field, CharSequence str) throws IOException {
+    public void writeString(int field, CodedOutputStream os, CharSequence str) throws IOException {
         long len = Utf8.putCharsToUtf8(0,str,buf.length, UnsafeUtil.ARRAY_BYTE_BASE_OFFSET,buf);
         os.writeTag(field, WireFormat.WIRETYPE_LENGTH_DELIMITED);
         os.writeUInt32NoTag((int)len);

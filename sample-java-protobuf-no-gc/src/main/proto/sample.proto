@@ -2,8 +2,12 @@ syntax = "proto3";
 
 package tutorial;
 
-option java_package = "com.github.ebfhub.fastprotobuf.test.proto";
-option java_outer_classname = "TestMessage";
+option java_package = "com.github.ebfhub.fastprotobuf.sample.proto";
+option java_outer_classname = "SampleMessage";
+
+message StringList {
+    repeated string strings = 1;
+}
 
 message FieldAndValue {
     int32 field = 1;            // field number
@@ -16,6 +20,7 @@ message FieldAndValue {
         double _double = 7;
         float _float = 8;
         int32 _ts = 9;
+        StringList _stringList = 10;
     } ;
 };
 
