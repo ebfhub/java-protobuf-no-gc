@@ -56,8 +56,10 @@ public class FastProtoSampleMain {
         SampleMessageFast.Message msg3 = new SampleMessageFast.Message();
         msg2.setSymbol("bye");
 
+        FastProtoReader.ObjectPool pool= reader.getPool();
+
         for(int k=0;k<10;k++){
-            SampleMessageFast.FieldAndValue val = msg2.addValues();
+            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
             val.set_string("fifty"+k);
             val.set_bool(true);
             val.setField(k);
@@ -68,12 +70,12 @@ public class FastProtoSampleMain {
         CodedInputStream is3=CodedInputStream.newInstance(mis);
 
         for(int n=0;n<3e10;n++) {
-            msg2.clear();
+            msg2.clear(pool);
 
             msg2.setSymbol("sym12");
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
-            SampleMessageFast.FieldAndValue val = msg2.addValues();
+            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
             val.set_string("sym14");
             val.setField(1000);
             val.setFieldName("sym13");
@@ -99,7 +101,7 @@ public class FastProtoSampleMain {
             mis.setBytes(tmp,tmpLen);
 
 
-            msg3.clear();
+            msg3.clear(pool);
             reader.parse(is3,msg3);
         }
     }

@@ -30,15 +30,21 @@ public interface FastProtoSetter {
     /**
      * Mark a field as set and return its empty string builder.
      */
-    StringBuilder field_builder(int field);
+    StringBuilder field_builder(int field, FastProtoReader.ObjectPool pool);
 
     /**
      * Add a message field, returning a setter component
      */
-    FastProtoSetter field_add(int field);
+    FastProtoSetter field_add(int field, FastProtoReader.ObjectPool pool);
 
     /**
      * Get definition for a field.
      */
     FastProtoField getField(int field);
+
+    /**
+     * Clear the object
+     */
+    void clear(FastProtoReader.ObjectPool pool);
+
 }

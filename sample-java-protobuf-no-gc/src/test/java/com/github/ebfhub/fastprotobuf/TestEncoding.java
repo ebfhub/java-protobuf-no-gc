@@ -8,6 +8,7 @@ import org.ebfhub.fastprotobuf.*;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
@@ -59,9 +60,10 @@ public class TestEncoding {
         SampleMessageFast.Message msg2 = new SampleMessageFast.Message();
         SampleMessageFast.Message msg3 = new SampleMessageFast.Message();
         msg2.setSymbol("bye");
+        FastProtoReader.ObjectPool pool = reader.getPool();
 
         for(int k=0;k<10;k++){
-            SampleMessageFast.FieldAndValue val = msg2.addValues();
+            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
             val.set_string("fifty"+k);
             val.set_bool(true);
             val.setField(k);
@@ -71,13 +73,14 @@ public class TestEncoding {
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
         CodedInputStream is3=CodedInputStream.newInstance(mis);
 
+
         for(int n=0;n<4;n++) {
-            msg2.clear();
+            msg2.clear(pool);
 
             msg2.setSymbol("sym12");
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
-            SampleMessageFast.FieldAndValue val = msg2.addValues();
+            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
             val.set_string("sym14");
             val.setField(1000);
             val.setFieldName("sym13");
@@ -98,7 +101,7 @@ public class TestEncoding {
             byte[] tmp1=os1.getBytes();
             int tmpLen = os1.size();
             mis.setBytes(tmp1,tmpLen);
-            msg3.clear();
+            msg3.clear(reader.getPool());
             reader.parse(is3,msg3);
         }
     }

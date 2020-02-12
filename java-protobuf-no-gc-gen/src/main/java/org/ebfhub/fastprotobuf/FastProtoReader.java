@@ -3,9 +3,71 @@ package org.ebfhub.fastprotobuf;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.WireFormat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class FastProtoReader {
 
     private byte[] bb = new byte[0];
+
+    public ObjectPool getPool() {
+        return pool;
+    }
+
+    public static class ObjectPool {
+        private Map<Class<?>, List<Object>> pool = new HashMap<>();
+
+
+        public void returnOne(Object o) {
+            clear(o);
+            Class<?> cl = o.getClass();
+            List<Object> l = pool.computeIfAbsent(cl, a -> new ArrayList<>());
+            l.add(o);
+        }
+
+        private void clear(Object o) {
+            if( o instanceof FastProtoSetter){
+                ((FastProtoSetter) o).clear(this);
+            } else if ( o instanceof List){
+                List list = (List)o;
+                for(int size=list.size(),n=0;n<size;n++) {
+                    returnOne(list.get(n));
+                }
+                list.clear();
+
+            } else {
+                ((StringBuilder)o).setLength(0);
+            }
+        }
+
+        public void clearList(List<?> list) {
+            for(int size=list.size(),n=0;n<size;n++) {
+                returnOne(list.get(n));
+            }
+            list.clear();
+        }
+        public <T> T take(Class<T> cl) {
+            List<Object> l = pool.get(cl);
+            if (l == null || l.size() == 0) {
+                try {
+                    return cl.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new IllegalStateException("can't allocate " + cl, e);
+                }
+            } else {
+                //noinspection unchecked
+                return (T)l.remove(l.size() - 1);
+            }
+        }
+
+        public <T> List<T> takeList() {
+            return take(ArrayList.class);
+        }
+    }
+
+    ObjectPool pool=new ObjectPool();
 
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
         while(!is.isAtEnd()) {
@@ -70,7 +132,7 @@ public class FastProtoReader {
                                 byte b = is.readRawByte();
                                 bb[n]=b;
                             }
-                            StringBuilder sb = setter.field_builder(field);
+                            StringBuilder sb = setter.field_builder(field,pool);
                             sb.setLength(0);
                             Utf8.getCharsFromUtf8(0,size,sb,UnsafeUtil.ARRAY_BYTE_BASE_OFFSET,bb);
                         }
@@ -78,7 +140,7 @@ public class FastProtoReader {
                         case MESSAGE:
                         {
                             int l = is.pushLimit(size);
-                            parse(is,setter.field_add(field));
+                            parse(is,setter.field_add(field,pool));
                             is.popLimit(l);
                         }
                         break;
