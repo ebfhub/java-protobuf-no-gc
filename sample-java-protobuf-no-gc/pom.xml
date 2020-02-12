@@ -24,6 +24,7 @@
         <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
         <protobuf.version>3.7.1</protobuf.version>
+        <trove.version>3.0.3</trove.version>
 
 
 
@@ -150,5 +151,18 @@
             <artifactId>java-protobuf-no-gc-gen</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>gnu.trove</groupId>
+            <artifactId>trove</artifactId>
+            <version>${trove.version}</version>
+
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>zoidberg</id>
+            <name>zoidberg</name>
+            <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
+        </repository>
+    </repositories>
 </project>

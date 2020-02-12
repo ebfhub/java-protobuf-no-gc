@@ -2,6 +2,7 @@ package org.ebfhub.fastprotobuf;
 
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.WireFormat;
+import gnu.trove.list.array.TIntArrayList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,13 @@ public class FastProtoReader {
 
     public static class ObjectPool {
         private Map<Class<?>, List<Object>> pool = new HashMap<>();
+        private List<Object> stringBuilderPool = new ArrayList<>();
+        private List<Object> arrayListPool = new ArrayList<>();
 
+        {
+            pool.put(StringBuilder.class,stringBuilderPool);
+            pool.put(ArrayList.class,arrayListPool);
+        }
 
         public void returnOne(Object o) {
             clear(o);
@@ -26,17 +33,33 @@ public class FastProtoReader {
             List<Object> l = pool.computeIfAbsent(cl, a -> new ArrayList<>());
             l.add(o);
         }
+        public void returnSpecific(StringBuilder o) {
+            o.setLength(0);
+            stringBuilderPool.add(o);
+        }
+        public void returnSpecific(FastProtoSetter o) {
+            o.clear(this);
+            Class<?> cl = o.getClass();
+            List<Object> l = pool.computeIfAbsent(cl, a -> new ArrayList<>());
+            l.add(o);
+        }
 
+        public void returnSpecific(List<?> o) {
+            clearList(o);
+            arrayListPool.add(o);
+        }
+
+        public void returnSpecific(TIntArrayList o) {
+            o.clear();
+            arrayListPool.add(o);
+        }
         private void clear(Object o) {
             if( o instanceof FastProtoSetter){
                 ((FastProtoSetter) o).clear(this);
             } else if ( o instanceof List){
-                List list = (List)o;
-                for(int size=list.size(),n=0;n<size;n++) {
-                    returnOne(list.get(n));
-                }
-                list.clear();
-
+                clearList((List)o);
+            } else if ( o instanceof TIntArrayList){
+                ((TIntArrayList)o).clear();
             } else {
                 ((StringBuilder)o).setLength(0);
             }
@@ -62,8 +85,11 @@ public class FastProtoReader {
             }
         }
 
-        public <T> List<T> takeList() {
+        public <T> ArrayList<T> takeList() {
             return take(ArrayList.class);
+        }
+        public <T> TIntArrayList takeIntList() {
+            return take(TIntArrayList.class);
         }
     }
 

@@ -9,9 +9,16 @@ message StringList {
     repeated string strings = 1;
 }
 
+message FieldSetDef {
+    int32 fieldSetId = 1; // field number
+    repeated int32 fieldIds = 2;
+}
+message FieldIdDef {
+    int32 fieldId = 1; // field number
+    string fieldName = 2; // field name
+}
 message FieldAndValue {
-    int32 field = 1;            // field number
-    string fieldName = 2;       // field name
+    int32 fieldId = 1;            // field number
     oneof value {
         string _string = 3;
         int32 _int32 = 4;
@@ -29,7 +36,8 @@ message Message {
   int32 symbolId = 2;                       // Numeric equivalent (used for smaller msgs)
   int64 ts = 3;                             // TS
   int32 smallTs = 4;                        // Since last ts/sod?
-  int32 fieldSet = 5;                       // Set of fields
-  int32 defineFieldSet = 6;                 // Define of fields
+  int32 fieldSetId = 5;                       // Set of fields
+  FieldSetDef defineFieldSet = 6;                 // Define of fields
+  repeated FieldIdDef fieldIdDefs = 9;
   repeated FieldAndValue values = 10;
 }

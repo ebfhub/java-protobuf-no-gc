@@ -16,15 +16,13 @@ public class FastProtoSampleMain {
                 .setSymbolId(12)
                 .setTs(System.currentTimeMillis())
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
-                        .setField(123).setBool(true))
+                        .setFieldId(123).setBool(true))
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
-                        .setField(126).setString("hello"))
+                        .setFieldId(126).setString("hello"))
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
-                        .setField(124).setFieldName("myField").setInt32(97))
+                        .setFieldId(190).setFloat(98.97f))
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
-                        .setField(190).setFloat(98.97f))
-                    .addValues(SampleMessage.FieldAndValue.newBuilder()
-                        .setField(126).setDouble(98.99)
+                        .setFieldId(126).setDouble(98.99)
                             .build())
                 .build();
 
@@ -47,6 +45,7 @@ public class FastProtoSampleMain {
         FastProtoWriter writer=new FastProtoWriter();
         msg1.write(o2,writer);
         o2.flush();
+        FastProtoReader.ObjectPool pool= reader.getPool();
 
 
         byte[] bytes2=os1.toByteArray();
@@ -54,16 +53,13 @@ public class FastProtoSampleMain {
         byte[] bytes3=null;
         SampleMessageFast.Message msg2 = new SampleMessageFast.Message();
         SampleMessageFast.Message msg3 = new SampleMessageFast.Message();
-        msg2.setSymbol("bye");
-
-        FastProtoReader.ObjectPool pool= reader.getPool();
+        msg2.setSymbol("bye",pool);
 
         for(int k=0;k<10;k++){
             SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("fifty"+k);
+            val.set_string("fifty"+k,pool);
             val.set_bool(true);
-            val.setField(k);
-            val.setFieldName("jonb"+k);
+            val.setFieldId(k);
         }
 
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
@@ -72,13 +68,12 @@ public class FastProtoSampleMain {
         for(int n=0;n<3e10;n++) {
             msg2.clear(pool);
 
-            msg2.setSymbol("sym12");
+            msg2.setSymbol("sym12",pool);
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
             SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("sym14");
-            val.setField(1000);
-            val.setFieldName("sym13");
+            val.set_string("sym14",pool);
+            val.setFieldId(1000);
 
             os1.reset();
             msg1.write(o2,writer);

@@ -7,7 +7,7 @@ public class TestFastProtoGenerator {
     @Test
     public void testGenerate()
     {
-        FastProtoGenerator gen=new FastProtoGenerator(false);
+        FastProtoGenerator gen=new FastProtoGenerator(true);
         ProtocPlugin.debug(gen,"src/test/resources/descriptor_dump");
 
     }

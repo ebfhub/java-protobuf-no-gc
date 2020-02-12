@@ -87,7 +87,9 @@ public class FastProtoGenerator extends Generator {
                         }
                     }
 
-                    sb.line("public static class "+pp.getName()+" implements "+FastProtoSetter.class.getName()+","+
+                    String thisClass = pp.getName();
+
+                    sb.line("public static class "+thisClass+" implements "+FastProtoSetter.class.getName()+","+
                             FastProtoWritable.class.getName()+"{");
 
 
@@ -179,9 +181,12 @@ public class FastProtoGenerator extends Generator {
                     sb.line("fieldsSet=0;");
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()) {
                         TypeInfo ti = getJavaTypeInfo(field);
-                        if (ti.repeated) {
+                        if (ti.repeated ||
+                                field.getType()== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING ||
+                                field.getType()== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE
+                        ) {
                             sb.line("if(this."+ field.getName()+"!=null){");
-                            sb.line("pool.returnOne(this."+ field.getName()+");");
+                            sb.line("pool.returnSpecific(this."+ field.getName()+");");
                             sb.line("this."+ field.getName()+"=null;");
                             sb.line("}");
                         }
@@ -254,25 +259,31 @@ public class FastProtoGenerator extends Generator {
 
                         TypeInfo ti = getJavaTypeInfo(field);
 
-                        if(ti.repeated){
-                            sb.line("public void set"+ upperCaseName(field.getName())+
-                                    "("+ getJavaTypeName(ti, true) + " val,"+poolClassName+" pool) {");
-                            addSetValue(sb, ti, field, "val",info);
-                            sb.line("}");
+                        if(isMutable(ti)){
 
-                            sb.line("public "+getJavaTypeName(ti,false,false)
-                                    +" add"+ upperCaseName(field.getName())+ "("+poolClassName+" pool) {");
-                            createAddMethod(sb, info, ti, field);
-                            sb.line("}");
+                            if(ti.repeated) {
+                                sb.line("public " + getJavaTypeName(ti, false, false)
+                                        + " add" + upperCaseName(field.getName()) + "(" + poolClassName + " pool) {");
+                                createAddMethod(sb, info, ti, field);
+                                sb.line("}");
 
-                            sb.line("public int get"+ upperCaseName(field.getName())+ "Size() {");
-                            sb.line("return "+field.getName()+".size();");
-                            sb.line("}");
+                                sb.line("public int get" + upperCaseName(field.getName()) + "Size() {");
+                                sb.line("return " + field.getName() + ".size();");
+                                sb.line("}");
+                            } else {
+                                sb.line("public "+thisClass+" set"+ upperCaseName(field.getName())+
+                                        "("+ getJavaTypeName(ti, true) + " val,"+poolClassName+" pool) {");
+                                addSetValue(sb, ti, field, "val",info);
+                                sb.line("return this;");
+                                sb.line("}");
+
+                            }
 
                         } else {
-                            sb.line("public void set"+ upperCaseName(field.getName())+
+                            sb.line("public "+thisClass+" set"+ upperCaseName(field.getName())+
                                     "("+ getJavaTypeName(ti, true) + " val) {");
                             addSetValue(sb, ti, field, "val",info);
+                            sb.line("return this;");
                             sb.line("}");
 
                         }
@@ -408,16 +419,27 @@ public class FastProtoGenerator extends Generator {
         sb.line("}");
     }
 
+    String makeTakeList(TypeInfo type){
+        if(type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING||
+        type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+            return "pool.takeList()";
+        } else {
+            String javaTypeName = getJavaTypeName(type, false, false);
+            return "pool.take"+upperCaseName(javaTypeName)+"List()";
+        }
+
+    }
+
     public void createAddMethod(JavaOutput sb, ClassInfo info, TypeInfo type, DescriptorProtos.FieldDescriptorProto field) {
         String javaTypeName = getJavaTypeName(type, false, false);
         if(type.repeated) {
             sb.line("if (null==" + field.getName() + ") {");
-            sb.line(field.getName() + "=pool.takeList();");
+            sb.line(field.getName() + "="+ makeTakeList(type)+";");
             sb.line("}");
             sb.line(info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
-            sb.line(javaTypeName + " res = pool.take(" + javaTypeName + ".class);");
-            sb.line( field.getName() + ".add(res);");
-            sb.line("return res;");
+            sb.line(javaTypeName + " "+field.getName()+"_res = pool.take(" + javaTypeName + ".class);");
+            sb.line( field.getName() + ".add("+field.getName()+"_res);");
+            sb.line("return "+field.getName()+"_res;");
         } else {
             sb.line("if (null==" + field.getName() + ") {");
             sb.line(field.getName() + "=pool.take("+javaTypeName+".class);");
@@ -454,22 +476,24 @@ public class FastProtoGenerator extends Generator {
     public void addSetValue(JavaOutput sb, TypeInfo typeInfo,
                             DescriptorProtos.FieldDescriptorProto field, String paramName,
                             ClassInfo info) {
-        if(typeInfo.type==DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
+        if(isMutable(typeInfo)) {
+            String javaTypeName = getJavaTypeName(typeInfo, false, false);
+
             if(typeInfo.repeated){
                 sb.line("if(this." + field.getName() + "==null) {");
-                sb.line("this." + field.getName() + "=pool.takeList();");
+                sb.line("this." + field.getName() + "="+ makeTakeList(typeInfo)+";");
                 sb.line("} else {");
                 sb.line("pool.clearList(this." + field.getName() + ");");
                 sb.line("}");
                 sb.line("for (int n=0,size="+paramName+".size();n<size;n++){");
-                sb.line("StringBuilder sb = pool.take(StringBuilder.class);");
+                sb.line(javaTypeName+" sb = pool.take("+javaTypeName+".class);");
                 sb.line("sb.append(" + paramName + ".get(n));");
                 sb.line("this." + field.getName() + ".add(sb);");
                 sb.line("}");
 
             } else {
                 sb.line("if(this." + field.getName() + "==null) {");
-                sb.line("this." + field.getName() + "=new StringBuilder();");
+                sb.line("this." + field.getName() + "=pool.take("+javaTypeName+".class);");
 
                 sb.line("}");
                 sb.line("this." + field.getName() + ".setLength(0);");
@@ -487,6 +511,11 @@ public class FastProtoGenerator extends Generator {
 
         }
     }
+
+    private boolean isMutable(TypeInfo typeInfo) {
+        return typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING||typeInfo.repeated;
+    }
+
     private String extractPackageName(DescriptorProtos.FileDescriptorProto proto) {
         DescriptorProtos.FileOptions options = proto.getOptions();
         if (options != null) {
@@ -583,8 +612,17 @@ public class FastProtoGenerator extends Generator {
         }
 
         if(asLisyt){
+            if(name.equals("int")){
+                return "gnu.trove.list.array.TIntArrayList";
+            }
 
-            return "java.util.List<"+name+">";
+            if(isInput) {
+
+                return "java.util.List<" + name + ">";
+            } else {
+                return "java.util.ArrayList<" + name + ">";
+
+            }
         } else {
             return name ;
         }

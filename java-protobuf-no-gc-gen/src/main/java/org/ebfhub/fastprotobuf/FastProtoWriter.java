@@ -32,6 +32,10 @@ public class FastProtoWriter {
     }
     private List<Helper> pool=new ArrayList<>();
 
+    public void writeMessage( int field, CodedOutputStream os, int i) throws IOException {
+        os.writeInt32(field,i);
+    }
+
     public void writeMessage( int field, CodedOutputStream os, FastProtoWritable w) throws IOException {
         Helper h = pool.size()==0?new Helper():pool.remove(pool.size()-1);
         try {
