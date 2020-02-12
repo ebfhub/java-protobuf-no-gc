@@ -8,7 +8,18 @@
         <module>java-protobuf-no-gc-gen</module>
         <module>sample-java-protobuf-no-gc</module>
     </modules>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
+    <scm>
+        <connection>scm:git:https://github.com/ebfhub/java-protobuf-no-gc.git</connection>
+        <url>https://github.com/ebfhub/java-protobuf-no-gc</url>
+    </scm>
     <artifactId>java-protobuf-no-gc</artifactId>
     <groupId>com.github.ebfhub</groupId>
     <version>1.0</version>
