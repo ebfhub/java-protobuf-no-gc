@@ -1,4 +1,12 @@
 language: java
 before_deploy:
-  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
-  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
+- mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep
+  -v '\[')
+deploy:
+  provider: releases
+  api_key:
+    secure: a3nuA634OWCdFkYIjmtLtho8DbhBm3lyOK/HbH2Of7xLg3wljhYsUvNwRCsAH66PjAmO+pY0Savgr/fjb+VtrmHuJoyY+uuOkmAzUDba05W8Wf4NoDm9jz50IkQ5oXS0oxklJptahbHnI8wyBTiYZVq4xaGLCW6M4MbTletHqWm5p3242LkQFsLHKxbbxEtjt1cUgZFBpz/fIk9LiTlcUJITzRcp9bXK677epYJsnXPnLvdUKHzwRo1ty81SzriNlVLDqFPidfEf3gzok0UDs7UWRCqrTV1W6Bd3RVqFcaE/MkSNCYtSYko9lSlLZ+z/0H7Ih25HTZ6SCJXtOMqWN0L005IXqcbDC2xna7gDENytGpQbwbsEir5GGvZXcVBQlaJcQE9HbfFXYfgAV0jG1Tl70ZYQTqy1vK6dlj0ziVpdGQDCWfcovTY/isBD4Uom8MUOa27W4/+IZbckQWJ73cMoyMIhg8LbozJQx4FfKP1mlmEtvXgwYz+pX8OxjXbfD4FX23AmJivf1sp5f6DVHYJAySTrl4WLN7/QWCmyt2yGecFtCP38gsqhfBlg8kk+fAdisnkjhbDdPjCuhn8Us9QPBzAp8Q9Vgw0fICiUMtnG2CUgegB1roOBtLTOglV66jy6gXY/OYYPTu1HNxH+Od4GykIfIqg8akHxtkivo7g=
+  file: ''
+  on:
+    repo: ebfhub/java-protobuf-no-gc
