@@ -30,4 +30,13 @@
 
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>github</name>
+            <url>https://maven.pkg.github.com/ebfhub/java-protobuf-no-gc</url>
+        </repository>
+
+    </distributionManagement>
+
 </project>
