@@ -5,7 +5,6 @@ import java.nio.BufferOverflowException;
 import java.nio.CharBuffer;
 
 import static java.lang.Character.*;
-import static org.ebfhub.fastprotobuf.UnsafeUtil.unsafe;
 
 /**
  *
@@ -26,14 +25,23 @@ public final class Utf8 {
 
     private Utf8() { }
 
+
+    public abstract static class ByteProvider
+    {
+        abstract byte getByte(Object src, long offset);
+    }
+    public abstract static class ByteWriter
+    {
+        abstract void putByte(Object src, long offset, byte b);
+    }
     //Decode
     static final int getCharsFromUtf8(final long offsetBytes, final int utf8LengthBytes,
-                                      final Appendable dst, final long cumBaseOffset, final Object unsafeObj)
+                                      final Appendable dst, final long cumBaseOffset, final Object unsafeObj, ByteProvider unsafe)
             throws IOException, Utf8CodingException {
 
         if ((dst instanceof CharBuffer) && ((CharBuffer) dst).hasArray()) {
             return getCharBufferCharsFromUtf8(offsetBytes, ((CharBuffer) dst), utf8LengthBytes,
-                    cumBaseOffset, unsafeObj);
+                    cumBaseOffset, unsafeObj,unsafe);
         }
 
         //Decode Direct CharBuffers and all other Appendables
@@ -56,7 +64,7 @@ public final class Utf8 {
             return i;
         }
         return getNonAsciiCharsFromUtf8(dst, address + i, address + utf8LengthBytes, unsafeObj,
-                cumBaseOffset) + i;
+                cumBaseOffset,unsafe) + i;
     }
 
     /*
@@ -64,7 +72,7 @@ public final class Utf8 {
      * abstraction well (doesn't hoist array bound checks, etc.)
      */
     private static int getCharBufferCharsFromUtf8(final long offsetBytes, final CharBuffer cbuf,
-                                                  final int utf8LengthBytes, final long cumBaseOffset, final Object unsafeObj) {
+                                                  final int utf8LengthBytes, final long cumBaseOffset, final Object unsafeObj,ByteProvider unsafe) {
         final char[] carr = cbuf.array();
         final int startCpos = cbuf.position() + cbuf.arrayOffset();
         int cpos = startCpos;
@@ -100,12 +108,12 @@ public final class Utf8 {
         }
 
         return getCharBufferNonAsciiCharsFromUtf8(cbuf, carr, cpos, clim, address + i,
-                address + utf8LengthBytes, unsafeObj, cumBaseOffset) - cbuf.arrayOffset();
+                address + utf8LengthBytes, unsafeObj, cumBaseOffset,unsafe) - cbuf.arrayOffset();
     }
 
     private static int getCharBufferNonAsciiCharsFromUtf8(final CharBuffer cbuf, final char[] carr,
                                                           int cpos, final int clim, long address, final long addressLimit, final Object unsafeObj,
-                                                          final long cumBaseOffset) {
+                                                          final long cumBaseOffset, ByteProvider unsafe) {
 
         while (address < addressLimit) {
             final byte byte1 = unsafe.getByte(unsafeObj, address++);
@@ -180,7 +188,7 @@ public final class Utf8 {
     //Decodes into Appendable destination
     //returns num of chars decoded
     private static int getNonAsciiCharsFromUtf8(final Appendable dst, long address,
-                                                final long addressLimit, final Object unsafeObj, final long cumBaseOffset)
+                                                final long addressLimit, final Object unsafeObj, final long cumBaseOffset, ByteProvider unsafe)
             throws IOException {
         int chars = 0;
         while (address < addressLimit) {
@@ -253,7 +261,7 @@ public final class Utf8 {
     /******************/
     //Encode
     static long putCharsToUtf8(final long offsetBytes, final CharSequence src,
-                               final long capacityBytes, final long cumBaseOffset, final Object unsafeObj) {
+                               final long capacityBytes, final long cumBaseOffset, final Object unsafeObj, ByteWriter unsafe) {
 
 
         int cIdx = 0; //src character index

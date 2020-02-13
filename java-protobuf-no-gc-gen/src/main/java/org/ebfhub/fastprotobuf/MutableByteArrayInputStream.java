@@ -10,7 +10,7 @@ public class MutableByteArrayInputStream extends InputStream
     int pos;
 
     @Override
-    public int read() throws IOException {
+    public int read() {
         if(pos==len){
             return -1;
         }

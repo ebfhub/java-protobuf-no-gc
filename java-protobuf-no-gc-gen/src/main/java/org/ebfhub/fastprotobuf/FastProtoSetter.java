@@ -1,5 +1,7 @@
 package org.ebfhub.fastprotobuf;
 
+import java.util.List;
+
 public interface FastProtoSetter {
 
     /**
@@ -40,7 +42,12 @@ public interface FastProtoSetter {
     /**
      * Get definition for a field.
      */
-    FastProtoField getField(int field);
+    FastProtoField field_getDef(int field);
+
+    /**
+     * Get list of fields.
+     */
+    List<FastProtoField> field_getAll();
 
     /**
      * Clear the object

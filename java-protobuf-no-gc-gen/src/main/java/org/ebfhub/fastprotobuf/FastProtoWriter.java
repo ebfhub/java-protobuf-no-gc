@@ -2,6 +2,7 @@ package org.ebfhub.fastprotobuf;
 
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
+import com.sun.istack.internal.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,8 +13,14 @@ public class FastProtoWriter {
     // TODO allow for longer
     private byte[] buf = new byte[1024];
 
+    final Utf8.ByteWriter writer = new Utf8.ByteWriter() {
+        @Override
+        void putByte(Object src, long offset, byte b) {
+            ((byte[])src)[(int)offset]=b;
+        }
+    };
     public void writeString(int field, CodedOutputStream os, CharSequence str) throws IOException {
-        long len = Utf8.putCharsToUtf8(0,str,buf.length, UnsafeUtil.ARRAY_BYTE_BASE_OFFSET,buf);
+        long len = Utf8.putCharsToUtf8(0, str, buf.length, 0, buf, writer);
         os.writeTag(field, WireFormat.WIRETYPE_LENGTH_DELIMITED);
         os.writeUInt32NoTag((int)len);
         os.writeLazy(buf, 0, (int)len);
@@ -24,6 +31,7 @@ public class FastProtoWriter {
         // TODO move to no-sync reusable buffer
         ByteArrayOutputStream bos = new ByteArrayOutputStream(){
             @Override
+            @NotNull
             public synchronized byte[] toByteArray() {
                 return buf;
             }

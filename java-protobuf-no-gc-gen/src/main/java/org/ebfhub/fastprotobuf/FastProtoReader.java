@@ -57,6 +57,7 @@ public class FastProtoReader {
             if( o instanceof FastProtoSetter){
                 ((FastProtoSetter) o).clear(this);
             } else if ( o instanceof List){
+                //noinspection rawtypes
                 clearList((List)o);
             } else if ( o instanceof TIntArrayList){
                 ((TIntArrayList)o).clear();
@@ -85,22 +86,28 @@ public class FastProtoReader {
             }
         }
 
-        public <T> ArrayList<T> takeList() {
+        public ArrayList<?> takeList() {
             return take(ArrayList.class);
         }
-        public <T> TIntArrayList takeIntList() {
+        public TIntArrayList takeIntList() {
             return take(TIntArrayList.class);
         }
     }
 
     ObjectPool pool=new ObjectPool();
+    Utf8.ByteProvider provider = new Utf8.ByteProvider() {
+        @Override
+        byte getByte(Object src, long offset) {
+            return ((byte[])src)[(int)offset];
+        }
+    };
 
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
         while(!is.isAtEnd()) {
             int tag = is.readTag();
             int wt = WireFormat.getTagWireType(tag);
             int field = WireFormat.getTagFieldNumber(tag);
-            FastProtoField fd = setter.getField(field);
+            FastProtoField fd = setter.field_getDef(field);
             WireFormat.FieldType lt = fd.ft;
             switch(wt){
                 case WireFormat.WIRETYPE_VARINT:
@@ -160,7 +167,7 @@ public class FastProtoReader {
                             }
                             StringBuilder sb = setter.field_builder(field,pool);
                             sb.setLength(0);
-                            Utf8.getCharsFromUtf8(0,size,sb,UnsafeUtil.ARRAY_BYTE_BASE_OFFSET,bb);
+                            Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
                         }
                         break;
                         case MESSAGE:

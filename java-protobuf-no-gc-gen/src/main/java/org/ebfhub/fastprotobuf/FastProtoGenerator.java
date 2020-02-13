@@ -1,7 +1,6 @@
 package org.ebfhub.fastprotobuf;
 
 import com.google.common.base.Strings;
-import com.google.common.html.HtmlEscapers;
 import com.google.protobuf.DescriptorProtos;
 import com.google.protobuf.WireFormat;
 import com.google.protobuf.compiler.PluginProtos;
@@ -44,7 +43,9 @@ public class FastProtoGenerator extends Generator {
         for (DescriptorProtos.FileDescriptorProto protoFile : request.getProtoFileList()) {
             if (request.getFileToGenerateList().contains(protoFile.getName())) {
 
-                String className = protoFile.getOptions().getJavaOuterClassname()+ CLASS_SUFFIX;;
+                String className = protoFile.getOptions().getJavaOuterClassname()+ CLASS_SUFFIX;
+                this.javaClassName=className;
+                this.javaPackage = protoFile.getOptions().getJavaPackage();
 
                 JavaOutput sb = new JavaOutput();
 
@@ -54,7 +55,6 @@ public class FastProtoGenerator extends Generator {
                      com.google.protobuf.WireFormat.class,
                      com.google.protobuf.CodedInputStream.class,
                      com.google.protobuf.CodedOutputStream.class,
-                    org.ebfhub.fastprotobuf.UnsafeUtil.class,
                     org.ebfhub.fastprotobuf.Utf8.class
 
                 );
@@ -113,7 +113,7 @@ public class FastProtoGenerator extends Generator {
                                 "=new "+FastProtoField.class.getName()+"(\""+field.getName()+"\",FieldNum."+field.getName()+",FieldBit."+field.getName()+
                                 ",WireFormat.FieldType."+wireTypes.get(field.getType())+
                                 ","+
-                                String.valueOf(ti.repeated)+
+                                ti.repeated +
                                 ","+
                                 (ti.typeName==null?null:ti.typeName+".class")+
                                 ");");
@@ -123,7 +123,7 @@ public class FastProtoGenerator extends Generator {
                     sb.blank();
 
                     sb.line("@Override");
-                    sb.line("public "+FastProtoField.class.getName()+" getField(int fieldNum){");
+                    sb.line("public "+FastProtoField.class.getName()+" field_getDef(int fieldNum){");
                     sb.line("switch(fieldNum){");
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
                         sb.line("case FieldNum."+field.getName()+": return Field."+field.getName()+";");
@@ -134,6 +134,14 @@ public class FastProtoGenerator extends Generator {
                     sb.blank();
 
 
+                    sb.line("private final java.util.List<"+FastProtoField.class.getName()+"> field_all = java.util.Arrays.asList("+
+                            pp.getFieldList().stream().map(a->"Field."+a.getName()).collect(Collectors.joining(", "))+");");
+                    sb.blank();
+                    sb.line("@Override");
+                    sb.line("public java.util.List<"+FastProtoField.class.getName()+"> field_getAll(){");
+                    sb.line("return field_all;");
+                    sb.line("}");
+                    sb.blank();
 
                     for(Map.Entry<Integer,OneOf> e:info.oneOfs.entrySet()){
                         sb.line("enum OneOf_"+e.getKey()+"{");
@@ -166,7 +174,6 @@ public class FastProtoGenerator extends Generator {
                     sb.line("StringBuilder sb = new StringBuilder();");
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()) {
 
-                        TypeInfo ti = getJavaTypeInfo(field);
                         sb.line("if((fieldsSet & FieldBit."+field.getName()+")!=0) {");
                         sb.line("if(sb.length()>0) sb.append(\";\");");
                         sb.line("sb.append(\""+field.getName()+"=\").append("+field.getName()+");");
@@ -249,16 +256,10 @@ public class FastProtoGenerator extends Generator {
                     sb.line("}");
 
                     sb.blank();
-
-
-                    //addParseMethod(sb);
                     addParseMethodHelpers(sb, pp, info);
-
-
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
 
                         TypeInfo ti = getJavaTypeInfo(field);
-
                         if(isMutable(ti)){
 
                             if(ti.repeated) {
@@ -269,13 +270,11 @@ public class FastProtoGenerator extends Generator {
 
                                 sb.line("public int get" + upperCaseName(field.getName()) + "Size() {");
                                 sb.line("return " + field.getName() + ".size();");
-                                sb.line("}");
                             } else {
                                 sb.line("public "+thisClass+" set"+ upperCaseName(field.getName())+
                                         "("+ getJavaTypeName(ti, true) + " val,"+poolClassName+" pool) {");
                                 addSetValue(sb, ti, field, "val",info);
                                 sb.line("return this;");
-                                sb.line("}");
 
                             }
 
@@ -284,9 +283,9 @@ public class FastProtoGenerator extends Generator {
                                     "("+ getJavaTypeName(ti, true) + " val) {");
                             addSetValue(sb, ti, field, "val",info);
                             sb.line("return this;");
-                            sb.line("}");
 
                         }
+                        sb.line("}");
 
                     }
                     sb.blank();
@@ -296,10 +295,13 @@ public class FastProtoGenerator extends Generator {
 
                 String packageName = extractPackageName(protoFile);
 
-                files.add(buildFile(packageName,fileName,sb.toString()));
+                String output=sb.toString();
+
+                files.add(buildFile(packageName,fileName,output));
 
                 if(debug) {
-                    System.out.println(sb);
+                    //System.out.println(output);
+                    testOutput=output;
 
                 }
             }
@@ -308,6 +310,22 @@ public class FastProtoGenerator extends Generator {
         return files;
     }
 
+    private String testOutput;
+    private String javaPackage;
+    private String javaClassName;
+
+    public String getTestOutput(){
+        return testOutput;
+    }
+
+    public String getMainClassName(){
+        return javaClassName;
+    }
+
+
+    public String getMainPackageName(){
+        return javaPackage;
+    }
     public void addParseMethodHelpers(JavaOutput sb, DescriptorProtos.DescriptorProto pp, ClassInfo info) {
         Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType=new HashMap<>();
 
@@ -467,7 +485,6 @@ public class FastProtoGenerator extends Generator {
     }
     static class ClassInfo
     {
-        String className;
         Map<String,Integer> bits = new HashMap<>();
         String fieldSetVar = "fieldsSet";
         Map<Integer,OneOf> oneOfs=new HashMap<>();
@@ -627,18 +644,6 @@ public class FastProtoGenerator extends Generator {
             return name ;
         }
     }
-    private String getJavaTypeName(DescriptorProtos.FieldDescriptorProto field, boolean isInput){
-        return getJavaTypeName(getJavaTypeInfo(field), isInput);
-
-    }
-
-
-
-
-
-    private String lowerCaseFirst(String s) {
-        return Character.toLowerCase(s.charAt(0)) + s.substring(1);
-    }
 
     private String absoluteFileName(String packageName, String fileName) {
         String dir = packageName.replace('.', '/');
@@ -652,22 +657,22 @@ public class FastProtoGenerator extends Generator {
     private PluginProtos.CodeGeneratorResponse.File buildFile(String packageName, String fileName, String content) {
         return makeFile(absoluteFileName(packageName,fileName), content);
     }
-
-    private String getComments(DescriptorProtos.SourceCodeInfo.Location location) {
-        return location.getLeadingComments().isEmpty() ? location.getTrailingComments() : location.getLeadingComments();
-    }
-
-    private String getJavaDoc(String comments, String prefix) {
-        if (!comments.isEmpty()) {
-            StringBuilder builder = new StringBuilder("/**\n")
-                    .append(prefix).append(" * <pre>\n");
-            Arrays.stream(HtmlEscapers.htmlEscaper().escape(comments).split("\n"))
-                    .forEach(line -> builder.append(prefix).append(" * ").append(line).append("\n"));
-            builder
-                    .append(prefix).append(" * <pre>\n")
-                    .append(prefix).append(" */");
-            return builder.toString();
-        }
-        return null;
-    }
+//
+//    private String getComments(DescriptorProtos.SourceCodeInfo.Location location) {
+//        return location.getLeadingComments().isEmpty() ? location.getTrailingComments() : location.getLeadingComments();
+//    }
+//
+//    private String getJavaDoc(String comments, String prefix) {
+//        if (!comments.isEmpty()) {
+//            StringBuilder builder = new StringBuilder("/**\n")
+//                    .append(prefix).append(" * <pre>\n");
+//            Arrays.stream(HtmlEscapers.htmlEscaper().escape(comments).split("\n"))
+//                    .forEach(line -> builder.append(prefix).append(" * ").append(line).append("\n"));
+//            builder
+//                    .append(prefix).append(" * <pre>\n")
+//                    .append(prefix).append(" */");
+//            return builder.toString();
+//        }
+//        return null;
+//    }
 }
