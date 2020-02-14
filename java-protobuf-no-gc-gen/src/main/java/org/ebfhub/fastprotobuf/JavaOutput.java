@@ -18,12 +18,13 @@ class JavaOutput {
     }
     private void pop(IndentType t){
         if(indent.size()==0){
-            throw new IllegalStateException("pop expected "+t+" not empty:"+sb);
+            sb.append("\n//pop expected "+t+" not empty\n");
+            return;
 
         }
         IndentType k = indent.pop();
         if(k!=t){
-            throw new IllegalStateException("pop expected "+t+" not "+k+": "+sb);
+            sb.append("\n//pop expected "+t+" not "+k+"\n");
         }
     }
 

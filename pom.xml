@@ -42,12 +42,29 @@
     </properties>
 
     <distributionManagement>
+        <site>
+            <id>api.wiki</id>
+            <url>https://github.com/ebfhub/java-protobuf-no-gc</url>
+        </site>
+<!--        <repository>-->
+<!--            <id>github</id>-->
+<!--            <name>github</name>-->
+<!--            <url>https://maven.pkg.github.com/ebfhub/java-protobuf-no-gc</url>-->
+<!--        </repository>-->
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>github</id>
-            <name>github</name>
-            <url>https://maven.pkg.github.com/ebfhub/java-protobuf-no-gc</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
 
     </distributionManagement>
-
+    <developers>
+        <developer>
+            <name>EBF Tech</name>
+            <organizationUrl>https://github.com/ebfhub</organizationUrl>
+        </developer>
+    </developers>
 </project>

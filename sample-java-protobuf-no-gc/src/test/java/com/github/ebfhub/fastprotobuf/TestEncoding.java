@@ -79,6 +79,9 @@ public class TestEncoding {
             SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
             val.set_string("sym14",pool);
             val.setFieldId(1000);
+            SampleMessageFast.StringList strList = val.init_stringList(pool);
+            strList.addStrings(pool).append(12);
+            strList.addStrings("strTwo",pool).addStrings("str3",pool);
 
             os1.reset();
             msg1.write(o2,writer);
