@@ -20,6 +20,7 @@ import static java.lang.Character.*;
  *
  * @author Lee Rhodes
  * @author Roman Leventov
+ * @version $Id: $Id
  */
 public final class Utf8 {
 

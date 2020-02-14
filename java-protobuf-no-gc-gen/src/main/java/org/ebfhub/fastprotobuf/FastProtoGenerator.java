@@ -11,13 +11,29 @@ import com.salesforce.jprotoc.ProtocPlugin;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * <p>FastProtoGenerator class.</p>
+ *
+ * @author mac
+ * @version $Id: $Id
+ */
 public class FastProtoGenerator extends Generator {
     private final boolean debug;
 
+    /**
+     * <p>Constructor for FastProtoGenerator.</p>
+     *
+     * @param debug a boolean.
+     */
     public FastProtoGenerator(boolean debug) {
         this.debug=debug;
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     */
     public static void main(String[] args) {
         if (args.length == 0) {
             // Generate from protoc via stdin
@@ -34,6 +50,7 @@ public class FastProtoGenerator extends Generator {
     String poolClassName = FastProtoReader.ObjectPool.class.getName().replaceAll("[$]", ".");
 
 
+    /** {@inheritDoc} */
     @Override
     public List<PluginProtos.CodeGeneratorResponse.File> generateFiles(PluginProtos.CodeGeneratorRequest request) throws GeneratorException {
 
@@ -341,18 +358,40 @@ public class FastProtoGenerator extends Generator {
     private String javaPackage;
     private String javaClassName;
 
+    /**
+     * <p>Getter for the field <code>testOutput</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getTestOutput(){
         return testOutput;
     }
 
+    /**
+     * <p>getMainClassName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getMainClassName(){
         return javaClassName;
     }
 
 
+    /**
+     * <p>getMainPackageName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getMainPackageName(){
         return javaPackage;
     }
+    /**
+     * <p>addParseMethodHelpers.</p>
+     *
+     * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
+     * @param pp a {@link com.google.protobuf.DescriptorProtos.DescriptorProto} object.
+     * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     */
     public void addParseMethodHelpers(JavaOutput sb, DescriptorProtos.DescriptorProto pp, ClassInfo info) {
         Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType=new HashMap<>();
 
@@ -375,6 +414,13 @@ public class FastProtoGenerator extends Generator {
         createSet (sb, info, byType);
     }
 
+    /**
+     * <p>createSet.</p>
+     *
+     * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
+     * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     * @param byType a {@link java.util.Map} object.
+     */
     public void createSet(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType) {
         for(Map.Entry<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> b : byType.entrySet()){
 
@@ -439,6 +485,13 @@ public class FastProtoGenerator extends Generator {
         sb.line("}");
     }
 
+    /**
+     * <p>createAdd.</p>
+     *
+     * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
+     * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     * @param byType a {@link java.util.Map} object.
+     */
     public void createAdd(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType) {
         sb.line("@Override");
         sb.line("public "+FastProtoSetter.class.getName()+" field_add(int field, "+poolClassName+" pool) {");
@@ -475,6 +528,14 @@ public class FastProtoGenerator extends Generator {
 
     }
 
+    /**
+     * <p>createAddMethod.</p>
+     *
+     * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
+     * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     * @param type a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.TypeInfo} object.
+     * @param field a {@link com.google.protobuf.DescriptorProtos.FieldDescriptorProto} object.
+     */
     public void createAddMethod(JavaOutput sb, ClassInfo info, TypeInfo type, DescriptorProtos.FieldDescriptorProto field) {
         String javaTypeName = getJavaTypeName(type, false, false);
         if(type.repeated) {
@@ -517,6 +578,15 @@ public class FastProtoGenerator extends Generator {
         Map<Integer,OneOf> oneOfs=new HashMap<>();
     }
 
+    /**
+     * <p>addSetValue.</p>
+     *
+     * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
+     * @param typeInfo a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.TypeInfo} object.
+     * @param field a {@link com.google.protobuf.DescriptorProtos.FieldDescriptorProto} object.
+     * @param paramName a {@link java.lang.String} object.
+     * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     */
     public void addSetValue(JavaOutput sb, TypeInfo typeInfo,
                             DescriptorProtos.FieldDescriptorProto field, String paramName,
                             ClassInfo info) {

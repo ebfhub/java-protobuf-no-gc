@@ -60,11 +60,15 @@ class JavaOutput {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return sb.toString();
     }
 
+    /**
+     * <p>blank.</p>
+     */
     public void blank() {
         sb.append("\n");
     }

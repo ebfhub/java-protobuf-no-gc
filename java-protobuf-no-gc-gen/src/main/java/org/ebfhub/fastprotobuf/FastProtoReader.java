@@ -9,10 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>FastProtoReader class.</p>
+ *
+ * @author mac
+ * @version $Id: $Id
+ */
 public class FastProtoReader {
 
     private byte[] bb = new byte[0];
 
+    /**
+     * <p>Getter for the field <code>pool</code>.</p>
+     *
+     * @return a {@link org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool} object.
+     */
     public ObjectPool getPool() {
         return pool;
     }
@@ -103,6 +114,13 @@ public class FastProtoReader {
         }
     };
 
+    /**
+     * <p>parse.</p>
+     *
+     * @param is a {@link com.google.protobuf.CodedInputStream} object.
+     * @param setter a {@link org.ebfhub.fastprotobuf.FastProtoSetter} object.
+     * @throws java.io.IOException if any.
+     */
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
         while(!is.isAtEnd()) {
             int tag = is.readTag();

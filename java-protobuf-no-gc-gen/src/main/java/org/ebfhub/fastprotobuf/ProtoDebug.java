@@ -8,13 +8,36 @@ import com.google.protobuf.WireFormat;
 
 import java.io.IOException;
 
+/**
+ * <p>ProtoDebug class.</p>
+ *
+ * @author mac
+ * @version $Id: $Id
+ */
 public class ProtoDebug
 {
     static String INDENT="   ";
+    /**
+     * <p>decodeProto.</p>
+     *
+     * @param data an array of {@link byte} objects.
+     * @param singleLine a boolean.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static String decodeProto(byte[] data, boolean singleLine) throws IOException {
         return decodeProto(ByteString.copyFrom(data), 0, singleLine);
     }
 
+    /**
+     * <p>decodeProto.</p>
+     *
+     * @param data a {@link com.google.protobuf.ByteString} object.
+     * @param depth a int.
+     * @param singleLine a boolean.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static String decodeProto(ByteString data, int depth, boolean singleLine) throws IOException {
         final CodedInputStream input = CodedInputStream.newInstance(data.asReadOnlyByteBuffer());
         return decodeProtoInput(input, depth, singleLine);

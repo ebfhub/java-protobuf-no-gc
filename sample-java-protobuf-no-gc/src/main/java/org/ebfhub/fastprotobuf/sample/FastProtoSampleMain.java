@@ -8,7 +8,21 @@ import org.ebfhub.fastprotobuf.*;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * <p>FastProtoSampleMain class.</p>
+ *
+ * @author mac
+ * @version $Id: $Id
+ */
 public class FastProtoSampleMain {
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     * @throws java.lang.NoSuchFieldException if any.
+     * @throws java.lang.NoSuchMethodException if any.
+     */
     public static void main(String[]args) throws IOException, NoSuchFieldException, NoSuchMethodException {
 
         SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder()
