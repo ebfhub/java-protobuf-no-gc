@@ -116,6 +116,15 @@ public class SampleMessageFast {
             strings.add(strings_res);
             return strings_res;
         }
+        public StringList addStrings(CharSequence val, org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if(this.strings==null) {
+                this.strings=pool.takeList();
+            }
+            StringBuilder sb = pool.take(StringBuilder.class);
+            sb.append(val);
+            this.strings.add(sb);
+            return this;
+        }
         public int getStringsSize() {
             return strings.size();
         }
@@ -386,6 +395,13 @@ public class SampleMessageFast {
             this.fieldId=val;
             fieldsSet|=1;
             return this;
+        }
+        public StringBuilder initFieldName(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==fieldName) {
+                fieldName=pool.take(StringBuilder.class);
+            }
+            fieldsSet|= FieldBit.fieldName;
+            return fieldName;
         }
         public FieldIdDef setFieldName(CharSequence val,org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
             if(this.fieldName==null) {
@@ -672,6 +688,13 @@ public class SampleMessageFast {
             fieldsSet|=1;
             return this;
         }
+        public StringBuilder init_string(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==_string) {
+                _string=pool.take(StringBuilder.class);
+            }
+            fieldsSet|= FieldBit._string;
+            return _string;
+        }
         public FieldAndValue set_string(CharSequence val,org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
             if(this._string==null) {
                 this._string=pool.take(StringBuilder.class);
@@ -718,11 +741,12 @@ public class SampleMessageFast {
             oneOf_0= OneOf_0._ts;
             return this;
         }
-        public FieldAndValue set_stringList(StringList val) {
-            this._stringList=val;
-            fieldsSet|=256;
-            oneOf_0= OneOf_0._stringList;
-            return this;
+        public StringList init_stringList(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==_stringList) {
+                _stringList=pool.take(StringList.class);
+            }
+            fieldsSet|= FieldBit._stringList;
+            return _stringList;
         }
 
     }
@@ -980,6 +1004,13 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from FieldSetDef");
             }
         }
+        public StringBuilder initSymbol(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==symbol) {
+                symbol=pool.take(StringBuilder.class);
+            }
+            fieldsSet|= FieldBit.symbol;
+            return symbol;
+        }
         public DataMessage setSymbol(CharSequence val,org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
             if(this.symbol==null) {
                 this.symbol=pool.take(StringBuilder.class);
@@ -1009,10 +1040,12 @@ public class SampleMessageFast {
             fieldsSet|=16;
             return this;
         }
-        public DataMessage setDefineFieldSet(FieldSetDef val) {
-            this.defineFieldSet=val;
-            fieldsSet|=32;
-            return this;
+        public FieldSetDef initDefineFieldSet(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==defineFieldSet) {
+                defineFieldSet=pool.take(FieldSetDef.class);
+            }
+            fieldsSet|= FieldBit.defineFieldSet;
+            return defineFieldSet;
         }
         public FieldIdDef addFieldIdDefs(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
             if (null==fieldIdDefs) {
@@ -1184,6 +1217,15 @@ public class SampleMessageFast {
             symbols.add(symbols_res);
             return symbols_res;
         }
+        public SubscriberMessagePriority addSymbols(CharSequence val, org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if(this.symbols==null) {
+                this.symbols=pool.takeList();
+            }
+            StringBuilder sb = pool.take(StringBuilder.class);
+            sb.append(val);
+            this.symbols.add(sb);
+            return this;
+        }
         public int getSymbolsSize() {
             return symbols.size();
         }
@@ -1342,6 +1384,15 @@ public class SampleMessageFast {
             StringBuilder symbols_res = pool.take(StringBuilder.class);
             symbols.add(symbols_res);
             return symbols_res;
+        }
+        public SubscriberMessageSubscribe addSymbols(CharSequence val, org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if(this.symbols==null) {
+                this.symbols=pool.takeList();
+            }
+            StringBuilder sb = pool.take(StringBuilder.class);
+            sb.append(val);
+            this.symbols.add(sb);
+            return this;
         }
         public int getSymbolsSize() {
             return symbols.size();
@@ -1795,29 +1846,33 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
-        public SubscriberMessagePart setPriority(SubscriberMessagePriority val) {
-            this.priority=val;
-            fieldsSet|=1;
-            oneOf_0= OneOf_0.priority;
-            return this;
+        public SubscriberMessagePriority initPriority(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==priority) {
+                priority=pool.take(SubscriberMessagePriority.class);
+            }
+            fieldsSet|= FieldBit.priority;
+            return priority;
         }
-        public SubscriberMessagePart setSubscribe(SubscriberMessageSubscribe val) {
-            this.subscribe=val;
-            fieldsSet|=2;
-            oneOf_0= OneOf_0.subscribe;
-            return this;
+        public SubscriberMessageSubscribe initSubscribe(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==subscribe) {
+                subscribe=pool.take(SubscriberMessageSubscribe.class);
+            }
+            fieldsSet|= FieldBit.subscribe;
+            return subscribe;
         }
-        public SubscriberMessagePart setQueueRate(SubscriberMessageQueueRate val) {
-            this.queueRate=val;
-            fieldsSet|=4;
-            oneOf_0= OneOf_0.queueRate;
-            return this;
+        public SubscriberMessageQueueRate initQueueRate(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==queueRate) {
+                queueRate=pool.take(SubscriberMessageQueueRate.class);
+            }
+            fieldsSet|= FieldBit.queueRate;
+            return queueRate;
         }
-        public SubscriberMessagePart setFlow(SubscriberMessageFlow val) {
-            this.flow=val;
-            fieldsSet|=8;
-            oneOf_0= OneOf_0.flow;
-            return this;
+        public SubscriberMessageFlow initFlow(org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool pool) {
+            if (null==flow) {
+                flow=pool.take(SubscriberMessageFlow.class);
+            }
+            fieldsSet|= FieldBit.flow;
+            return flow;
         }
 
     }
