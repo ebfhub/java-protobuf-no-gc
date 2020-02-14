@@ -86,7 +86,8 @@ public class FastProtoReader {
             }
         }
 
-        public ArrayList<?> takeList() {
+        @SuppressWarnings("unchecked")
+        public <T> ArrayList<T> takeList() {
             return take(ArrayList.class);
         }
         public TIntArrayList takeIntList() {

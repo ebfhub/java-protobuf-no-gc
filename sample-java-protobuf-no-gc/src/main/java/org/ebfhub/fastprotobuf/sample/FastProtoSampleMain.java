@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class FastProtoSampleMain {
     public static void main(String[]args) throws IOException, NoSuchFieldException, NoSuchMethodException {
 
-        SampleMessage.Message msg = SampleMessage.Message.newBuilder()
+        SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder()
                 .setSymbol("sym1")
                 .setSymbolId(12)
                 .setTs(System.currentTimeMillis())
@@ -36,7 +36,7 @@ public class FastProtoSampleMain {
 
 
         FastProtoReader reader = new FastProtoReader();
-        SampleMessageFast.Message msg1 = new SampleMessageFast.Message();
+        SampleMessageFast.DataMessage msg1 = new SampleMessageFast.DataMessage();
         reader.parse(is,msg1);
 
 
@@ -51,8 +51,8 @@ public class FastProtoSampleMain {
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.Message msg2 = new SampleMessageFast.Message();
-        SampleMessageFast.Message msg3 = new SampleMessageFast.Message();
+        SampleMessageFast.DataMessage msg2 = new SampleMessageFast.DataMessage();
+        SampleMessageFast.DataMessage msg3 = new SampleMessageFast.DataMessage();
         msg2.setSymbol("bye",pool);
 
         for(int k=0;k<10;k++){

@@ -31,7 +31,7 @@ message FieldAndValue {
     } ;
 };
 
-message Message {
+message DataMessage {
   string symbol = 1;                        // String symbol
   int32 symbolId = 2;                       // Numeric equivalent (used for smaller msgs)
   int64 ts = 3;                             // TS
@@ -40,4 +40,36 @@ message Message {
   FieldSetDef defineFieldSet = 6;                 // Define of fields
   repeated FieldIdDef fieldIdDefs = 9;
   repeated FieldAndValue values = 10;
+}
+
+message SubscriberMessagePriority {
+    repeated string symbols = 1;
+    int32 pri = 2;
+    int64 until = 3;
+}
+
+message SubscriberMessageSubscribe {
+    repeated string symbols = 1;
+    int32 pri = 2;
+    int64 until = 3;
+}
+message SubscriberMessageQueueRate {
+    double messagesPerSec = 1;
+}
+
+message SubscriberMessageFlow {
+    int32 bytes = 1;
+}
+message SubscriberMessagePart {
+    oneof value {
+        SubscriberMessagePriority priority =1;
+        SubscriberMessageSubscribe subscribe = 2;
+        SubscriberMessageQueueRate queueRate = 3;
+        SubscriberMessageFlow flow = 4;
+    }
+}
+
+message SubscriberMessage {
+    repeated SubscriberMessagePart messageParts = 1;
+
 }

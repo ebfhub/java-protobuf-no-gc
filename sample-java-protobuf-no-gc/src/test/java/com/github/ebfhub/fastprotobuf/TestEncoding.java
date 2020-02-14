@@ -8,7 +8,6 @@ import org.ebfhub.fastprotobuf.*;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
@@ -16,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class TestEncoding {
     @Test
     public void encodingTest() throws IOException {
-        SampleMessage.Message msg = SampleMessage.Message.newBuilder()
+        SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder()
                 .setSymbol("sym1")
                 .setSymbolId(12)
                 .setTs(System.currentTimeMillis())
@@ -41,7 +40,7 @@ public class TestEncoding {
 
 
         FastProtoReader reader = new FastProtoReader();
-        SampleMessageFast.Message msg1 = new SampleMessageFast.Message();
+        SampleMessageFast.DataMessage msg1 = new SampleMessageFast.DataMessage();
         reader.parse(is,msg1);
 
 
@@ -55,8 +54,8 @@ public class TestEncoding {
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.Message msg2 = new SampleMessageFast.Message();
-        SampleMessageFast.Message msg3 = new SampleMessageFast.Message();
+        SampleMessageFast.DataMessage msg2 = new SampleMessageFast.DataMessage();
+        SampleMessageFast.DataMessage msg3 = new SampleMessageFast.DataMessage();
         FastProtoReader.ObjectPool pool = reader.getPool();
         msg2.setSymbol("bye",pool);
 
