@@ -458,6 +458,103 @@ import com.google.protobuf.CodedOutputStream;
             }
 
         }
+        public static class NullValue implements org.ebfhub.fastprotobuf.FastProtoSetter,org.ebfhub.fastprotobuf.FastProtoWritable{
+            private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+
+
+            private int fieldsSet=0;
+
+            private NullValue (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
+                this.pool=pool;
+            }
+            public static NullValue create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
+                return new NullValue(pool);
+            }
+            public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
+                return this.pool;
+            }
+            private static class FieldNum {
+            }
+            private static class FieldBit {
+            }
+
+            public static class Field {
+            }
+
+            @Override
+            public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
+                switch(fieldNum){
+                    default: throw new UnsupportedOperationException();
+                }
+            }
+
+            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList();
+
+            @Override
+            public java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_getAll(){
+                return field_all;
+            }
+
+            public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
+                return (fieldsSet & f.bit)!=0;
+            }
+
+            @Override
+            public String toString(){
+                StringBuilder sb = new StringBuilder();
+                return sb.toString();
+            }
+            @Override
+            public void clear(){
+                fieldsSet=0;
+            }
+            public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
+            }
+
+            @Override
+            public org.ebfhub.fastprotobuf.FastProtoSetter field_add(int field) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to add");
+                }
+            }
+            @Override
+            public void field_set(int field, long val) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                }
+            }
+            @Override
+            public void field_set(int field, double val) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                }
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+                }
+            }
+            @Override
+            public void field_set(int field, float val) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                }
+            }
+            @Override
+            public void field_set(int field, boolean val) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                }
+            }
+            @Override
+            public void field_set(int field, int val) {
+                switch(field) {
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                }
+            }
+
+        }
         public static class FieldAndValue implements org.ebfhub.fastprotobuf.FastProtoSetter,org.ebfhub.fastprotobuf.FastProtoWritable{
             private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
             private int fieldId;
@@ -469,6 +566,7 @@ import com.google.protobuf.CodedOutputStream;
             private float _float;
             private int _ts;
             private StringList _stringList;
+            private NullValue _null;
 
 
             private int fieldsSet=0;
@@ -492,6 +590,7 @@ import com.google.protobuf.CodedOutputStream;
                 static final int _float=8;
                 static final int _ts=9;
                 static final int _stringList=10;
+                static final int _null=11;
             }
             private static class FieldBit {
                 static final int fieldId=1;
@@ -503,6 +602,7 @@ import com.google.protobuf.CodedOutputStream;
                 static final int _float=64;
                 static final int _ts=128;
                 static final int _stringList=256;
+                static final int _null=512;
             }
 
             public static class Field {
@@ -515,6 +615,7 @@ import com.google.protobuf.CodedOutputStream;
                 public static org.ebfhub.fastprotobuf.FastProtoField _float=new org.ebfhub.fastprotobuf.FastProtoField("_float",FieldNum._float,FieldBit._float,WireFormat.FieldType.FLOAT,false,null);
                 public static org.ebfhub.fastprotobuf.FastProtoField _ts=new org.ebfhub.fastprotobuf.FastProtoField("_ts",FieldNum._ts,FieldBit._ts,WireFormat.FieldType.INT32,false,null);
                 public static org.ebfhub.fastprotobuf.FastProtoField _stringList=new org.ebfhub.fastprotobuf.FastProtoField("_stringList",FieldNum._stringList,FieldBit._stringList,WireFormat.FieldType.MESSAGE,false,StringList.class);
+                public static org.ebfhub.fastprotobuf.FastProtoField _null=new org.ebfhub.fastprotobuf.FastProtoField("_null",FieldNum._null,FieldBit._null,WireFormat.FieldType.MESSAGE,false,NullValue.class);
             }
 
             @Override
@@ -529,11 +630,12 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._float: return Field._float;
                     case FieldNum._ts: return Field._ts;
                     case FieldNum._stringList: return Field._stringList;
+                    case FieldNum._null: return Field._null;
                     default: throw new UnsupportedOperationException();
                 }
             }
 
-            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.fieldId, Field._string, Field._int32, Field._int64, Field._bool, Field._double, Field._float, Field._ts, Field._stringList);
+            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.fieldId, Field._string, Field._int32, Field._int64, Field._bool, Field._double, Field._float, Field._ts, Field._stringList, Field._null);
 
             @Override
             public java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_getAll(){
@@ -549,6 +651,7 @@ import com.google.protobuf.CodedOutputStream;
                 _float,
                 _ts,
                 _stringList,
+                _null,
             }
             private OneOf_0 oneOf_0=null;
             public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
@@ -594,6 +697,10 @@ import com.google.protobuf.CodedOutputStream;
                     if(sb.length()>0) sb.append(";");
                     sb.append("_stringList=").append(_stringList);
                 }
+                if((fieldsSet & FieldBit._null)!=0) {
+                    if(sb.length()>0) sb.append(";");
+                    sb.append("_null=").append(_null);
+                }
                 return sb.toString();
             }
             @Override
@@ -606,6 +713,10 @@ import com.google.protobuf.CodedOutputStream;
                 if(this._stringList!=null){
                     this.pool.returnSpecific(this._stringList);
                     this._stringList=null;
+                }
+                if(this._null!=null){
+                    this.pool.returnSpecific(this._null);
+                    this._null=null;
                 }
                 this.oneOf_0=null;
             }
@@ -637,11 +748,20 @@ import com.google.protobuf.CodedOutputStream;
                 if((fieldsSet & FieldBit._stringList)!=0) {
                     writer.writeMessage(FieldNum._stringList,os,this._stringList);
                 }
+                if((fieldsSet & FieldBit._null)!=0) {
+                    writer.writeMessage(FieldNum._null,os,this._null);
+                }
             }
 
             @Override
             public org.ebfhub.fastprotobuf.FastProtoSetter field_add(int field) {
                 switch(field) {
+                    case FieldNum._null:
+                        if (null==_null) {
+                            _null=pool.take(NullValue.class);
+                        }
+                        fieldsSet|=FieldBit._null;
+                        return _null;
                     case FieldNum._stringList:
                         if (null==_stringList) {
                             _stringList=pool.take(StringList.class);
@@ -673,11 +793,24 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
                 }
             }
+            public void field_set(int field, NullValue val) {
+                switch(field) {
+                    case FieldNum._null:
+                        if(this._null!=null){
+                            pool.returnSpecific(this._null);
+                        }
+                        this._null=val;
+                        fieldsSet|=512;
+                        oneOf_0=OneOf_0._null;
+                        break;
+                    default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
+                }
+            }
             @Override
             public StringBuilder field_builder(int field) {
                 switch(field) {
                     case FieldNum._string:
-                        fieldsSet=fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList)|FieldBit._string;
+                        fieldsSet=fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList|FieldBit._null)|FieldBit._string;
                         if(this._string==null) {
                             this._string = pool.take(StringBuilder.class);
                         }
@@ -815,6 +948,25 @@ import com.google.protobuf.CodedOutputStream;
                 this._stringList=val;
                 fieldsSet|=256;
                 oneOf_0=OneOf_0._stringList;
+                return this;
+            }
+            public NullValue create_null() {
+                return pool.take(NullValue.class);
+            }
+            public NullValue init_null() {
+                if (null==_null) {
+                    _null=pool.take(NullValue.class);
+                }
+                fieldsSet|=FieldBit._null;
+                return _null;
+            }
+            public FieldAndValue set_null(NullValue val) {
+                if(this._null!=null){
+                    pool.returnSpecific(this._null);
+                }
+                this._null=val;
+                fieldsSet|=512;
+                oneOf_0=OneOf_0._null;
                 return this;
             }
 

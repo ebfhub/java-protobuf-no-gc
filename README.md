@@ -3,3 +3,6 @@ Protobuf parser/encoder that does not allocate memory when handling stream of da
 
 See the sample project.
  
+ 
+Usage:
+
