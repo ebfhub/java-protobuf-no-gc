@@ -50,7 +50,9 @@ public class FastProtoSampleMain {
 
 
         FastProtoReader reader = new FastProtoReader();
-        SampleMessageFast.DataMessage msg1 = new SampleMessageFast.DataMessage();
+        FastProtoObjectPool pool= reader.getPool();
+
+        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
         reader.parse(is,msg1);
 
 
@@ -59,19 +61,18 @@ public class FastProtoSampleMain {
         FastProtoWriter writer=new FastProtoWriter();
         msg1.write(o2,writer);
         o2.flush();
-        FastProtoReader.ObjectPool pool= reader.getPool();
 
 
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.DataMessage msg2 = new SampleMessageFast.DataMessage();
-        SampleMessageFast.DataMessage msg3 = new SampleMessageFast.DataMessage();
-        msg2.setSymbol("bye",pool);
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+        msg2.setSymbol("bye");
 
         for(int k=0;k<10;k++){
-            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("fifty"+k,pool);
+            SampleMessageFast.FieldAndValue val = msg2.addValuesElem();
+            val.set_string("fifty"+k);
             val.set_bool(true);
             val.setFieldId(k);
         }
@@ -80,14 +81,14 @@ public class FastProtoSampleMain {
         CodedInputStream is3=CodedInputStream.newInstance(mis);
 
         for(int n=0;n<3e10;n++) {
-            msg2.clear(pool);
+            msg2.clear();
 
-            msg2.setSymbol("sym12",pool);
+            msg2.setSymbol("sym12");
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
-            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("sym14",pool);
-            val.setFieldId(1000);
+            msg2.addValue(msg2.createValue().set_string("sym14").setFieldId(1000))
+                    .addFieldIdDef(msg2.createFieldIdDef().setFieldId(98).setFieldName("id1D"))
+                    .addFieldIdDef(msg2.createFieldIdDef().setFieldId(99).setFieldName("anotherId"));
 
             os1.reset();
             msg1.write(o2,writer);
@@ -110,7 +111,7 @@ public class FastProtoSampleMain {
             mis.setBytes(tmp,tmpLen);
 
 
-            msg3.clear(pool);
+            msg3.clear();
             reader.parse(is3,msg3);
         }
     }

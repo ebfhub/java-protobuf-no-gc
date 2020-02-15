@@ -30,9 +30,9 @@ public class TestFastProtoGenerator {
 
         Class outer = uCompiler.getCompiledClass(fullName);
 
-        Class inner = uCompiler.getCompiledClass(fullName+"$Message");
-        FastProtoSetter o = (FastProtoSetter)inner.newInstance();
-        FastProtoReader.ObjectPool pool = new FastProtoReader.ObjectPool();
+        Class inner = uCompiler.getCompiledClass(fullName+"$DataMessage");
+        FastProtoObjectPool pool = new FastProtoObjectPool();
+        FastProtoSetter o = (FastProtoSetter)inner.getMethod("create",FastProtoObjectPool.class).invoke(null,pool);
 
         Map<Integer,FastProtoField> found = new HashMap<>();
         Map<Integer,Object> values = new HashMap<>();
@@ -52,7 +52,7 @@ public class TestFastProtoGenerator {
                     break;
 
                 case STRING:
-                    o.field_builder(num,pool).append("HELLO");
+                    o.field_builder(num).append("HELLO");
                     values.put(num,"HELLO");
                     break;
             }

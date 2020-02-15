@@ -1,6 +1,5 @@
 package org.ebfhub.fastprotobuf;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 /**

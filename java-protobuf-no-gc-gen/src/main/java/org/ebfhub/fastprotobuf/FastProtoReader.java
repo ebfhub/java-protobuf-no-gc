@@ -2,12 +2,6 @@ package org.ebfhub.fastprotobuf;
 
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.WireFormat;
-import gnu.trove.list.array.TIntArrayList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>FastProtoReader class.</p>
@@ -22,91 +16,13 @@ public class FastProtoReader {
     /**
      * <p>Getter for the field <code>pool</code>.</p>
      *
-     * @return a {@link org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool} object.
+     * @return a {@link FastProtoObjectPool} object.
      */
-    public ObjectPool getPool() {
+    public FastProtoObjectPool getPool() {
         return pool;
     }
 
-    public static class ObjectPool {
-        private Map<Class<?>, List<Object>> pool = new HashMap<>();
-        private List<Object> stringBuilderPool = new ArrayList<>();
-        private List<Object> arrayListPool = new ArrayList<>();
-
-        {
-            pool.put(StringBuilder.class,stringBuilderPool);
-            pool.put(ArrayList.class,arrayListPool);
-        }
-
-        public void returnOne(Object o) {
-            clear(o);
-            Class<?> cl = o.getClass();
-            List<Object> l = pool.computeIfAbsent(cl, a -> new ArrayList<>());
-            l.add(o);
-        }
-        public void returnSpecific(StringBuilder o) {
-            o.setLength(0);
-            stringBuilderPool.add(o);
-        }
-        public void returnSpecific(FastProtoSetter o) {
-            o.clear(this);
-            Class<?> cl = o.getClass();
-            List<Object> l = pool.computeIfAbsent(cl, a -> new ArrayList<>());
-            l.add(o);
-        }
-
-        public void returnSpecific(List<?> o) {
-            clearList(o);
-            arrayListPool.add(o);
-        }
-
-        public void returnSpecific(TIntArrayList o) {
-            o.clear();
-            arrayListPool.add(o);
-        }
-        private void clear(Object o) {
-            if( o instanceof FastProtoSetter){
-                ((FastProtoSetter) o).clear(this);
-            } else if ( o instanceof List){
-                //noinspection rawtypes
-                clearList((List)o);
-            } else if ( o instanceof TIntArrayList){
-                ((TIntArrayList)o).clear();
-            } else {
-                ((StringBuilder)o).setLength(0);
-            }
-        }
-
-        public void clearList(List<?> list) {
-            for(int size=list.size(),n=0;n<size;n++) {
-                returnOne(list.get(n));
-            }
-            list.clear();
-        }
-        public <T> T take(Class<T> cl) {
-            List<Object> l = pool.get(cl);
-            if (l == null || l.size() == 0) {
-                try {
-                    return cl.newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new IllegalStateException("can't allocate " + cl, e);
-                }
-            } else {
-                //noinspection unchecked
-                return (T)l.remove(l.size() - 1);
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        public <T> ArrayList<T> takeList() {
-            return take(ArrayList.class);
-        }
-        public TIntArrayList takeIntList() {
-            return take(TIntArrayList.class);
-        }
-    }
-
-    ObjectPool pool=new ObjectPool();
+    FastProtoObjectPool pool=new FastProtoObjectPool();
     Utf8.ByteProvider provider = new Utf8.ByteProvider() {
         @Override
         byte getByte(Object src, long offset) {
@@ -184,7 +100,7 @@ public class FastProtoReader {
                                 byte b = is.readRawByte();
                                 bb[n]=b;
                             }
-                            StringBuilder sb = setter.field_builder(field,pool);
+                            StringBuilder sb = setter.field_builder(field);
                             sb.setLength(0);
                             Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
                         }
@@ -192,7 +108,7 @@ public class FastProtoReader {
                         case MESSAGE:
                         {
                             int l = is.pushLimit(size);
-                            parse(is,setter.field_add(field,pool));
+                            parse(is,setter.field_add(field));
                             is.popLimit(l);
                         }
                         break;

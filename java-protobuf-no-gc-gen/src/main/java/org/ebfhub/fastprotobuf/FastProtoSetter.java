@@ -53,25 +53,22 @@ public interface FastProtoSetter {
      * Mark a field as set and return its empty string builder.
      *
      * @param field a int.
-     * @param pool a {@link org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool} object.
      * @return a {@link java.lang.StringBuilder} object.
      */
-    StringBuilder field_builder(int field, FastProtoReader.ObjectPool pool);
+    StringBuilder field_builder(int field);
 
     /**
      * Add a message field, returning a setter component
      *
      * @param field a int.
-     * @param pool a {@link org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool} object.
      * @return a {@link org.ebfhub.fastprotobuf.FastProtoSetter} object.
      */
-    FastProtoSetter field_add(int field, FastProtoReader.ObjectPool pool);
+    FastProtoSetter field_add(int field);
 
     /**
      * Get definition for a field.
      *
      * @param field a int.
-     * @return a {@link org.ebfhub.fastprotobuf.FastProtoField} object.
      */
     FastProtoField field_getDef(int field);
 
@@ -85,8 +82,13 @@ public interface FastProtoSetter {
     /**
      * Clear the object
      *
-     * @param pool a {@link org.ebfhub.fastprotobuf.FastProtoReader.ObjectPool} object.
      */
-    void clear(FastProtoReader.ObjectPool pool);
+    void clear();
+
+    /**
+     * Get the pool
+     * @return pool a {@link FastProtoObjectPool} object.
+     */
+    FastProtoObjectPool getPool();
 
 }

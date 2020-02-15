@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestEncoding {
@@ -40,13 +41,16 @@ public class TestEncoding {
 
 
         FastProtoReader reader = new FastProtoReader();
-        SampleMessageFast.DataMessage msg1 = new SampleMessageFast.DataMessage();
+        FastProtoObjectPool pool = reader.getPool();
+        FastProtoWriter writer=new FastProtoWriter();
+
+
+        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
         reader.parse(is,msg1);
 
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
         CodedOutputStream o2 =  CodedOutputStream.newInstance(os1);
-        FastProtoWriter writer=new FastProtoWriter();
         msg1.write(o2,writer);
         o2.flush();
 
@@ -54,16 +58,13 @@ public class TestEncoding {
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.DataMessage msg2 = new SampleMessageFast.DataMessage();
-        SampleMessageFast.DataMessage msg3 = new SampleMessageFast.DataMessage();
-        FastProtoReader.ObjectPool pool = reader.getPool();
-        msg2.setSymbol("bye",pool);
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+        msg2.setSymbol("bye");
 
         for(int k=0;k<10;k++){
-            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("fifty"+k,pool);
-            val.set_bool(true);
-            val.setFieldId(k);
+            msg2.addValue(msg2.createValue()
+                    .set_string("fifty"+k).set_bool(true).setFieldId(k));
         }
 
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
@@ -71,17 +72,23 @@ public class TestEncoding {
 
 
         for(int n=0;n<4;n++) {
-            msg2.clear(pool);
+            msg2.clear();
 
-            msg2.setSymbol("sym12",pool);
+            msg2.setSymbol("sym12");
             msg2.setTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
-            SampleMessageFast.FieldAndValue val = msg2.addValues(pool);
-            val.set_string("sym14",pool);
-            val.setFieldId(1000);
-            SampleMessageFast.StringList strList = val.init_stringList(pool);
-            strList.addStrings(pool).append(12);
-            strList.addStrings("strTwo",pool).addStrings("str3",pool);
+            msg2.setDefineFieldSet(msg2.createDefineFieldSet().setFieldSetId(1000));
+
+            //SampleMessageFast.FieldAndValue.create(pool);
+
+            msg2.addValue(
+                     msg2.createValue()
+                            .set_string("sym14")
+                            .setFieldId(1000)
+                    .set_stringList(SampleMessageFast.StringList.create(pool).
+                            addStrings("onwe").addStrings("strTwo").addStrings("str3"))
+
+            );
 
             os1.reset();
             msg1.write(o2,writer);
@@ -91,7 +98,7 @@ public class TestEncoding {
             byte[] tmp=os1.toByteArray();
 
             if (n > 0) {
-                assertTrue("eq=" + new String(tmp), Arrays.equals(tmp, bytes3));
+                assertArrayEquals("eq=" + new String(tmp), tmp, bytes3);
             }
             bytes3 = tmp;
             System.gc();
@@ -99,7 +106,7 @@ public class TestEncoding {
             byte[] tmp1=os1.getBytes();
             int tmpLen = os1.size();
             mis.setBytes(tmp1,tmpLen);
-            msg3.clear(reader.getPool());
+            msg3.clear();
             reader.parse(is3,msg3);
         }
     }
