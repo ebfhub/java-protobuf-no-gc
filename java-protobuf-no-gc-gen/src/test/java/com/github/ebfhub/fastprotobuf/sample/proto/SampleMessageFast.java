@@ -657,7 +657,7 @@ import com.google.protobuf.CodedOutputStream;
                 return field_all;
             }
 
-            public enum OneOf_0{
+            public enum OneOf{
                 _string,
                 _int32,
                 _int64,
@@ -668,7 +668,10 @@ import com.google.protobuf.CodedOutputStream;
                 _stringList,
                 _null,
             }
-            private OneOf_0 oneOf_0=null;
+            private OneOf oneOf=null;
+            public OneOf getOneOf(){
+                return oneOf;
+            }
             public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
                 return (fieldsSet & f.bit)!=0;
             }
@@ -733,7 +736,7 @@ import com.google.protobuf.CodedOutputStream;
                     this.pool.returnSpecific(this._null);
                     this._null=null;
                 }
-                this.oneOf_0=null;
+                this.oneOf=null;
             }
             public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
                 if((fieldsSet & FieldBit.fieldId)!=0) {
@@ -792,7 +795,7 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._int64:
                         this._int64=val;
                         fieldsSet|=8;
-                        oneOf_0=OneOf_0._int64;
+                        oneOf=OneOf._int64;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
                 }
@@ -803,7 +806,7 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._double:
                         this._double=val;
                         fieldsSet|=32;
-                        oneOf_0=OneOf_0._double;
+                        oneOf=OneOf._double;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
                 }
@@ -816,7 +819,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this._null=val;
                         fieldsSet|=512;
-                        oneOf_0=OneOf_0._null;
+                        oneOf=OneOf._null;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
                 }
@@ -839,7 +842,7 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._float:
                         this._float=val;
                         fieldsSet|=64;
-                        oneOf_0=OneOf_0._float;
+                        oneOf=OneOf._float;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
                 }
@@ -852,7 +855,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this._stringList=val;
                         fieldsSet|=256;
-                        oneOf_0=OneOf_0._stringList;
+                        oneOf=OneOf._stringList;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
                 }
@@ -863,7 +866,7 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._bool:
                         this._bool=val;
                         fieldsSet|=16;
-                        oneOf_0=OneOf_0._bool;
+                        oneOf=OneOf._bool;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
                 }
@@ -878,12 +881,12 @@ import com.google.protobuf.CodedOutputStream;
                     case FieldNum._int32:
                         this._int32=val;
                         fieldsSet|=4;
-                        oneOf_0=OneOf_0._int32;
+                        oneOf=OneOf._int32;
                         break;
                     case FieldNum._ts:
                         this._ts=val;
                         fieldsSet|=128;
-                        oneOf_0=OneOf_0._ts;
+                        oneOf=OneOf._ts;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
@@ -913,7 +916,7 @@ import com.google.protobuf.CodedOutputStream;
                 this._string.setLength(0);
                 this._string.append(val);
                 fieldsSet|=2;
-                oneOf_0=OneOf_0._string;
+                oneOf=OneOf._string;
                 return this;
             }
             public int get_int32() {
@@ -922,7 +925,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_int32(int val) {
                 this._int32=val;
                 fieldsSet|=4;
-                oneOf_0=OneOf_0._int32;
+                oneOf=OneOf._int32;
                 return this;
             }
             public long get_int64() {
@@ -931,7 +934,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_int64(long val) {
                 this._int64=val;
                 fieldsSet|=8;
-                oneOf_0=OneOf_0._int64;
+                oneOf=OneOf._int64;
                 return this;
             }
             public boolean get_bool() {
@@ -940,7 +943,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_bool(boolean val) {
                 this._bool=val;
                 fieldsSet|=16;
-                oneOf_0=OneOf_0._bool;
+                oneOf=OneOf._bool;
                 return this;
             }
             public double get_double() {
@@ -949,7 +952,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_double(double val) {
                 this._double=val;
                 fieldsSet|=32;
-                oneOf_0=OneOf_0._double;
+                oneOf=OneOf._double;
                 return this;
             }
             public float get_float() {
@@ -958,7 +961,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_float(float val) {
                 this._float=val;
                 fieldsSet|=64;
-                oneOf_0=OneOf_0._float;
+                oneOf=OneOf._float;
                 return this;
             }
             public int get_ts() {
@@ -967,7 +970,7 @@ import com.google.protobuf.CodedOutputStream;
             public FieldAndValue set_ts(int val) {
                 this._ts=val;
                 fieldsSet|=128;
-                oneOf_0=OneOf_0._ts;
+                oneOf=OneOf._ts;
                 return this;
             }
             public StringList get_stringList() {
@@ -989,7 +992,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this._stringList=val;
                 fieldsSet|=256;
-                oneOf_0=OneOf_0._stringList;
+                oneOf=OneOf._stringList;
                 return this;
             }
             public NullValue get_null() {
@@ -1011,7 +1014,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this._null=val;
                 fieldsSet|=512;
-                oneOf_0=OneOf_0._null;
+                oneOf=OneOf._null;
                 return this;
             }
 
@@ -2086,13 +2089,16 @@ import com.google.protobuf.CodedOutputStream;
                 return field_all;
             }
 
-            public enum OneOf_0{
+            public enum OneOf{
                 priority,
                 subscribe,
                 queueRate,
                 flow,
             }
-            private OneOf_0 oneOf_0=null;
+            private OneOf oneOf=null;
+            public OneOf getOneOf(){
+                return oneOf;
+            }
             public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
                 return (fieldsSet & f.bit)!=0;
             }
@@ -2137,7 +2143,7 @@ import com.google.protobuf.CodedOutputStream;
                     this.pool.returnSpecific(this.flow);
                     this.flow=null;
                 }
-                this.oneOf_0=null;
+                this.oneOf=null;
             }
             public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
                 if((fieldsSet & FieldBit.priority)!=0) {
@@ -2198,7 +2204,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this.flow=val;
                         fieldsSet|=8;
-                        oneOf_0=OneOf_0.flow;
+                        oneOf=OneOf.flow;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
                 }
@@ -2211,7 +2217,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this.subscribe=val;
                         fieldsSet|=2;
-                        oneOf_0=OneOf_0.subscribe;
+                        oneOf=OneOf.subscribe;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageSubscribe");
                 }
@@ -2236,7 +2242,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this.priority=val;
                         fieldsSet|=1;
-                        oneOf_0=OneOf_0.priority;
+                        oneOf=OneOf.priority;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessagePriority");
                 }
@@ -2261,7 +2267,7 @@ import com.google.protobuf.CodedOutputStream;
                         }
                         this.queueRate=val;
                         fieldsSet|=4;
-                        oneOf_0=OneOf_0.queueRate;
+                        oneOf=OneOf.queueRate;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageQueueRate");
                 }
@@ -2291,7 +2297,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this.priority=val;
                 fieldsSet|=1;
-                oneOf_0=OneOf_0.priority;
+                oneOf=OneOf.priority;
                 return this;
             }
             public SubscriberMessageSubscribe getSubscribe() {
@@ -2313,7 +2319,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this.subscribe=val;
                 fieldsSet|=2;
-                oneOf_0=OneOf_0.subscribe;
+                oneOf=OneOf.subscribe;
                 return this;
             }
             public SubscriberMessageQueueRate getQueueRate() {
@@ -2335,7 +2341,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this.queueRate=val;
                 fieldsSet|=4;
-                oneOf_0=OneOf_0.queueRate;
+                oneOf=OneOf.queueRate;
                 return this;
             }
             public SubscriberMessageFlow getFlow() {
@@ -2357,7 +2363,7 @@ import com.google.protobuf.CodedOutputStream;
                 }
                 this.flow=val;
                 fieldsSet|=8;
-                oneOf_0=OneOf_0.flow;
+                oneOf=OneOf.flow;
                 return this;
             }
 

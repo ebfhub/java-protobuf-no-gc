@@ -82,7 +82,6 @@ public class FastProtoGenerator extends Generator {
                 sb.blank();
                 sb.line("public class "+className+" {");
 
-
                 for(DescriptorProtos.DescriptorProto pp : protoFile.getMessageTypeList()){
 
                     pNameToName.put("."+protoFile.getPackage()+"."+pp.getName(),pp.getName());
@@ -97,7 +96,7 @@ public class FastProtoGenerator extends Generator {
                         int bit = 1<<fieldNum++;
                         info.bits.put(field.getName(),bit);
                         if(field.hasOneofIndex()){
-                            OneOf oo = info.oneOfs.computeIfAbsent(field.getOneofIndex(),(a)->new OneOf());
+                            OneOf oo = info.oneOfs.computeIfAbsent(field.getOneofIndex(), OneOf::new);
                             oo.fields.add(field.getName());
                             oo.flags|=bit;
                         }
@@ -182,15 +181,24 @@ public class FastProtoGenerator extends Generator {
                     sb.line("}");
                     sb.blank();
 
-                    for(Map.Entry<Integer,OneOf> e:info.oneOfs.entrySet()){
-                        sb.line("public enum OneOf_"+e.getKey()+"{");
-                        for(String k:e.getValue().fields){
+                    for(OneOf e:info.oneOfs.values()){
+                        sb.line("public enum "+e.className+"{");
+                        for(String k:e.fields){
                             sb.line(k+",");
                         }
                         sb.line("}\n");
-                        sb.line("private OneOf_"+e.getKey()+" oneOf_"+e.getKey()+"=null;");
+                        sb.line("private "+e.className+" "+e.valueName+"=null;");
 
                     }
+
+
+
+                    for(OneOf e:info.oneOfs.values()){
+                        sb.line("public "+e.className+" get"+e.className+"(){");
+                        sb.line("return "+e.valueName+";");
+                        sb.line("}\n");
+                    }
+
                     sb.line("public boolean isSet("+FastProtoField.class.getName()+" f){");
                     sb.line("return ("+info.fieldSetVar+" & f.bit)!=0;");
                     sb.line("}");
@@ -227,8 +235,8 @@ public class FastProtoGenerator extends Generator {
                             sb.line("}");
                         }
                     }
-                    for(Map.Entry<Integer,OneOf> e:info.oneOfs.entrySet()){
-                        sb.line("this.oneOf_"+e.getKey()+"=null;");
+                    for(OneOf e:info.oneOfs.values()){
+                        sb.line("this."+e.valueName+"=null;");
                     }
                     sb.line("}");
 
@@ -648,6 +656,13 @@ public class FastProtoGenerator extends Generator {
     }
     static class OneOf
     {
+        private final String className;
+        private final String valueName;
+
+        OneOf(int num){
+            this.className = num==0?"OneOf":"OneOf_"+num;
+            this.valueName = num==0?"oneOf":"oneOf_"+num;
+        }
         List<String> fields = new ArrayList<>();
         int flags=0;
     }
@@ -708,9 +723,8 @@ public class FastProtoGenerator extends Generator {
         sb.line(info.fieldSetVar+"|="+info.bits.get(field.getName())+";");
 
         if(field.hasOneofIndex()){
-
-            sb.line("oneOf_"+field.getOneofIndex()+"=OneOf_"+field.getOneofIndex()+"."+field.getName()+";");
-
+            OneOf ii = info.oneOfs.get(field.getOneofIndex());
+            sb.line(ii.valueName+"="+ii.className+"."+field.getName()+";");
         }
     }
 
