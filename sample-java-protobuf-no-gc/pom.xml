@@ -149,7 +149,7 @@
         <dependency>
             <groupId>com.github.ebfhub</groupId>
             <artifactId>java-protobuf-no-gc-gen</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>gnu.trove</groupId>
