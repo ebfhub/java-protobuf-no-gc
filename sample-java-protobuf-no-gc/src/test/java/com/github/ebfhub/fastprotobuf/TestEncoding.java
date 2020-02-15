@@ -74,21 +74,23 @@ public class TestEncoding {
         for(int n=0;n<4;n++) {
             msg2.clear();
 
-            msg2.setSymbol("sym12");
-            msg2.setTs(System.currentTimeMillis());
-            msg2.setSymbolId(123);
-            msg2.setDefineFieldSet(msg2.createDefineFieldSet().setFieldSetId(1000));
+            msg2
+                    .setSymbol("sym12")
+                    .setTs(System.currentTimeMillis())
+                    .setSymbolId(123)
+                    .setDefineFieldSet(msg2.createDefineFieldSet().setFieldSetId(1000))
 
-            //SampleMessageFast.FieldAndValue.create(pool);
+                    .addValue(
+                            msg2.createValue()
+                                    .set_string("sym14")
+                                    .setFieldId(1000)
+                                    .set_stringList(SampleMessageFast.StringList.create(pool)
+                                            .addStrings("onwe")
+                                            .addStrings("strTwo")
+                                            .addStrings("ninety")
+                                            .addStrings("str3"))
 
-            msg2.addValue(
-                     msg2.createValue()
-                            .set_string("sym14")
-                            .setFieldId(1000)
-                    .set_stringList(SampleMessageFast.StringList.create(pool).
-                            addStrings("onwe").addStrings("strTwo").addStrings("str3"))
-
-            );
+                    );
 
             os1.reset();
             msg1.write(o2,writer);

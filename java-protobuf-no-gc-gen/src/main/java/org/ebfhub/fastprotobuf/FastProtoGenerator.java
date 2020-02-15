@@ -229,7 +229,6 @@ public class FastProtoGenerator extends Generator {
                     }
                     for(Map.Entry<Integer,OneOf> e:info.oneOfs.entrySet()){
                         sb.line("this.oneOf_"+e.getKey()+"=null;");
-
                     }
                     sb.line("}");
 
