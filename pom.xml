@@ -61,9 +61,18 @@
         </repository>
 
     </distributionManagement>
+
+    <name>Java Protobuf encoder/decoder without GC</name>
+    <description>
+        Generate Java Protobuf encoder/decoder that does not invoke GC.
+    </description>
+    <url>https://github.com/ebfhub/java-protobuf-no-gc</url>
+
     <developers>
         <developer>
-            <name>EBF Tech</name>
+            <id>ebfhub</id>
+            <name>EBF Hub</name>
+            <email>ebfhub@gmail.com</email>
             <organizationUrl>https://github.com/ebfhub</organizationUrl>
         </developer>
     </developers>
