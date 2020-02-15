@@ -70,17 +70,16 @@ public class FastProtoGenerator extends Generator {
                 sb.blank();
                 sb.imports(
                      com.google.protobuf.WireFormat.class,
-                     com.google.protobuf.CodedInputStream.class,
-                     com.google.protobuf.CodedOutputStream.class,
-                    org.ebfhub.fastprotobuf.Utf8.class
-
+                     com.google.protobuf.CodedOutputStream.class
                 );
 
                 sb.blank();
 
                 String fileName = className+ ".java";
-                //String className = protoFile.getName() + CLASS_SUFFIX;
 
+                sb.blank();
+                sb.line("@SuppressWarnings({\"unused\",\"SwitchStatementWithTooFewBranches\",\"ForLoopReplaceableByForEach\",\"UnusedReturnValue\",\"ArraysAsListWithZeroOrOneArgument\"})");
+                sb.blank();
                 sb.line("public class "+className+" {");
 
 
@@ -215,6 +214,7 @@ public class FastProtoGenerator extends Generator {
                     sb.line("@Override");
                     sb.line("public void clear(){");
                     sb.line("fieldsSet=0;");
+
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()) {
                         TypeInfo ti = getJavaTypeInfo(field);
                         if (ti.repeated ||
@@ -302,19 +302,50 @@ public class FastProtoGenerator extends Generator {
 
                             if(ti.repeated) {
 
-                                if(ti.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
+                                if(ti.type!= DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+
+                                    String argJavaName = getJavaTypeName(ti, true, false);
+
                                     sb.line("public " + thisClass
-                                            + " add" + upperCaseName(field.getName()) + "(CharSequence val) {");
-                                    String javaTypeName="StringBuilder";
+                                            + " add" + singular(upperCaseName(field.getName()),true) + "("+argJavaName+" val) {");
+                                    //String javaTypeName="StringBuilder";
 
                                     sb.line("if(this." + field.getName() + "==null) {");
                                     sb.line("this." + field.getName() + "="+ makeTakeList(ti)+";");
                                     sb.line("}");
-                                    sb.line(javaTypeName+" sb = pool.take("+javaTypeName+".class);");
-                                    sb.line("sb.append(val);");
-                                    sb.line("this." + field.getName() + ".add(sb);");
+                                    if(isMutable(ti)) {
+                                        sb.line(javaName + " sb = pool.take(" + javaName + ".class);");
+                                        sb.line("sb.append(val);");
+                                        sb.line("this." + field.getName() + ".add(sb);");
+                                    } else {
+                                        sb.line("this." + field.getName() + ".add(val);");
+                                    }
                                     sb.line("return this;");
                                     sb.line("}");
+                                    String argJavaNameList = getJavaTypeName(ti, true, true);
+
+
+                                    sb.line("public " + thisClass
+                                            + " add" + upperCaseName(field.getName()) + "("+argJavaNameList+" vals) {");
+
+                                    sb.line("if(this." + field.getName() + "==null) {");
+                                    sb.line("this." + field.getName() + "="+ makeTakeList(ti)+";");
+                                    sb.line("}");
+                                    sb.line("for(int n=0,size=vals.size();n<size;n++){");
+
+                                    if(isMutable(ti)) {
+
+                                        sb.line(javaName + " sb = pool.take(" + javaName + ".class);");
+                                        sb.line("sb.append(vals.get(n));");
+                                        sb.line("this." + field.getName() + ".add(sb);");
+                                    } else {
+                                        sb.line("this." + field.getName() + ".add(vals.get(n));");
+                                    }
+                                    sb.line("}");
+
+                                    sb.line("return this;");
+                                    sb.line("}");
+
                                 } else {
                                     sb.line("public " + thisClass
                                             + " add" + singular(upperCaseName(field.getName()),ti.repeated) + "("+javaName+" val) {");
@@ -786,6 +817,10 @@ public class FastProtoGenerator extends Generator {
             }
 
             if(isInput) {
+                if(name.equals("CharSequence")){
+                    return "java.util.List<? extends " + name + ">";
+
+                }
 
                 return "java.util.List<" + name + ">";
             } else {

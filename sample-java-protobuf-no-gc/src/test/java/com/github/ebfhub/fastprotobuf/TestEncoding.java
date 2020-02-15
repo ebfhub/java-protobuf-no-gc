@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
@@ -70,6 +71,7 @@ public class TestEncoding {
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
         CodedInputStream is3=CodedInputStream.newInstance(mis);
 
+        List<String> s = Arrays.asList("one","two");
 
         for(int n=0;n<4;n++) {
             msg2.clear();
@@ -82,13 +84,13 @@ public class TestEncoding {
 
                     .addValue(
                             msg2.createValue()
-                                    .set_string("sym14")
-                                    .setFieldId(1000)
-                                    .set_stringList(SampleMessageFast.StringList.create(pool)
-                                            .addStrings("onwe")
-                                            .addStrings("strTwo")
-                                            .addStrings("ninety")
-                                            .addStrings("str3"))
+                                .set_string("sym14")
+                                .setFieldId(1000)
+                                .set_stringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                        .addString("onwe")
+                                        .addString("strTwo")
+                                        .addString("ninety")
+                                        .addString("str3"))
 
                     );
 

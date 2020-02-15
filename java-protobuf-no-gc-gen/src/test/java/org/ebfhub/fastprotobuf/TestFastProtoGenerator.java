@@ -3,6 +3,8 @@ package org.ebfhub.fastprotobuf;
 import com.salesforce.jprotoc.ProtocPlugin;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,16 @@ public class TestFastProtoGenerator {
         ProtocPlugin.debug(gen,"src/test/resources/descriptor_dump");
 
         String code = gen.getTestOutput();
+
+
+        File dest=new File("src/test/java/com/github/ebfhub/fastprotobuf/sample/proto/SampleMessageFast.java");
+        System.out.println("Writing to "+dest.getCanonicalPath());
+
+        FileWriter w1 = new FileWriter(dest);
+        w1.write(code);
+        w1.close();
+
+
         String fullName=gen.getMainPackageName()+"."+gen.getMainClassName();
         InMemoryCompiler.IMCSourceCode cls1source = new InMemoryCompiler.IMCSourceCode(fullName, code);
 

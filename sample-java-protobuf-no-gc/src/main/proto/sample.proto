@@ -17,6 +17,10 @@ message FieldIdDef {
     int32 fieldId = 1; // field number
     string fieldName = 2; // field name
 }
+
+message NullValue {
+}
+
 message FieldAndValue {
     int32 fieldId = 1;            // field number
     oneof value {
@@ -28,6 +32,7 @@ message FieldAndValue {
         float _float = 8;
         int32 _ts = 9;
         StringList _stringList = 10;
+        NullValue _null = 11;
     } ;
 };
 
