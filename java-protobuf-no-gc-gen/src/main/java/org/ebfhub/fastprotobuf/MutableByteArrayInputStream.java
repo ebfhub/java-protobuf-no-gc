@@ -34,4 +34,17 @@ public class MutableByteArrayInputStream extends InputStream
         len=tmpLen;
         pos=0;
     }
+
+    /**
+     * <p>setBytes.</p>
+     *
+     * @param tmp an array of {@link byte} objects.
+     * @param offset Start in array
+     * @param tmpLen a int.
+     */
+    public void setBytes(byte[] tmp, int offset, int tmpLen) {
+        buf=tmp;
+        len=tmpLen;
+        pos=offset;
+    }
 }

@@ -3,6 +3,8 @@ package org.ebfhub.fastprotobuf;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.WireFormat;
 
+import java.io.IOException;
+
 /**
  * <p>FastProtoReader class.</p>
  *
@@ -125,5 +127,16 @@ public class FastProtoReader {
                     throw new UnsupportedOperationException();
             }
         }
+    }
+
+    MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
+    CodedInputStream is3=CodedInputStream.newInstance(mis);
+
+    public void readItem(FastProtoSetter val, byte[] b, int offset, int len) throws IOException {
+        val.clear();
+        mis.setBytes(b,offset,len);
+
+        parse(is3,val);
+        is3.resetSizeCounter();
     }
 }

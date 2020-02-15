@@ -107,12 +107,7 @@ public class FastProtoSampleMain {
 
             byte[] tmp=os1.getBytes();
             int tmpLen = os1.size();
-
-            mis.setBytes(tmp,tmpLen);
-
-
-            msg3.clear();
-            reader.parse(is3,msg3);
+            reader.readItem(msg3,tmp,0,tmpLen);
         }
     }
 

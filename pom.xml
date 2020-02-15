@@ -22,7 +22,7 @@
     </scm>
     <artifactId>java-protobuf-no-gc</artifactId>
     <groupId>com.github.ebfhub</groupId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <slf4jVersion>1.6.5</slf4jVersion>

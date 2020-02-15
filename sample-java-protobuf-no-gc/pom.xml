@@ -5,12 +5,12 @@
     <parent>
         <artifactId>java-protobuf-no-gc</artifactId>
         <groupId>com.github.ebfhub</groupId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
+    <version>1.0.1</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sample-java-protobuf-no-gc</artifactId>
-    <version>1.0</version>
 
     <properties>
         <slf4jVersion>1.6.5</slf4jVersion>
@@ -23,7 +23,6 @@
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
-        <protobuf.version>3.7.1</protobuf.version>
         <trove.version>3.0.3</trove.version>
 
 
@@ -137,15 +136,16 @@
             <version>${slf4jVersion}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.salesforce.servicelibs</groupId>
             <artifactId>jprotoc</artifactId>
             <version>1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.github.ebfhub</groupId>
             <artifactId>java-protobuf-no-gc-gen</artifactId>

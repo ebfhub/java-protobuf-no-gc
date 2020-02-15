@@ -68,7 +68,7 @@ public class FastProtoObjectPool {
     public void returnOne(Object o) {
         clear(o);
         Class<?> cl = o.getClass();
-        PoolInstance l = pool.computeIfAbsent(cl, a -> new PoolInstance(cl));
+        PoolInstance l = getPoolInstance(cl);
         l.add(o);
     }
     public void returnSpecific(StringBuilder o) {
@@ -78,8 +78,16 @@ public class FastProtoObjectPool {
     public void returnSpecific(FastProtoSetter o) {
         o.clear();
         Class<?> cl = o.getClass();
-        PoolInstance l = pool.computeIfAbsent(cl, a -> new PoolInstance(cl));
+        PoolInstance l = getPoolInstance(cl);
         l.add(o);
+    }
+
+    private PoolInstance getPoolInstance(Class<?> cl) {
+        PoolInstance l = pool.get(cl);
+        if (l == null) {
+            pool.put(cl, l = new PoolInstance(cl));
+        }
+        return l;
     }
 
     public void returnSpecific(List<?> o) {
@@ -111,10 +119,7 @@ public class FastProtoObjectPool {
         list.clear();
     }
     public <T> T take(Class<T> cl) {
-        PoolInstance l = pool.get(cl);
-        if(l==null){
-            pool.put(cl, l=new PoolInstance(cl));
-        }
+        PoolInstance l = getPoolInstance(cl);
 
         //noinspection unchecked
         return (T)l.take();
