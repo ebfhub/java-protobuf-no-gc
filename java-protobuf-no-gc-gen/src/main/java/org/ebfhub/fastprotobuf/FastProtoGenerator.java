@@ -287,7 +287,13 @@ public class FastProtoGenerator extends Generator {
                     addParseMethodHelpers(sb, pp, info);
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
 
+                        // GETTER
                         TypeInfo ti = getJavaTypeInfo(field);
+                        sb.line("public " + getJavaTypeName(ti, true, ti.repeated)+ " get" + upperCaseName(field.getName())+ "() {");
+                        sb.line("return this." + field.getName() + ";");
+                        sb.line("}");
+
+
                         String javaName = getJavaTypeName(ti, false, false);
 
                         if(ti.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {

@@ -122,6 +122,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public java.util.List<? extends CharSequence> getStrings() {
+                return this.strings;
+            }
             public StringList addString(CharSequence val) {
                 if(this.strings==null) {
                     this.strings=pool.takeList();
@@ -276,10 +279,16 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public int getFieldSetId() {
+                return this.fieldSetId;
+            }
             public FieldSetDef setFieldSetId(int val) {
                 this.fieldSetId=val;
                 fieldsSet|=1;
                 return this;
+            }
+            public gnu.trove.list.array.TIntArrayList getFieldIds() {
+                return this.fieldIds;
             }
             public FieldSetDef addFieldId(int val) {
                 if(this.fieldIds==null) {
@@ -435,10 +444,16 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public int getFieldId() {
+                return this.fieldId;
+            }
             public FieldIdDef setFieldId(int val) {
                 this.fieldId=val;
                 fieldsSet|=1;
                 return this;
+            }
+            public CharSequence getFieldName() {
+                return this.fieldName;
             }
             public StringBuilder initFieldName() {
                 if (null==fieldName) {
@@ -873,10 +888,16 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public int getFieldId() {
+                return this.fieldId;
+            }
             public FieldAndValue setFieldId(int val) {
                 this.fieldId=val;
                 fieldsSet|=1;
                 return this;
+            }
+            public CharSequence get_string() {
+                return this._string;
             }
             public StringBuilder init_string() {
                 if (null==_string) {
@@ -895,11 +916,17 @@ import com.google.protobuf.CodedOutputStream;
                 oneOf_0=OneOf_0._string;
                 return this;
             }
+            public int get_int32() {
+                return this._int32;
+            }
             public FieldAndValue set_int32(int val) {
                 this._int32=val;
                 fieldsSet|=4;
                 oneOf_0=OneOf_0._int32;
                 return this;
+            }
+            public long get_int64() {
+                return this._int64;
             }
             public FieldAndValue set_int64(long val) {
                 this._int64=val;
@@ -907,11 +934,17 @@ import com.google.protobuf.CodedOutputStream;
                 oneOf_0=OneOf_0._int64;
                 return this;
             }
+            public boolean get_bool() {
+                return this._bool;
+            }
             public FieldAndValue set_bool(boolean val) {
                 this._bool=val;
                 fieldsSet|=16;
                 oneOf_0=OneOf_0._bool;
                 return this;
+            }
+            public double get_double() {
+                return this._double;
             }
             public FieldAndValue set_double(double val) {
                 this._double=val;
@@ -919,17 +952,26 @@ import com.google.protobuf.CodedOutputStream;
                 oneOf_0=OneOf_0._double;
                 return this;
             }
+            public float get_float() {
+                return this._float;
+            }
             public FieldAndValue set_float(float val) {
                 this._float=val;
                 fieldsSet|=64;
                 oneOf_0=OneOf_0._float;
                 return this;
             }
+            public int get_ts() {
+                return this._ts;
+            }
             public FieldAndValue set_ts(int val) {
                 this._ts=val;
                 fieldsSet|=128;
                 oneOf_0=OneOf_0._ts;
                 return this;
+            }
+            public StringList get_stringList() {
+                return this._stringList;
             }
             public StringList create_stringList() {
                 return pool.take(StringList.class);
@@ -949,6 +991,9 @@ import com.google.protobuf.CodedOutputStream;
                 fieldsSet|=256;
                 oneOf_0=OneOf_0._stringList;
                 return this;
+            }
+            public NullValue get_null() {
+                return this._null;
             }
             public NullValue create_null() {
                 return pool.take(NullValue.class);
@@ -1238,6 +1283,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public CharSequence getSymbol() {
+                return this.symbol;
+            }
             public StringBuilder initSymbol() {
                 if (null==symbol) {
                     symbol=pool.take(StringBuilder.class);
@@ -1254,25 +1302,40 @@ import com.google.protobuf.CodedOutputStream;
                 fieldsSet|=1;
                 return this;
             }
+            public int getSymbolId() {
+                return this.symbolId;
+            }
             public DataMessage setSymbolId(int val) {
                 this.symbolId=val;
                 fieldsSet|=2;
                 return this;
+            }
+            public long getTs() {
+                return this.ts;
             }
             public DataMessage setTs(long val) {
                 this.ts=val;
                 fieldsSet|=4;
                 return this;
             }
+            public int getSmallTs() {
+                return this.smallTs;
+            }
             public DataMessage setSmallTs(int val) {
                 this.smallTs=val;
                 fieldsSet|=8;
                 return this;
             }
+            public int getFieldSetId() {
+                return this.fieldSetId;
+            }
             public DataMessage setFieldSetId(int val) {
                 this.fieldSetId=val;
                 fieldsSet|=16;
                 return this;
+            }
+            public FieldSetDef getDefineFieldSet() {
+                return this.defineFieldSet;
             }
             public FieldSetDef createDefineFieldSet() {
                 return pool.take(FieldSetDef.class);
@@ -1291,6 +1354,9 @@ import com.google.protobuf.CodedOutputStream;
                 this.defineFieldSet=val;
                 fieldsSet|=32;
                 return this;
+            }
+            public java.util.List<FieldIdDef> getFieldIdDefs() {
+                return this.fieldIdDefs;
             }
             public FieldIdDef createFieldIdDef() {
                 return pool.take(FieldIdDef.class);
@@ -1314,6 +1380,9 @@ import com.google.protobuf.CodedOutputStream;
             }
             public int getFieldIdDefsSize() {
                 return fieldIdDefs.size();
+            }
+            public java.util.List<FieldAndValue> getValues() {
+                return this.values;
             }
             public FieldAndValue createValue() {
                 return pool.take(FieldAndValue.class);
@@ -1485,6 +1554,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public java.util.List<? extends CharSequence> getSymbols() {
+                return this.symbols;
+            }
             public SubscriberMessagePriority addSymbol(CharSequence val) {
                 if(this.symbols==null) {
                     this.symbols=pool.takeList();
@@ -1508,10 +1580,16 @@ import com.google.protobuf.CodedOutputStream;
             public int getSymbolsSize() {
                 return symbols.size();
             }
+            public int getPri() {
+                return this.pri;
+            }
             public SubscriberMessagePriority setPri(int val) {
                 this.pri=val;
                 fieldsSet|=2;
                 return this;
+            }
+            public long getUntil() {
+                return this.until;
             }
             public SubscriberMessagePriority setUntil(long val) {
                 this.until=val;
@@ -1665,6 +1743,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public java.util.List<? extends CharSequence> getSymbols() {
+                return this.symbols;
+            }
             public SubscriberMessageSubscribe addSymbol(CharSequence val) {
                 if(this.symbols==null) {
                     this.symbols=pool.takeList();
@@ -1688,10 +1769,16 @@ import com.google.protobuf.CodedOutputStream;
             public int getSymbolsSize() {
                 return symbols.size();
             }
+            public int getPri() {
+                return this.pri;
+            }
             public SubscriberMessageSubscribe setPri(int val) {
                 this.pri=val;
                 fieldsSet|=2;
                 return this;
+            }
+            public long getUntil() {
+                return this.until;
             }
             public SubscriberMessageSubscribe setUntil(long val) {
                 this.until=val;
@@ -1811,6 +1898,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public double getMessagesPerSec() {
+                return this.messagesPerSec;
+            }
             public SubscriberMessageQueueRate setMessagesPerSec(double val) {
                 this.messagesPerSec=val;
                 fieldsSet|=1;
@@ -1928,6 +2018,9 @@ import com.google.protobuf.CodedOutputStream;
                         break;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
+            }
+            public int getBytes() {
+                return this.bytes;
             }
             public SubscriberMessageFlow setBytes(int val) {
                 this.bytes=val;
@@ -2179,6 +2272,9 @@ import com.google.protobuf.CodedOutputStream;
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
             }
+            public SubscriberMessagePriority getPriority() {
+                return this.priority;
+            }
             public SubscriberMessagePriority createPriority() {
                 return pool.take(SubscriberMessagePriority.class);
             }
@@ -2197,6 +2293,9 @@ import com.google.protobuf.CodedOutputStream;
                 fieldsSet|=1;
                 oneOf_0=OneOf_0.priority;
                 return this;
+            }
+            public SubscriberMessageSubscribe getSubscribe() {
+                return this.subscribe;
             }
             public SubscriberMessageSubscribe createSubscribe() {
                 return pool.take(SubscriberMessageSubscribe.class);
@@ -2217,6 +2316,9 @@ import com.google.protobuf.CodedOutputStream;
                 oneOf_0=OneOf_0.subscribe;
                 return this;
             }
+            public SubscriberMessageQueueRate getQueueRate() {
+                return this.queueRate;
+            }
             public SubscriberMessageQueueRate createQueueRate() {
                 return pool.take(SubscriberMessageQueueRate.class);
             }
@@ -2235,6 +2337,9 @@ import com.google.protobuf.CodedOutputStream;
                 fieldsSet|=4;
                 oneOf_0=OneOf_0.queueRate;
                 return this;
+            }
+            public SubscriberMessageFlow getFlow() {
+                return this.flow;
             }
             public SubscriberMessageFlow createFlow() {
                 return pool.take(SubscriberMessageFlow.class);
@@ -2377,6 +2482,9 @@ import com.google.protobuf.CodedOutputStream;
                 switch(field) {
                     default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
                 }
+            }
+            public java.util.List<SubscriberMessagePart> getMessageParts() {
+                return this.messageParts;
             }
             public SubscriberMessagePart createMessagePart() {
                 return pool.take(SubscriberMessagePart.class);
