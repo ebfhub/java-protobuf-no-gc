@@ -30,7 +30,7 @@ class JavaOutput {
 
     void line(String l) {
 
-        if (l.contains("}")) {
+        if (l.contains("}")&&!l.contains("{")) {
             pop(IndentType.BRACE);
         }
         for (int n = 0; n < indent.size(); n++) {
@@ -39,7 +39,7 @@ class JavaOutput {
         sb.append(l.trim());
         sb.append("\n");
 
-        if (l.contains("{")) {
+        if (l.contains("{")&&!l.contains("}")) {
             push(IndentType.BRACE);
         }
         if ((l.contains("case ") || l.contains("default:")) ) {
