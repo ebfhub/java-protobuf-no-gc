@@ -44,7 +44,8 @@ public class TestFastProtoGenerator {
 
         Class inner = uCompiler.getCompiledClass(fullName+"$DataMessage");
         FastProtoObjectPool pool = new FastProtoObjectPool();
-        FastProtoSetter o = (FastProtoSetter)inner.getMethod("create",FastProtoObjectPool.class).invoke(null,pool);
+        FastProtoMessage oo = (FastProtoMessage)inner.getMethod("create",FastProtoObjectPool.class).invoke(null,pool);
+        FastProtoSetter o = oo.getSetter();
 
         Map<Integer,FastProtoField> found = new HashMap<>();
         Map<Integer,Object> values = new HashMap<>();

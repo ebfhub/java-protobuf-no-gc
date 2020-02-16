@@ -53,7 +53,7 @@ public class FastProtoSampleMain {
         FastProtoObjectPool pool= reader.getPool();
 
         SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
-        reader.parse(is,msg1);
+        reader.parse(is,msg1.getSetter());
 
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();

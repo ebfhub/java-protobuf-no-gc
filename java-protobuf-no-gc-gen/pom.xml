@@ -7,7 +7,7 @@
         <groupId>com.github.ebfhub</groupId>
         <version>1.0.1</version>
     </parent>
-    <version>1.0.1</version>
+    <version>${java-protobuf-version}</version>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>java-protobuf-no-gc-gen</artifactId>
 
@@ -23,7 +23,6 @@
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
-        <salesforce.version>1.0.1</salesforce.version>
         <trove.version>3.0.3</trove.version>
     </properties>
 

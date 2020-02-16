@@ -75,13 +75,12 @@ public class FastProtoObjectPool {
         o.setLength(0);
         stringBuilderPool.add(o);
     }
-    public void returnSpecific(FastProtoSetter o) {
+    public void returnSpecific(FastProtoMessage o) {
         o.clear();
         Class<?> cl = o.getClass();
         PoolInstance l = getPoolInstance(cl);
         l.add(o);
     }
-
     private PoolInstance getPoolInstance(Class<?> cl) {
         PoolInstance l = pool.get(cl);
         if (l == null) {
@@ -100,8 +99,8 @@ public class FastProtoObjectPool {
         arrayListPool.add(o);
     }
     private void clear(Object o) {
-        if( o instanceof FastProtoSetter){
-            ((FastProtoSetter) o).clear();
+        if( o instanceof FastProtoMessage){
+            ((FastProtoMessage) o).clear();
         } else if ( o instanceof List){
             //noinspection rawtypes
             clearList((List)o);

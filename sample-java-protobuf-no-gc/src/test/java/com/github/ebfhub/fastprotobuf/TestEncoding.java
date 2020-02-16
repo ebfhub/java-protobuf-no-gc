@@ -46,7 +46,7 @@ public class TestEncoding {
 
 
         SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
-        reader.parse(is,msg1);
+        reader.parse(is,msg1.getSetter());
 
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
@@ -74,7 +74,6 @@ public class TestEncoding {
 
         for(int n=0;n<4;n++) {
             msg2.clear();
-
             msg2
                     .setSymbol("sym12")
                     .setTs(System.currentTimeMillis())
@@ -104,13 +103,10 @@ public class TestEncoding {
                 assertArrayEquals("eq=" + new String(tmp), tmp, bytes3);
             }
             bytes3 = tmp;
-            System.gc();
 
             byte[] tmp1=os1.getBytes();
             int tmpLen = os1.size();
-            mis.setBytes(tmp1,tmpLen);
-            msg3.clear();
-            reader.parse(is3,msg3);
+            reader.readItem(msg3,tmp1,0,tmpLen);
         }
     }
 }

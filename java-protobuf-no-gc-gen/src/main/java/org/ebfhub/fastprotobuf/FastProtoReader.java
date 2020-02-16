@@ -110,7 +110,7 @@ public class FastProtoReader {
                         case MESSAGE:
                         {
                             int l = is.pushLimit(size);
-                            parse(is,setter.field_add(field));
+                            parse(is,setter.field_add(field).getSetter());
                             is.popLimit(l);
                         }
                         break;
@@ -132,11 +132,11 @@ public class FastProtoReader {
     MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
     CodedInputStream is3=CodedInputStream.newInstance(mis);
 
-    public void readItem(FastProtoSetter val, byte[] b, int offset, int len) throws IOException {
+    public void readItem(FastProtoMessage val, byte[] b, int offset, int len) throws IOException {
         val.clear();
         mis.setBytes(b,offset,len);
 
-        parse(is3,val);
+        parse(is3,val.getSetter());
         is3.resetSizeCounter();
     }
 }

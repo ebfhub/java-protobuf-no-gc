@@ -7,7 +7,7 @@
         <groupId>com.github.ebfhub</groupId>
         <version>1.0.1</version>
     </parent>
-    <version>1.0.1</version>
+    <version>${java-protobuf-version}</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sample-java-protobuf-no-gc</artifactId>
@@ -91,7 +91,7 @@
                                     <id>java8</id>
                                     <groupId>com.github.ebfhub</groupId>
                                     <artifactId>java-protobuf-no-gc-gen</artifactId>
-                                    <version>1.0</version>
+                                    <version>${java-protobuf-version}</version>
                                     <mainClass>org.ebfhub.fastprotobuf.FastProtoGenerator</mainClass>
                                 </protocPlugin>
 
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>com.salesforce.servicelibs</groupId>
             <artifactId>jprotoc</artifactId>
-            <version>1.0.1</version>
+            <version>${salesforce.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -149,7 +149,7 @@
         <dependency>
             <groupId>com.github.ebfhub</groupId>
             <artifactId>java-protobuf-no-gc-gen</artifactId>
-            <version>1.0.1</version>
+            <version>${java-protobuf-version}</version>
         </dependency>
         <dependency>
             <groupId>gnu.trove</groupId>

@@ -25,6 +25,7 @@
     <version>1.0.1</version>
 
     <properties>
+        <java-protobuf-version>1.0.1</java-protobuf-version>
         <slf4jVersion>1.6.5</slf4jVersion>
         <lombok.version>1.14.8</lombok.version>
         <protobuf.input.directory>${project.basedir}/src/main/proto</protobuf.input.directory>
@@ -36,9 +37,7 @@
         <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
         <protobuf.version>3.7.1</protobuf.version>
-
-
-
+        <salesforce.version>1.0.1</salesforce.version>
     </properties>
 
     <distributionManagement>

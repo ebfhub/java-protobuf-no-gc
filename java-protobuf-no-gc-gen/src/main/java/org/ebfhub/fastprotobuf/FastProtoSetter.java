@@ -61,9 +61,9 @@ public interface FastProtoSetter {
      * Add a message field, returning a setter component
      *
      * @param field a int.
-     * @return a {@link org.ebfhub.fastprotobuf.FastProtoSetter} object.
+     * @return a {@link org.ebfhub.fastprotobuf.FastProtoMessage} object.
      */
-    FastProtoSetter field_add(int field);
+    FastProtoMessage field_add(int field);
 
     /**
      * Get definition for a field.
@@ -84,11 +84,4 @@ public interface FastProtoSetter {
      *
      */
     void clear();
-
-    /**
-     * Get the pool
-     * @return pool a {@link FastProtoObjectPool} object.
-     */
-    FastProtoObjectPool getPool();
-
 }
