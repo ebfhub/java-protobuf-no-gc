@@ -552,6 +552,9 @@ public class FastProtoGenerator extends Generator {
      * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
      * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
      * @param byType a {@link java.util.Map} object.
+     * @param thisClass What to use for link
+     * @param makePrivate Make the fn private
+     * @param defer Defer to main class
      */
     public void createSet(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType, String thisClass, boolean makePrivate, boolean defer) {
         for(Map.Entry<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> b : byType.entrySet()){
@@ -637,6 +640,9 @@ public class FastProtoGenerator extends Generator {
      * @param sb a {@link org.ebfhub.fastprotobuf.JavaOutput} object.
      * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
      * @param byType a {@link java.util.Map} object.
+     * @param thisClass What to use for link
+     * @param makePrivate Make the fn private
+     * @param defer Defer to main class
      */
     public void createAdd(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType, String thisClass, boolean makePrivate, boolean defer) {
 
@@ -763,6 +769,7 @@ public class FastProtoGenerator extends Generator {
      * @param field a {@link com.google.protobuf.DescriptorProtos.FieldDescriptorProto} object.
      * @param paramName a {@link java.lang.String} object.
      * @param info a {@link org.ebfhub.fastprotobuf.FastProtoGenerator.ClassInfo} object.
+     * @param thisStr Access the current object
      */
     public void addSetValue(JavaOutput sb, TypeInfo typeInfo,
                             DescriptorProtos.FieldDescriptorProto field, String paramName,

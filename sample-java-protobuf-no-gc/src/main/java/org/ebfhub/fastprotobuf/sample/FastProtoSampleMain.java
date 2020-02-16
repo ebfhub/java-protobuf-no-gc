@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @version $Id: $Id
  */
 public class FastProtoSampleMain {
-    /**
+    /**v
      * <p>main.</p>
      *
      * @param args an array of {@link java.lang.String} objects.

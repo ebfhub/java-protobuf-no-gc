@@ -3,7 +3,6 @@ package org.ebfhub.fastprotobuf;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +40,7 @@ public class FastProtoWriter {
 
     private static class Helper
     {
-        // TODO move to no-sync reusable buffer
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(){
-            @Override
-            public synchronized byte[] toByteArray() {
-                return buf;
-            }
-        };
+        ReusableByteArrayOutputStream bos = new ReusableByteArrayOutputStream();
         CodedOutputStream os = CodedOutputStream.newInstance(bos);
     }
     private List<Helper> pool=new ArrayList<>();
@@ -85,7 +78,7 @@ public class FastProtoWriter {
             os.writeTag(field, WireFormat.WIRETYPE_LENGTH_DELIMITED);
             os.writeUInt32NoTag(bytes);
 
-            os.writeLazy(h.bos.toByteArray(), 0, bytes);
+            os.writeLazy(h.bos.getBytes(), 0, bytes);
         }
         finally {
             pool.add(h);

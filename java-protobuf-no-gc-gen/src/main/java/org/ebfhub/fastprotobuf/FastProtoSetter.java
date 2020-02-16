@@ -69,6 +69,7 @@ public interface FastProtoSetter {
      * Get definition for a field.
      *
      * @param field a int.
+     * @return Field definition
      */
     FastProtoField field_getDef(int field);
 

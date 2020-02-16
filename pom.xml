@@ -22,10 +22,10 @@
     </scm>
     <artifactId>java-protobuf-no-gc</artifactId>
     <groupId>com.github.ebfhub</groupId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <properties>
-        <java-protobuf-version>1.0.2</java-protobuf-version>
+        <java-protobuf-version>1.0.3</java-protobuf-version>
         <slf4jVersion>1.6.5</slf4jVersion>
         <lombok.version>1.14.8</lombok.version>
         <protobuf.input.directory>${project.basedir}/src/main/proto</protobuf.input.directory>
@@ -38,6 +38,7 @@
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
         <protobuf.version>3.7.1</protobuf.version>
         <salesforce.version>1.0.1</salesforce.version>
+        <trove.version>3.0.3</trove.version>
     </properties>
 
     <distributionManagement>
@@ -45,11 +46,6 @@
             <id>api.wiki</id>
             <url>https://github.com/ebfhub/java-protobuf-no-gc</url>
         </site>
-<!--        <repository>-->
-<!--            <id>github</id>-->
-<!--            <name>github</name>-->
-<!--            <url>https://maven.pkg.github.com/ebfhub/java-protobuf-no-gc</url>-->
-<!--        </repository>-->
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>

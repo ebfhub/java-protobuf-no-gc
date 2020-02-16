@@ -5,7 +5,7 @@
     <parent>
         <artifactId>java-protobuf-no-gc</artifactId>
         <groupId>com.github.ebfhub</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <version>${java-protobuf-version}</version>
     <modelVersion>4.0.0</modelVersion>
@@ -152,17 +152,9 @@
             <version>${java-protobuf-version}</version>
         </dependency>
         <dependency>
-            <groupId>gnu.trove</groupId>
-            <artifactId>trove</artifactId>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
             <version>${trove.version}</version>
-
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>zoidberg</id>
-            <name>zoidberg</name>
-            <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
-        </repository>
-    </repositories>
 </project>

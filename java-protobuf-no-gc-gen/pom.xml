@@ -5,7 +5,7 @@
     <parent>
         <artifactId>java-protobuf-no-gc</artifactId>
         <groupId>com.github.ebfhub</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <version>${java-protobuf-version}</version>
     <modelVersion>4.0.0</modelVersion>
@@ -23,7 +23,6 @@
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
         <os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
-        <trove.version>3.0.3</trove.version>
     </properties>
 
 
@@ -45,20 +44,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>gnu.trove</groupId>
-            <artifactId>trove</artifactId>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
             <version>${trove.version}</version>
-
         </dependency>
 
     </dependencies>
-    <repositories>
-        <repository>
-            <id>zoidberg</id>
-            <name>zoidberg</name>
-            <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
-        </repository>
-    </repositories>
 
     <build>
         <finalName>fast-proto</finalName>
@@ -103,7 +94,14 @@
                     </archive>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
