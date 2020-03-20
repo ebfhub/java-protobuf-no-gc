@@ -20,7 +20,7 @@ public class MutableByteArrayInputStream extends InputStream
         if(pos==len){
             return -1;
         }
-        return buf[pos++];
+        return buf[pos++]&0xff;
     }
 
     /**
@@ -44,7 +44,7 @@ public class MutableByteArrayInputStream extends InputStream
      */
     public void setBytes(byte[] tmp, int offset, int tmpLen) {
         buf=tmp;
-        len=tmpLen;
+        len=tmpLen+offset;
         pos=offset;
     }
 }

@@ -147,4 +147,9 @@ public class FastProtoReader {
         parse(is3,val.getSetter());
         is3.resetSizeCounter();
     }
+
+    public void readItem(FastProtoMessage val, CodedInputStream is3) throws IOException {
+        val.clear();
+        parse(is3,val.getSetter());
+    }
 }
