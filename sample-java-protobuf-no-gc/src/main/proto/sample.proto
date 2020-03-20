@@ -39,10 +39,11 @@ message FieldAndValue {
 message DataMessage {
   string symbol = 1;                        // String symbol
   int32 symbolId = 2;                       // Numeric equivalent (used for smaller msgs)
-  int64 ts = 3;                             // TS
-  int32 smallTs = 4;                        // Since last ts/sod?
-  int32 fieldSetId = 5;                       // Set of fields
-  FieldSetDef defineFieldSet = 6;                 // Define of fields
+  int64 sourceTs = 3;                       // ms TS
+  int32 messageId = 4;                      // Numeric incrementing message ID
+  int64 sentTs = 5;                         // ms TS
+  int32 fieldSetId = 7;                     // Set of fields
+  FieldSetDef defineFieldSet = 8;           // Define of fields
   repeated FieldIdDef fieldIdDefs = 9;
   repeated FieldAndValue values = 10;
 }
@@ -56,7 +57,6 @@ message SubscriberMessagePriority {
 message SubscriberMessageSubscribe {
     repeated string symbols = 1;
     int32 pri = 2;
-    int64 until = 3;
 }
 message SubscriberMessageQueueRate {
     double messagesPerSec = 1;
@@ -76,5 +76,4 @@ message SubscriberMessagePart {
 
 message SubscriberMessage {
     repeated SubscriberMessagePart messageParts = 1;
-
 }

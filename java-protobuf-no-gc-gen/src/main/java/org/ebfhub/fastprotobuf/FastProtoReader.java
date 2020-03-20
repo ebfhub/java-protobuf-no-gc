@@ -102,9 +102,17 @@ public class FastProtoReader {
                                 byte b = is.readRawByte();
                                 bb[n]=b;
                             }
-                            StringBuilder sb = setter.field_builder(field);
-                            sb.setLength(0);
-                            Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+                            if(fd.repeated){
+                                StringBuilder sb = setter.field_add_builder(field);
+                                sb.setLength(0);
+                                Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+
+                            } else {
+                                StringBuilder sb = setter.field_builder(field);
+                                sb.setLength(0);
+                                Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+
+                            }
                         }
                         break;
                         case MESSAGE:

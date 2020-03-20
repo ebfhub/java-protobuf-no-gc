@@ -79,12 +79,6 @@ public class SampleMessageFast {
                 StringList.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 StringList.this.field_set(field,val);
             }
@@ -95,6 +89,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 StringList.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return StringList.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -138,11 +136,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -158,6 +151,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum.strings:
+                    this.fieldsSet|=1;
+                    if(this.strings==null) {
+                        this.strings=pool.takeList();
+                    }
+                    this.fieldsSet|=1;
+                    StringBuilder sb = pool.take(StringBuilder.class);
+                    this.strings.add(sb);
+                    return sb;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
 
         public java.util.List<? extends CharSequence> getStrings() {
             return this.strings;
@@ -166,12 +173,14 @@ public class SampleMessageFast {
             if(this.strings==null) {
                 this.strings=pool.takeList();
             }
+            this.fieldsSet|=1;
             StringBuilder sb = pool.take(StringBuilder.class);
             sb.append(val);
             this.strings.add(sb);
             return this;
         }
         public StringList addStrings(java.util.List<? extends CharSequence> vals) {
+            this.fieldsSet|=1;
             if(this.strings==null) {
                 this.strings=pool.takeList();
             }
@@ -270,12 +279,6 @@ public class SampleMessageFast {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 FieldSetDef.this.field_set(field,val);
             }
@@ -286,6 +289,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 FieldSetDef.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return FieldSetDef.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -330,11 +337,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -354,6 +356,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
 
         public int getFieldSetId() {
             return this.fieldSetId;
@@ -370,10 +377,12 @@ public class SampleMessageFast {
             if(this.fieldIds==null) {
                 this.fieldIds=pool.takeIntList();
             }
+            this.fieldsSet|=2;
             this.fieldIds.add(val);
             return this;
         }
         public FieldSetDef addFieldIds(gnu.trove.list.array.TIntArrayList vals) {
+            this.fieldsSet|=2;
             if(this.fieldIds==null) {
                 this.fieldIds=pool.takeIntList();
             }
@@ -468,18 +477,6 @@ public class SampleMessageFast {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    case FieldNum.fieldName:
-                        FieldIdDef.this.fieldsSet|=2;
-                        if(FieldIdDef.this.fieldName==null) {
-                            FieldIdDef.this.fieldName = pool.take(StringBuilder.class);
-                        }
-                        return FieldIdDef.this.fieldName;
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 FieldIdDef.this.field_set(field,val);
             }
@@ -490,6 +487,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 FieldIdDef.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return FieldIdDef.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -534,17 +535,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                case FieldNum.fieldName:
-                    this.fieldsSet|=2;
-                    if(this.fieldName==null) {
-                        this.fieldName = pool.take(StringBuilder.class);
-                    }
-                    return this.fieldName;
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -562,6 +552,17 @@ public class SampleMessageFast {
                     fieldsSet|=1;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum.fieldName:
+                    this.fieldsSet|=2;
+                    if(this.fieldName==null) {
+                        this.fieldName = pool.take(StringBuilder.class);
+                    }
+                    return this.fieldName;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -649,12 +650,6 @@ public class SampleMessageFast {
                 NullValue.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 NullValue.this.field_set(field,val);
             }
@@ -665,6 +660,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 NullValue.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return NullValue.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -707,11 +706,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -725,6 +719,11 @@ public class SampleMessageFast {
         private void field_set(int field, int val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -926,18 +925,6 @@ public class SampleMessageFast {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    case FieldNum._string:
-                        FieldAndValue.this.fieldsSet=FieldAndValue.this.fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList|FieldBit._null)|FieldBit._string;
-                        if(FieldAndValue.this._string==null) {
-                            FieldAndValue.this._string = pool.take(StringBuilder.class);
-                        }
-                        return FieldAndValue.this._string;
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 FieldAndValue.this.field_set(field,val);
             }
@@ -951,6 +938,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 FieldAndValue.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return FieldAndValue.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -1038,17 +1029,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                case FieldNum._string:
-                    this.fieldsSet=this.fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList|FieldBit._null)|FieldBit._string;
-                    if(this._string==null) {
-                        this._string = pool.take(StringBuilder.class);
-                    }
-                    return this._string;
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 case FieldNum._float:
@@ -1099,6 +1079,17 @@ public class SampleMessageFast {
                     oneOf=OneOf._ts;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum._string:
+                    this.fieldsSet=this.fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList|FieldBit._null)|FieldBit._string;
+                    if(this._string==null) {
+                        this._string = pool.take(StringBuilder.class);
+                    }
+                    return this._string;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -1234,8 +1225,9 @@ public class SampleMessageFast {
         private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
         private StringBuilder symbol;
         private int symbolId;
-        private long ts;
-        private int smallTs;
+        private long sourceTs;
+        private int messageId;
+        private long sentTs;
         private int fieldSetId;
         private FieldSetDef defineFieldSet;
         private java.util.ArrayList<FieldIdDef> fieldIdDefs;
@@ -1256,29 +1248,32 @@ public class SampleMessageFast {
         private static class FieldNum {
             static final int symbol=1;
             static final int symbolId=2;
-            static final int ts=3;
-            static final int smallTs=4;
-            static final int fieldSetId=5;
-            static final int defineFieldSet=6;
+            static final int sourceTs=3;
+            static final int messageId=4;
+            static final int sentTs=5;
+            static final int fieldSetId=7;
+            static final int defineFieldSet=8;
             static final int fieldIdDefs=9;
             static final int values=10;
         }
         private static class FieldBit {
             static final int symbol=1;
             static final int symbolId=2;
-            static final int ts=4;
-            static final int smallTs=8;
-            static final int fieldSetId=16;
-            static final int defineFieldSet=32;
-            static final int fieldIdDefs=64;
-            static final int values=128;
+            static final int sourceTs=4;
+            static final int messageId=8;
+            static final int sentTs=16;
+            static final int fieldSetId=32;
+            static final int defineFieldSet=64;
+            static final int fieldIdDefs=128;
+            static final int values=256;
         }
 
         public static class Field {
             public static org.ebfhub.fastprotobuf.FastProtoField symbol=new org.ebfhub.fastprotobuf.FastProtoField("symbol",FieldNum.symbol,FieldBit.symbol,WireFormat.FieldType.STRING,false,null);
             public static org.ebfhub.fastprotobuf.FastProtoField symbolId=new org.ebfhub.fastprotobuf.FastProtoField("symbolId",FieldNum.symbolId,FieldBit.symbolId,WireFormat.FieldType.INT32,false,null);
-            public static org.ebfhub.fastprotobuf.FastProtoField ts=new org.ebfhub.fastprotobuf.FastProtoField("ts",FieldNum.ts,FieldBit.ts,WireFormat.FieldType.INT64,false,null);
-            public static org.ebfhub.fastprotobuf.FastProtoField smallTs=new org.ebfhub.fastprotobuf.FastProtoField("smallTs",FieldNum.smallTs,FieldBit.smallTs,WireFormat.FieldType.INT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField sourceTs=new org.ebfhub.fastprotobuf.FastProtoField("sourceTs",FieldNum.sourceTs,FieldBit.sourceTs,WireFormat.FieldType.INT64,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField messageId=new org.ebfhub.fastprotobuf.FastProtoField("messageId",FieldNum.messageId,FieldBit.messageId,WireFormat.FieldType.INT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField sentTs=new org.ebfhub.fastprotobuf.FastProtoField("sentTs",FieldNum.sentTs,FieldBit.sentTs,WireFormat.FieldType.INT64,false,null);
             public static org.ebfhub.fastprotobuf.FastProtoField fieldSetId=new org.ebfhub.fastprotobuf.FastProtoField("fieldSetId",FieldNum.fieldSetId,FieldBit.fieldSetId,WireFormat.FieldType.INT32,false,null);
             public static org.ebfhub.fastprotobuf.FastProtoField defineFieldSet=new org.ebfhub.fastprotobuf.FastProtoField("defineFieldSet",FieldNum.defineFieldSet,FieldBit.defineFieldSet,WireFormat.FieldType.MESSAGE,false,FieldSetDef.class);
             public static org.ebfhub.fastprotobuf.FastProtoField fieldIdDefs=new org.ebfhub.fastprotobuf.FastProtoField("fieldIdDefs",FieldNum.fieldIdDefs,FieldBit.fieldIdDefs,WireFormat.FieldType.MESSAGE,true,FieldIdDef.class);
@@ -1300,13 +1295,17 @@ public class SampleMessageFast {
                 if(sb.length()>0) sb.append(";");
                 sb.append("symbolId=").append(symbolId);
             }
-            if((fieldsSet & FieldBit.ts)!=0) {
+            if((fieldsSet & FieldBit.sourceTs)!=0) {
                 if(sb.length()>0) sb.append(";");
-                sb.append("ts=").append(ts);
+                sb.append("sourceTs=").append(sourceTs);
             }
-            if((fieldsSet & FieldBit.smallTs)!=0) {
+            if((fieldsSet & FieldBit.messageId)!=0) {
                 if(sb.length()>0) sb.append(";");
-                sb.append("smallTs=").append(smallTs);
+                sb.append("messageId=").append(messageId);
+            }
+            if((fieldsSet & FieldBit.sentTs)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("sentTs=").append(sentTs);
             }
             if((fieldsSet & FieldBit.fieldSetId)!=0) {
                 if(sb.length()>0) sb.append(";");
@@ -1353,11 +1352,14 @@ public class SampleMessageFast {
             if((fieldsSet & FieldBit.symbolId)!=0) {
                 os.writeSInt32(FieldNum.symbolId,symbolId);
             }
-            if((fieldsSet & FieldBit.ts)!=0) {
-                os.writeSInt64(FieldNum.ts,ts);
+            if((fieldsSet & FieldBit.sourceTs)!=0) {
+                os.writeSInt64(FieldNum.sourceTs,sourceTs);
             }
-            if((fieldsSet & FieldBit.smallTs)!=0) {
-                os.writeSInt32(FieldNum.smallTs,smallTs);
+            if((fieldsSet & FieldBit.messageId)!=0) {
+                os.writeSInt32(FieldNum.messageId,messageId);
+            }
+            if((fieldsSet & FieldBit.sentTs)!=0) {
+                os.writeSInt64(FieldNum.sentTs,sentTs);
             }
             if((fieldsSet & FieldBit.fieldSetId)!=0) {
                 os.writeSInt32(FieldNum.fieldSetId,fieldSetId);
@@ -1393,18 +1395,6 @@ public class SampleMessageFast {
                 DataMessage.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    case FieldNum.symbol:
-                        DataMessage.this.fieldsSet|=1;
-                        if(DataMessage.this.symbol==null) {
-                            DataMessage.this.symbol = pool.take(StringBuilder.class);
-                        }
-                        return DataMessage.this.symbol;
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 DataMessage.this.field_set(field,val);
             }
@@ -1420,12 +1410,17 @@ public class SampleMessageFast {
                 DataMessage.this.field_set(field,val);
             }
             @Override
+            public StringBuilder field_builder(int field) {
+                return DataMessage.this.field_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.symbol: return Field.symbol;
                     case FieldNum.symbolId: return Field.symbolId;
-                    case FieldNum.ts: return Field.ts;
-                    case FieldNum.smallTs: return Field.smallTs;
+                    case FieldNum.sourceTs: return Field.sourceTs;
+                    case FieldNum.messageId: return Field.messageId;
+                    case FieldNum.sentTs: return Field.sentTs;
                     case FieldNum.fieldSetId: return Field.fieldSetId;
                     case FieldNum.defineFieldSet: return Field.defineFieldSet;
                     case FieldNum.fieldIdDefs: return Field.fieldIdDefs;
@@ -1434,7 +1429,7 @@ public class SampleMessageFast {
                 }
             }
 
-            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.symbol, Field.symbolId, Field.ts, Field.smallTs, Field.fieldSetId, Field.defineFieldSet, Field.fieldIdDefs, Field.values);
+            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.symbol, Field.symbolId, Field.sourceTs, Field.messageId, Field.sentTs, Field.fieldSetId, Field.defineFieldSet, Field.fieldIdDefs, Field.values);
 
             @Override
             public java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_getAll(){
@@ -1459,7 +1454,7 @@ public class SampleMessageFast {
                     if (null==fieldIdDefs) {
                         fieldIdDefs=pool.takeList();
                     }
-                    fieldsSet|=64;
+                    fieldsSet|=128;
                     FieldIdDef fieldIdDefs_res = pool.take(FieldIdDef.class);
                     fieldIdDefs.add(fieldIdDefs_res);
                     return fieldIdDefs_res;
@@ -1467,7 +1462,7 @@ public class SampleMessageFast {
                     if (null==values) {
                         values=pool.takeList();
                     }
-                    fieldsSet|=128;
+                    fieldsSet|=256;
                     FieldAndValue values_res = pool.take(FieldAndValue.class);
                     values.add(values_res);
                     return values_res;
@@ -1482,9 +1477,13 @@ public class SampleMessageFast {
         }
         private void field_set(int field, long val) {
             switch(field) {
-                case FieldNum.ts:
-                    this.ts=val;
+                case FieldNum.sourceTs:
+                    this.sourceTs=val;
                     fieldsSet|=4;
+                    break;
+                case FieldNum.sentTs:
+                    this.sentTs=val;
+                    fieldsSet|=16;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
@@ -1492,17 +1491,6 @@ public class SampleMessageFast {
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                case FieldNum.symbol:
-                    this.fieldsSet|=1;
-                    if(this.symbol==null) {
-                        this.symbol = pool.take(StringBuilder.class);
-                    }
-                    return this.symbol;
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
         private void field_set(int field, float val) {
@@ -1517,7 +1505,7 @@ public class SampleMessageFast {
                         pool.returnSpecific(this.defineFieldSet);
                     }
                     this.defineFieldSet=val;
-                    fieldsSet|=32;
+                    fieldsSet|=64;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from FieldSetDef");
             }
@@ -1533,15 +1521,26 @@ public class SampleMessageFast {
                     this.symbolId=val;
                     fieldsSet|=2;
                     break;
-                case FieldNum.smallTs:
-                    this.smallTs=val;
+                case FieldNum.messageId:
+                    this.messageId=val;
                     fieldsSet|=8;
                     break;
                 case FieldNum.fieldSetId:
                     this.fieldSetId=val;
-                    fieldsSet|=16;
+                    fieldsSet|=32;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum.symbol:
+                    this.fieldsSet|=1;
+                    if(this.symbol==null) {
+                        this.symbol = pool.take(StringBuilder.class);
+                    }
+                    return this.symbol;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -1572,20 +1571,28 @@ public class SampleMessageFast {
             fieldsSet|=2;
             return this;
         }
-        public long getTs() {
-            return this.ts;
+        public long getSourceTs() {
+            return this.sourceTs;
         }
-        public DataMessage setTs(long val) {
-            this.ts=val;
+        public DataMessage setSourceTs(long val) {
+            this.sourceTs=val;
             fieldsSet|=4;
             return this;
         }
-        public int getSmallTs() {
-            return this.smallTs;
+        public int getMessageId() {
+            return this.messageId;
         }
-        public DataMessage setSmallTs(int val) {
-            this.smallTs=val;
+        public DataMessage setMessageId(int val) {
+            this.messageId=val;
             fieldsSet|=8;
+            return this;
+        }
+        public long getSentTs() {
+            return this.sentTs;
+        }
+        public DataMessage setSentTs(long val) {
+            this.sentTs=val;
+            fieldsSet|=16;
             return this;
         }
         public int getFieldSetId() {
@@ -1593,7 +1600,7 @@ public class SampleMessageFast {
         }
         public DataMessage setFieldSetId(int val) {
             this.fieldSetId=val;
-            fieldsSet|=16;
+            fieldsSet|=32;
             return this;
         }
         public FieldSetDef getDefineFieldSet() {
@@ -1614,7 +1621,7 @@ public class SampleMessageFast {
                 pool.returnSpecific(this.defineFieldSet);
             }
             this.defineFieldSet=val;
-            fieldsSet|=32;
+            fieldsSet|=64;
             return this;
         }
         public java.util.List<FieldIdDef> getFieldIdDefs() {
@@ -1624,10 +1631,10 @@ public class SampleMessageFast {
             return pool.take(FieldIdDef.class);
         }
         public DataMessage addFieldIdDef(FieldIdDef val) {
+            this.fieldsSet|=128;
             if (null==fieldIdDefs) {
                 fieldIdDefs=pool.takeList();
             }
-            fieldsSet|=64;
             fieldIdDefs.add(val);
             return this;
         }
@@ -1635,7 +1642,7 @@ public class SampleMessageFast {
             if (null==fieldIdDefs) {
                 fieldIdDefs=pool.takeList();
             }
-            fieldsSet|=64;
+            fieldsSet|=128;
             FieldIdDef fieldIdDefs_res = pool.take(FieldIdDef.class);
             fieldIdDefs.add(fieldIdDefs_res);
             return fieldIdDefs_res;
@@ -1650,10 +1657,10 @@ public class SampleMessageFast {
             return pool.take(FieldAndValue.class);
         }
         public DataMessage addValue(FieldAndValue val) {
+            this.fieldsSet|=256;
             if (null==values) {
                 values=pool.takeList();
             }
-            fieldsSet|=128;
             values.add(val);
             return this;
         }
@@ -1661,7 +1668,7 @@ public class SampleMessageFast {
             if (null==values) {
                 values=pool.takeList();
             }
-            fieldsSet|=128;
+            fieldsSet|=256;
             FieldAndValue values_res = pool.take(FieldAndValue.class);
             values.add(values_res);
             return values_res;
@@ -1765,12 +1772,6 @@ public class SampleMessageFast {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
@@ -1781,6 +1782,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessagePriority.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -1830,11 +1835,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -1854,6 +1854,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum.symbols:
+                    this.fieldsSet|=1;
+                    if(this.symbols==null) {
+                        this.symbols=pool.takeList();
+                    }
+                    this.fieldsSet|=1;
+                    StringBuilder sb = pool.take(StringBuilder.class);
+                    this.symbols.add(sb);
+                    return sb;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
 
         public java.util.List<? extends CharSequence> getSymbols() {
             return this.symbols;
@@ -1862,12 +1876,14 @@ public class SampleMessageFast {
             if(this.symbols==null) {
                 this.symbols=pool.takeList();
             }
+            this.fieldsSet|=1;
             StringBuilder sb = pool.take(StringBuilder.class);
             sb.append(val);
             this.symbols.add(sb);
             return this;
         }
         public SubscriberMessagePriority addSymbols(java.util.List<? extends CharSequence> vals) {
+            this.fieldsSet|=1;
             if(this.symbols==null) {
                 this.symbols=pool.takeList();
             }
@@ -1903,7 +1919,6 @@ public class SampleMessageFast {
         private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
         private java.util.ArrayList<StringBuilder> symbols;
         private int pri;
-        private long until;
 
 
         private int fieldsSet=0;
@@ -1920,18 +1935,15 @@ public class SampleMessageFast {
         private static class FieldNum {
             static final int symbols=1;
             static final int pri=2;
-            static final int until=3;
         }
         private static class FieldBit {
             static final int symbols=1;
             static final int pri=2;
-            static final int until=4;
         }
 
         public static class Field {
             public static org.ebfhub.fastprotobuf.FastProtoField symbols=new org.ebfhub.fastprotobuf.FastProtoField("symbols",FieldNum.symbols,FieldBit.symbols,WireFormat.FieldType.STRING,true,null);
             public static org.ebfhub.fastprotobuf.FastProtoField pri=new org.ebfhub.fastprotobuf.FastProtoField("pri",FieldNum.pri,FieldBit.pri,WireFormat.FieldType.INT32,false,null);
-            public static org.ebfhub.fastprotobuf.FastProtoField until=new org.ebfhub.fastprotobuf.FastProtoField("until",FieldNum.until,FieldBit.until,WireFormat.FieldType.INT64,false,null);
         }
 
         public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
@@ -1948,10 +1960,6 @@ public class SampleMessageFast {
             if((fieldsSet & FieldBit.pri)!=0) {
                 if(sb.length()>0) sb.append(";");
                 sb.append("pri=").append(pri);
-            }
-            if((fieldsSet & FieldBit.until)!=0) {
-                if(sb.length()>0) sb.append(";");
-                sb.append("until=").append(until);
             }
             return sb.toString();
         }
@@ -1972,9 +1980,6 @@ public class SampleMessageFast {
             if((fieldsSet & FieldBit.pri)!=0) {
                 os.writeSInt32(FieldNum.pri,pri);
             }
-            if((fieldsSet & FieldBit.until)!=0) {
-                os.writeSInt64(FieldNum.until,until);
-            }
         }
 
         @Override
@@ -1993,12 +1998,6 @@ public class SampleMessageFast {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
@@ -2011,16 +2010,19 @@ public class SampleMessageFast {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessageSubscribe.this.field_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.symbols: return Field.symbols;
                     case FieldNum.pri: return Field.pri;
-                    case FieldNum.until: return Field.until;
                     default: throw new UnsupportedOperationException();
                 }
             }
 
-            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.symbols, Field.pri, Field.until);
+            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field.symbols, Field.pri);
 
             @Override
             public java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_getAll(){
@@ -2046,21 +2048,12 @@ public class SampleMessageFast {
         }
         private void field_set(int field, long val) {
             switch(field) {
-                case FieldNum.until:
-                    this.until=val;
-                    fieldsSet|=4;
-                    break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
         private void field_set(int field, float val) {
@@ -2082,6 +2075,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum.symbols:
+                    this.fieldsSet|=1;
+                    if(this.symbols==null) {
+                        this.symbols=pool.takeList();
+                    }
+                    this.fieldsSet|=1;
+                    StringBuilder sb = pool.take(StringBuilder.class);
+                    this.symbols.add(sb);
+                    return sb;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
 
         public java.util.List<? extends CharSequence> getSymbols() {
             return this.symbols;
@@ -2090,12 +2097,14 @@ public class SampleMessageFast {
             if(this.symbols==null) {
                 this.symbols=pool.takeList();
             }
+            this.fieldsSet|=1;
             StringBuilder sb = pool.take(StringBuilder.class);
             sb.append(val);
             this.symbols.add(sb);
             return this;
         }
         public SubscriberMessageSubscribe addSymbols(java.util.List<? extends CharSequence> vals) {
+            this.fieldsSet|=1;
             if(this.symbols==null) {
                 this.symbols=pool.takeList();
             }
@@ -2115,14 +2124,6 @@ public class SampleMessageFast {
         public SubscriberMessageSubscribe setPri(int val) {
             this.pri=val;
             fieldsSet|=2;
-            return this;
-        }
-        public long getUntil() {
-            return this.until;
-        }
-        public SubscriberMessageSubscribe setUntil(long val) {
-            this.until=val;
-            fieldsSet|=4;
             return this;
         }
 
@@ -2193,12 +2194,6 @@ public class SampleMessageFast {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
@@ -2209,6 +2204,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessageQueueRate.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -2256,11 +2255,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -2274,6 +2268,11 @@ public class SampleMessageFast {
         private void field_set(int field, int val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -2353,12 +2352,6 @@ public class SampleMessageFast {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
@@ -2369,6 +2362,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessageFlow.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -2412,11 +2409,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -2434,6 +2426,11 @@ public class SampleMessageFast {
                     fieldsSet|=1;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -2578,12 +2575,6 @@ public class SampleMessageFast {
             public void field_set(int field, double val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
-            @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
             public void field_set(int field, SubscriberMessagePriority val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
@@ -2601,6 +2592,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessagePart.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -2697,11 +2692,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, SubscriberMessagePriority val) {
             switch(field) {
                 case FieldNum.priority:
@@ -2741,6 +2731,11 @@ public class SampleMessageFast {
         private void field_set(int field, int val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
 
@@ -2906,12 +2901,6 @@ public class SampleMessageFast {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
-            public StringBuilder field_builder(int field) {
-                switch(field) {
-                    default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-                }
-            }
-            @Override
             public void field_set(int field, float val) {
                 SubscriberMessage.this.field_set(field,val);
             }
@@ -2922,6 +2911,10 @@ public class SampleMessageFast {
             @Override
             public void field_set(int field, int val) {
                 SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return SubscriberMessage.this.field_builder(field);
             }
             @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
@@ -2973,11 +2966,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private StringBuilder field_builder(int field) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
-            }
-        }
         private void field_set(int field, float val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
@@ -2993,6 +2981,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
 
         public java.util.List<SubscriberMessagePart> getMessageParts() {
             return this.messageParts;
@@ -3001,10 +2994,10 @@ public class SampleMessageFast {
             return pool.take(SubscriberMessagePart.class);
         }
         public SubscriberMessage addMessagePart(SubscriberMessagePart val) {
+            this.fieldsSet|=1;
             if (null==messageParts) {
                 messageParts=pool.takeList();
             }
-            fieldsSet|=1;
             messageParts.add(val);
             return this;
         }

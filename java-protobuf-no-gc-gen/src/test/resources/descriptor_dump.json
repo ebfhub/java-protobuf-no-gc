@@ -136,26 +136,32 @@
         "type": "TYPE_INT32",
         "jsonName": "symbolId"
       }, {
-        "name": "ts",
+        "name": "sourceTs",
         "number": 3,
         "label": "LABEL_OPTIONAL",
         "type": "TYPE_INT64",
-        "jsonName": "ts"
+        "jsonName": "sourceTs"
       }, {
-        "name": "smallTs",
+        "name": "messageId",
         "number": 4,
         "label": "LABEL_OPTIONAL",
         "type": "TYPE_INT32",
-        "jsonName": "smallTs"
+        "jsonName": "messageId"
+      }, {
+        "name": "sentTs",
+        "number": 5,
+        "label": "LABEL_OPTIONAL",
+        "type": "TYPE_INT64",
+        "jsonName": "sentTs"
       }, {
         "name": "fieldSetId",
-        "number": 5,
+        "number": 7,
         "label": "LABEL_OPTIONAL",
         "type": "TYPE_INT32",
         "jsonName": "fieldSetId"
       }, {
         "name": "defineFieldSet",
-        "number": 6,
+        "number": 8,
         "label": "LABEL_OPTIONAL",
         "type": "TYPE_MESSAGE",
         "typeName": ".tutorial.FieldSetDef",
@@ -210,12 +216,6 @@
         "label": "LABEL_OPTIONAL",
         "type": "TYPE_INT32",
         "jsonName": "pri"
-      }, {
-        "name": "until",
-        "number": 3,
-        "label": "LABEL_OPTIONAL",
-        "type": "TYPE_INT64",
-        "jsonName": "until"
       }]
     }, {
       "name": "SubscriberMessageQueueRate",
@@ -290,7 +290,7 @@
     },
     "sourceCodeInfo": {
       "location": [{
-        "span": [0, 0, 79, 1]
+        "span": [0, 0, 78, 1]
       }, {
         "path": [12],
         "span": [0, 0, 18]
@@ -573,7 +573,7 @@
         "span": [34, 26, 28]
       }, {
         "path": [4, 5],
-        "span": [38, 0, 47, 1]
+        "span": [38, 0, 48, 1]
       }, {
         "path": [4, 5, 1],
         "span": [38, 8, 19]
@@ -611,8 +611,8 @@
         "span": [40, 19, 20]
       }, {
         "path": [4, 5, 2, 2],
-        "span": [41, 2, 15],
-        "trailingComments": " TS\n"
+        "span": [41, 2, 21],
+        "trailingComments": " ms TS\n"
       }, {
         "path": [4, 5, 2, 2, 4],
         "span": [41, 2, 40, 21]
@@ -621,190 +621,191 @@
         "span": [41, 2, 7]
       }, {
         "path": [4, 5, 2, 2, 1],
-        "span": [41, 8, 10]
+        "span": [41, 8, 16]
       }, {
         "path": [4, 5, 2, 2, 3],
-        "span": [41, 13, 14]
+        "span": [41, 19, 20]
       }, {
         "path": [4, 5, 2, 3],
-        "span": [42, 2, 20],
-        "trailingComments": " Since last ts/sod?\n"
+        "span": [42, 2, 22],
+        "trailingComments": " Numeric incrementing message ID\n"
       }, {
         "path": [4, 5, 2, 3, 4],
-        "span": [42, 2, 41, 15]
+        "span": [42, 2, 41, 21]
       }, {
         "path": [4, 5, 2, 3, 5],
         "span": [42, 2, 7]
       }, {
         "path": [4, 5, 2, 3, 1],
-        "span": [42, 8, 15]
+        "span": [42, 8, 17]
       }, {
         "path": [4, 5, 2, 3, 3],
-        "span": [42, 18, 19]
+        "span": [42, 20, 21]
       }, {
         "path": [4, 5, 2, 4],
-        "span": [43, 2, 23],
-        "trailingComments": " Set of fields\n"
+        "span": [43, 2, 19],
+        "trailingComments": " ms TS\n"
       }, {
         "path": [4, 5, 2, 4, 4],
-        "span": [43, 2, 42, 20]
+        "span": [43, 2, 42, 22]
       }, {
         "path": [4, 5, 2, 4, 5],
         "span": [43, 2, 7]
       }, {
         "path": [4, 5, 2, 4, 1],
-        "span": [43, 8, 18]
+        "span": [43, 8, 14]
       }, {
         "path": [4, 5, 2, 4, 3],
-        "span": [43, 21, 22]
+        "span": [43, 17, 18]
       }, {
         "path": [4, 5, 2, 5],
-        "span": [44, 2, 33],
-        "trailingComments": " Define of fields\n"
+        "span": [44, 2, 23],
+        "trailingComments": " Set of fields\n"
       }, {
         "path": [4, 5, 2, 5, 4],
-        "span": [44, 2, 43, 23]
+        "span": [44, 2, 43, 19]
       }, {
-        "path": [4, 5, 2, 5, 6],
-        "span": [44, 2, 13]
+        "path": [4, 5, 2, 5, 5],
+        "span": [44, 2, 7]
       }, {
         "path": [4, 5, 2, 5, 1],
-        "span": [44, 14, 28]
+        "span": [44, 8, 18]
       }, {
         "path": [4, 5, 2, 5, 3],
-        "span": [44, 31, 32]
+        "span": [44, 21, 22]
       }, {
         "path": [4, 5, 2, 6],
-        "span": [45, 2, 38]
+        "span": [45, 2, 33],
+        "trailingComments": " Define of fields\n"
       }, {
         "path": [4, 5, 2, 6, 4],
-        "span": [45, 2, 10]
+        "span": [45, 2, 44, 23]
       }, {
         "path": [4, 5, 2, 6, 6],
-        "span": [45, 11, 21]
+        "span": [45, 2, 13]
       }, {
         "path": [4, 5, 2, 6, 1],
-        "span": [45, 22, 33]
+        "span": [45, 14, 28]
       }, {
         "path": [4, 5, 2, 6, 3],
-        "span": [45, 36, 37]
+        "span": [45, 31, 32]
       }, {
         "path": [4, 5, 2, 7],
-        "span": [46, 2, 37]
+        "span": [46, 2, 38]
       }, {
         "path": [4, 5, 2, 7, 4],
         "span": [46, 2, 10]
       }, {
         "path": [4, 5, 2, 7, 6],
-        "span": [46, 11, 24]
+        "span": [46, 11, 21]
       }, {
         "path": [4, 5, 2, 7, 1],
-        "span": [46, 25, 31]
+        "span": [46, 22, 33]
       }, {
         "path": [4, 5, 2, 7, 3],
-        "span": [46, 34, 36]
+        "span": [46, 36, 37]
+      }, {
+        "path": [4, 5, 2, 8],
+        "span": [47, 2, 37]
+      }, {
+        "path": [4, 5, 2, 8, 4],
+        "span": [47, 2, 10]
+      }, {
+        "path": [4, 5, 2, 8, 6],
+        "span": [47, 11, 24]
+      }, {
+        "path": [4, 5, 2, 8, 1],
+        "span": [47, 25, 31]
+      }, {
+        "path": [4, 5, 2, 8, 3],
+        "span": [47, 34, 36]
       }, {
         "path": [4, 6],
-        "span": [49, 0, 53, 1]
+        "span": [50, 0, 54, 1]
       }, {
         "path": [4, 6, 1],
-        "span": [49, 8, 33]
+        "span": [50, 8, 33]
       }, {
         "path": [4, 6, 2, 0],
-        "span": [50, 4, 32]
+        "span": [51, 4, 32]
       }, {
         "path": [4, 6, 2, 0, 4],
-        "span": [50, 4, 12]
+        "span": [51, 4, 12]
       }, {
         "path": [4, 6, 2, 0, 5],
-        "span": [50, 13, 19]
+        "span": [51, 13, 19]
       }, {
         "path": [4, 6, 2, 0, 1],
-        "span": [50, 20, 27]
+        "span": [51, 20, 27]
       }, {
         "path": [4, 6, 2, 0, 3],
-        "span": [50, 30, 31]
+        "span": [51, 30, 31]
       }, {
         "path": [4, 6, 2, 1],
-        "span": [51, 4, 18]
+        "span": [52, 4, 18]
       }, {
         "path": [4, 6, 2, 1, 4],
-        "span": [51, 4, 50, 32]
+        "span": [52, 4, 51, 32]
       }, {
         "path": [4, 6, 2, 1, 5],
-        "span": [51, 4, 9]
-      }, {
-        "path": [4, 6, 2, 1, 1],
-        "span": [51, 10, 13]
-      }, {
-        "path": [4, 6, 2, 1, 3],
-        "span": [51, 16, 17]
-      }, {
-        "path": [4, 6, 2, 2],
-        "span": [52, 4, 20]
-      }, {
-        "path": [4, 6, 2, 2, 4],
-        "span": [52, 4, 51, 18]
-      }, {
-        "path": [4, 6, 2, 2, 5],
         "span": [52, 4, 9]
       }, {
+        "path": [4, 6, 2, 1, 1],
+        "span": [52, 10, 13]
+      }, {
+        "path": [4, 6, 2, 1, 3],
+        "span": [52, 16, 17]
+      }, {
+        "path": [4, 6, 2, 2],
+        "span": [53, 4, 20]
+      }, {
+        "path": [4, 6, 2, 2, 4],
+        "span": [53, 4, 52, 18]
+      }, {
+        "path": [4, 6, 2, 2, 5],
+        "span": [53, 4, 9]
+      }, {
         "path": [4, 6, 2, 2, 1],
-        "span": [52, 10, 15]
+        "span": [53, 10, 15]
       }, {
         "path": [4, 6, 2, 2, 3],
-        "span": [52, 18, 19]
+        "span": [53, 18, 19]
       }, {
         "path": [4, 7],
-        "span": [55, 0, 59, 1]
+        "span": [56, 0, 59, 1]
       }, {
         "path": [4, 7, 1],
-        "span": [55, 8, 34]
+        "span": [56, 8, 34]
       }, {
         "path": [4, 7, 2, 0],
-        "span": [56, 4, 32]
+        "span": [57, 4, 32]
       }, {
         "path": [4, 7, 2, 0, 4],
-        "span": [56, 4, 12]
+        "span": [57, 4, 12]
       }, {
         "path": [4, 7, 2, 0, 5],
-        "span": [56, 13, 19]
+        "span": [57, 13, 19]
       }, {
         "path": [4, 7, 2, 0, 1],
-        "span": [56, 20, 27]
+        "span": [57, 20, 27]
       }, {
         "path": [4, 7, 2, 0, 3],
-        "span": [56, 30, 31]
+        "span": [57, 30, 31]
       }, {
         "path": [4, 7, 2, 1],
-        "span": [57, 4, 18]
+        "span": [58, 4, 18]
       }, {
         "path": [4, 7, 2, 1, 4],
-        "span": [57, 4, 56, 32]
+        "span": [58, 4, 57, 32]
       }, {
         "path": [4, 7, 2, 1, 5],
-        "span": [57, 4, 9]
-      }, {
-        "path": [4, 7, 2, 1, 1],
-        "span": [57, 10, 13]
-      }, {
-        "path": [4, 7, 2, 1, 3],
-        "span": [57, 16, 17]
-      }, {
-        "path": [4, 7, 2, 2],
-        "span": [58, 4, 20]
-      }, {
-        "path": [4, 7, 2, 2, 4],
-        "span": [58, 4, 57, 18]
-      }, {
-        "path": [4, 7, 2, 2, 5],
         "span": [58, 4, 9]
       }, {
-        "path": [4, 7, 2, 2, 1],
-        "span": [58, 10, 15]
+        "path": [4, 7, 2, 1, 1],
+        "span": [58, 10, 13]
       }, {
-        "path": [4, 7, 2, 2, 3],
-        "span": [58, 18, 19]
+        "path": [4, 7, 2, 1, 3],
+        "span": [58, 16, 17]
       }, {
         "path": [4, 8],
         "span": [60, 0, 62, 1]
@@ -909,7 +910,7 @@
         "span": [72, 37, 38]
       }, {
         "path": [4, 11],
-        "span": [76, 0, 79, 1]
+        "span": [76, 0, 78, 1]
       }, {
         "path": [4, 11, 1],
         "span": [76, 8, 25]

@@ -9,17 +9,39 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class TestEncoding {
+
+
+    static byte[] decode(String line){
+        return  Base64.getDecoder().decode(line);
+    }
+
+    @Test
+    public void testBadMessage() throws IOException {
+        String bad="AE8QBFIJCAAo/Jz//J5cUgkIAij8nP/8nlxSCQgEKPyc//yeXFIJCAYo/Jz//J5cUgQICCAAUgUICiDGAVIFCAwgyAFSCQgOKPyc//yeXA==";
+        byte[] bb = decode(bad);
+        CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
+        FastProtoReader reader=new FastProtoReader();
+        FastProtoObjectPool pool=new FastProtoObjectPool();
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        reader.parse(is,msg.getSetter());
+
+        System.out.println(msg);
+
+    }
     @Test
     public void encodingTest() throws IOException {
         SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder()
                 .setSymbol("sym1")
                 .setSymbolId(12)
-                .setTs(System.currentTimeMillis())
+                .setSentTs(System.currentTimeMillis())
                 .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setFieldId(123).setBool(true))
                 .addValues(SampleMessage.FieldAndValue.newBuilder()
@@ -76,7 +98,7 @@ public class TestEncoding {
             msg2.clear();
             msg2
                     .setSymbol("sym12")
-                    .setTs(System.currentTimeMillis())
+                    .setSentTs(System.currentTimeMillis())
                     .setSymbolId(123)
                     .setDefineFieldSet(msg2.createDefineFieldSet().setFieldSetId(1000))
 
@@ -106,7 +128,57 @@ public class TestEncoding {
 
             byte[] tmp1=os1.getBytes();
             int tmpLen = os1.size();
+            msg3.clear();
             reader.readItem(msg3,tmp1,0,tmpLen);
         }
+    }
+
+    @Test
+    public void testStringList() throws IOException {
+        FastProtoReader reader = new FastProtoReader();
+        FastProtoObjectPool pool = reader.getPool();
+        FastProtoWriter writer=new FastProtoWriter();
+
+
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+
+        List<String> s = Arrays.asList("one","two");
+
+        msg2
+                .setSymbol("sym12")
+                .addValue(
+                        msg2.createValue()
+                                .set_string("sym14")
+                                .setFieldId(1000)
+                                .set_stringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                        .addString("a")
+                                        .addString("b")
+                                        .addString("c")
+                                        .addString("d1000"))
+
+                );
+
+        SampleMessageFast.StringList sl = msg2.getValues().get(0).get_stringList();
+        assertEquals(Arrays.asList("one","two","a","b","c","d1000"), sl.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
+
+        ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
+        CodedOutputStream o2 =  CodedOutputStream.newInstance(os1);
+        os1.reset();
+        msg2.write(o2,writer);
+        o2.flush();
+
+
+        byte[] tmp1=os1.getBytes();
+        int tmpLen = os1.size();
+        msg3.clear();
+        reader.readItem(msg3,tmp1,0,tmpLen);
+
+        assertEquals("sym12", msg3.getSymbol().toString());
+
+        List<SampleMessageFast.FieldAndValue> vals = msg3.getValues();
+        assertEquals(1,vals.size());
+        SampleMessageFast.StringList list = vals.get(0).get_stringList();
+        assertEquals(Arrays.asList("one","two","a","b","c","d1000"), list.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
     }
 }

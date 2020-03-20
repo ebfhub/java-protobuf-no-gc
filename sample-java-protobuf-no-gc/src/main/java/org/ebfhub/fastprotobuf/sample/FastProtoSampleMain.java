@@ -28,7 +28,7 @@ public class FastProtoSampleMain {
         SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder()
                 .setSymbol("sym1")
                 .setSymbolId(12)
-                .setTs(System.currentTimeMillis())
+                .setSentTs(System.currentTimeMillis())
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
                         .setFieldId(123).setBool(true))
                     .addValues(SampleMessage.FieldAndValue.newBuilder()
@@ -84,7 +84,7 @@ public class FastProtoSampleMain {
             msg2.clear();
 
             msg2.setSymbol("sym12");
-            msg2.setTs(System.currentTimeMillis());
+            msg2.setSentTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
             msg2.addValue(msg2.createValue().set_string("sym14").setFieldId(1000))
                     .addFieldIdDef(msg2.createFieldIdDef().setFieldId(98).setFieldName("id1D"))

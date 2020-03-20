@@ -58,6 +58,16 @@ public interface FastProtoSetter {
     StringBuilder field_builder(int field);
 
     /**
+     * Mark a field as set and return its empty string builder.
+     *
+     * @param field a int.
+     * @return a {@link java.lang.StringBuilder} object.
+     */
+    default StringBuilder field_add_builder(int field){
+        return field_builder(field);
+    }
+
+    /**
      * Add a message field, returning a setter component
      *
      * @param field a int.

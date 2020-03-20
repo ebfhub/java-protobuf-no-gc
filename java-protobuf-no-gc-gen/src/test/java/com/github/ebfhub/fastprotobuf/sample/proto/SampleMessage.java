@@ -1819,6 +1819,371 @@ public final class SampleMessage {
 
   }
 
+  public interface NullValueOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:tutorial.NullValue)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code tutorial.NullValue}
+   */
+  public  static final class NullValue extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:tutorial.NullValue)
+      NullValueOrBuilder {
+    // Use NullValue.newBuilder() to construct.
+    private NullValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NullValue() {
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private NullValue(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return SampleMessage.internal_static_tutorial_NullValue_descriptor;
+    }
+
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return SampleMessage.internal_static_tutorial_NullValue_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              NullValue.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof NullValue)) {
+        return super.equals(obj);
+      }
+      NullValue other = (NullValue) obj;
+
+      boolean result = true;
+      return result;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static NullValue parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static NullValue parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static NullValue parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static NullValue parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static NullValue parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static NullValue parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static NullValue parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static NullValue parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static NullValue parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static NullValue parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(NullValue prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code tutorial.NullValue}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:tutorial.NullValue)
+        NullValueOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return SampleMessage.internal_static_tutorial_NullValue_descriptor;
+      }
+
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return SampleMessage.internal_static_tutorial_NullValue_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                NullValue.class, Builder.class);
+      }
+
+      // Construct using com.github.ebfhub.fastprotobuf.sample.proto.SampleMessage.NullValue.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return SampleMessage.internal_static_tutorial_NullValue_descriptor;
+      }
+
+      public NullValue getDefaultInstanceForType() {
+        return NullValue.getDefaultInstance();
+      }
+
+      public NullValue build() {
+        NullValue result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public NullValue buildPartial() {
+        NullValue result = new NullValue(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof NullValue) {
+          return mergeFrom((NullValue)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(NullValue other) {
+        if (other == NullValue.getDefaultInstance()) return this;
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        NullValue parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (NullValue) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:tutorial.NullValue)
+    }
+
+    // @@protoc_insertion_point(class_scope:tutorial.NullValue)
+    private static final NullValue DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new NullValue();
+    }
+
+    public static NullValue getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NullValue>
+        PARSER = new com.google.protobuf.AbstractParser<NullValue>() {
+      public NullValue parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new NullValue(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NullValue> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<NullValue> getParserForType() {
+      return PARSER;
+    }
+
+    public NullValue getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface FieldAndValueOrBuilder extends
       // @@protoc_insertion_point(interface_extends:tutorial.FieldAndValue)
       com.google.protobuf.MessageOrBuilder {
@@ -1880,6 +2245,15 @@ public final class SampleMessage {
      * <code>optional .tutorial.StringList _stringList = 10;</code>
      */
     StringListOrBuilder getStringListOrBuilder();
+
+    /**
+     * <code>optional .tutorial.NullValue _null = 11;</code>
+     */
+    NullValue getNull();
+    /**
+     * <code>optional .tutorial.NullValue _null = 11;</code>
+     */
+    NullValueOrBuilder getNullOrBuilder();
 
     public FieldAndValue.ValueCase getValueCase();
   }
@@ -1978,6 +2352,20 @@ public final class SampleMessage {
               valueCase_ = 10;
               break;
             }
+            case 90: {
+              NullValue.Builder subBuilder = null;
+              if (valueCase_ == 11) {
+                subBuilder = ((NullValue) value_).toBuilder();
+              }
+              value_ =
+                  input.readMessage(NullValue.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((NullValue) value_);
+                value_ = subBuilder.buildPartial();
+              }
+              valueCase_ = 11;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2013,6 +2401,7 @@ public final class SampleMessage {
       _FLOAT(8),
       _TS(9),
       _STRINGLIST(10),
+      _NULL(11),
       VALUE_NOT_SET(0);
       private final int value;
       private ValueCase(int value) {
@@ -2036,6 +2425,7 @@ public final class SampleMessage {
           case 8: return _FLOAT;
           case 9: return _TS;
           case 10: return _STRINGLIST;
+          case 11: return _NULL;
           case 0: return VALUE_NOT_SET;
           default: return null;
         }
@@ -2193,6 +2583,26 @@ public final class SampleMessage {
       return StringList.getDefaultInstance();
     }
 
+    public static final int _NULL_FIELD_NUMBER = 11;
+    /**
+     * <code>optional .tutorial.NullValue _null = 11;</code>
+     */
+    public NullValue getNull() {
+      if (valueCase_ == 11) {
+         return (NullValue) value_;
+      }
+      return NullValue.getDefaultInstance();
+    }
+    /**
+     * <code>optional .tutorial.NullValue _null = 11;</code>
+     */
+    public NullValueOrBuilder getNullOrBuilder() {
+      if (valueCase_ == 11) {
+         return (NullValue) value_;
+      }
+      return NullValue.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2237,6 +2647,9 @@ public final class SampleMessage {
       }
       if (valueCase_ == 10) {
         output.writeMessage(10, (StringList) value_);
+      }
+      if (valueCase_ == 11) {
+        output.writeMessage(11, (NullValue) value_);
       }
     }
 
@@ -2285,6 +2698,10 @@ public final class SampleMessage {
       if (valueCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, (StringList) value_);
+      }
+      if (valueCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (NullValue) value_);
       }
       memoizedSize = size;
       return size;
@@ -2344,6 +2761,10 @@ public final class SampleMessage {
           result = result && getStringList()
               .equals(other.getStringList());
           break;
+        case 11:
+          result = result && getNull()
+              .equals(other.getNull());
+          break;
         case 0:
         default:
       }
@@ -2395,6 +2816,10 @@ public final class SampleMessage {
         case 10:
           hash = (37 * hash) + _STRINGLIST_FIELD_NUMBER;
           hash = (53 * hash) + getStringList().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + _NULL_FIELD_NUMBER;
+          hash = (53 * hash) + getNull().hashCode();
           break;
         case 0:
         default:
@@ -2572,6 +2997,13 @@ public final class SampleMessage {
             result.value_ = StringListBuilder_.build();
           }
         }
+        if (valueCase_ == 11) {
+          if (NullBuilder_ == null) {
+            result.value_ = value_;
+          } else {
+            result.value_ = NullBuilder_.build();
+          }
+        }
         result.valueCase_ = valueCase_;
         onBuilt();
         return result;
@@ -2650,6 +3082,10 @@ public final class SampleMessage {
           }
           case _STRINGLIST: {
             mergeStringList(other.getStringList());
+            break;
+          }
+          case _NULL: {
+            mergeNull(other.getNull());
             break;
           }
           case VALUE_NOT_SET: {
@@ -3124,6 +3560,136 @@ public final class SampleMessage {
         onChanged();;
         return StringListBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NullValue, NullValue.Builder, NullValueOrBuilder> NullBuilder_;
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public NullValue getNull() {
+        if (NullBuilder_ == null) {
+          if (valueCase_ == 11) {
+            return (NullValue) value_;
+          }
+          return NullValue.getDefaultInstance();
+        } else {
+          if (valueCase_ == 11) {
+            return NullBuilder_.getMessage();
+          }
+          return NullValue.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public Builder setNull(NullValue value) {
+        if (NullBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          value_ = value;
+          onChanged();
+        } else {
+          NullBuilder_.setMessage(value);
+        }
+        valueCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public Builder setNull(
+          NullValue.Builder builderForValue) {
+        if (NullBuilder_ == null) {
+          value_ = builderForValue.build();
+          onChanged();
+        } else {
+          NullBuilder_.setMessage(builderForValue.build());
+        }
+        valueCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public Builder mergeNull(NullValue value) {
+        if (NullBuilder_ == null) {
+          if (valueCase_ == 11 &&
+              value_ != NullValue.getDefaultInstance()) {
+            value_ = NullValue.newBuilder((NullValue) value_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            value_ = value;
+          }
+          onChanged();
+        } else {
+          if (valueCase_ == 11) {
+            NullBuilder_.mergeFrom(value);
+          }
+          NullBuilder_.setMessage(value);
+        }
+        valueCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public Builder clearNull() {
+        if (NullBuilder_ == null) {
+          if (valueCase_ == 11) {
+            valueCase_ = 0;
+            value_ = null;
+            onChanged();
+          }
+        } else {
+          if (valueCase_ == 11) {
+            valueCase_ = 0;
+            value_ = null;
+          }
+          NullBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public NullValue.Builder getNullBuilder() {
+        return getNullFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      public NullValueOrBuilder getNullOrBuilder() {
+        if ((valueCase_ == 11) && (NullBuilder_ != null)) {
+          return NullBuilder_.getMessageOrBuilder();
+        } else {
+          if (valueCase_ == 11) {
+            return (NullValue) value_;
+          }
+          return NullValue.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .tutorial.NullValue _null = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NullValue, NullValue.Builder, NullValueOrBuilder>
+          getNullFieldBuilder() {
+        if (NullBuilder_ == null) {
+          if (!(valueCase_ == 11)) {
+            value_ = NullValue.getDefaultInstance();
+          }
+          NullBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NullValue, NullValue.Builder, NullValueOrBuilder>(
+                  (NullValue) value_,
+                  getParentForChildren(),
+                  isClean());
+          value_ = null;
+        }
+        valueCase_ = 11;
+        onChanged();;
+        return NullBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -3206,28 +3772,37 @@ public final class SampleMessage {
 
     /**
      * <pre>
-     * TS
+     * ms TS
      * </pre>
      *
-     * <code>optional int64 ts = 3;</code>
+     * <code>optional int64 sourceTs = 3;</code>
      */
-    long getTs();
+    long getSourceTs();
 
     /**
      * <pre>
-     * Since last ts/sod?
+     * Numeric incrementing message ID
      * </pre>
      *
-     * <code>optional int32 smallTs = 4;</code>
+     * <code>optional int32 messageId = 4;</code>
      */
-    int getSmallTs();
+    int getMessageId();
+
+    /**
+     * <pre>
+     * ms TS
+     * </pre>
+     *
+     * <code>optional int64 sentTs = 5;</code>
+     */
+    long getSentTs();
 
     /**
      * <pre>
      * Set of fields
      * </pre>
      *
-     * <code>optional int32 fieldSetId = 5;</code>
+     * <code>optional int32 fieldSetId = 7;</code>
      */
     int getFieldSetId();
 
@@ -3236,7 +3811,7 @@ public final class SampleMessage {
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     boolean hasDefineFieldSet();
     /**
@@ -3244,7 +3819,7 @@ public final class SampleMessage {
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     FieldSetDef getDefineFieldSet();
     /**
@@ -3252,7 +3827,7 @@ public final class SampleMessage {
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     FieldSetDefOrBuilder getDefineFieldSetOrBuilder();
 
@@ -3318,8 +3893,9 @@ public final class SampleMessage {
     private DataMessage() {
       symbol_ = "";
       symbolId_ = 0;
-      ts_ = 0L;
-      smallTs_ = 0;
+      sourceTs_ = 0L;
+      messageId_ = 0;
+      sentTs_ = 0L;
       fieldSetId_ = 0;
       fieldIdDefs_ = java.util.Collections.emptyList();
       values_ = java.util.Collections.emptyList();
@@ -3363,20 +3939,25 @@ public final class SampleMessage {
             }
             case 24: {
 
-              ts_ = input.readInt64();
+              sourceTs_ = input.readInt64();
               break;
             }
             case 32: {
 
-              smallTs_ = input.readInt32();
+              messageId_ = input.readInt32();
               break;
             }
             case 40: {
 
+              sentTs_ = input.readInt64();
+              break;
+            }
+            case 56: {
+
               fieldSetId_ = input.readInt32();
               break;
             }
-            case 50: {
+            case 66: {
               FieldSetDef.Builder subBuilder = null;
               if (defineFieldSet_ != null) {
                 subBuilder = defineFieldSet_.toBuilder();
@@ -3390,18 +3971,18 @@ public final class SampleMessage {
               break;
             }
             case 74: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                 fieldIdDefs_ = new java.util.ArrayList<FieldIdDef>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000080;
               }
               fieldIdDefs_.add(
                   input.readMessage(FieldIdDef.parser(), extensionRegistry));
               break;
             }
             case 82: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 values_ = new java.util.ArrayList<FieldAndValue>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               values_.add(
                   input.readMessage(FieldAndValue.parser(), extensionRegistry));
@@ -3415,10 +3996,10 @@ public final class SampleMessage {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           fieldIdDefs_ = java.util.Collections.unmodifiableList(fieldIdDefs_);
         }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           values_ = java.util.Collections.unmodifiableList(values_);
         }
         makeExtensionsImmutable();
@@ -3492,53 +4073,66 @@ public final class SampleMessage {
       return symbolId_;
     }
 
-    public static final int TS_FIELD_NUMBER = 3;
-    private long ts_;
+    public static final int SOURCETS_FIELD_NUMBER = 3;
+    private long sourceTs_;
     /**
      * <pre>
-     * TS
+     * ms TS
      * </pre>
      *
-     * <code>optional int64 ts = 3;</code>
+     * <code>optional int64 sourceTs = 3;</code>
      */
-    public long getTs() {
-      return ts_;
+    public long getSourceTs() {
+      return sourceTs_;
     }
 
-    public static final int SMALLTS_FIELD_NUMBER = 4;
-    private int smallTs_;
+    public static final int MESSAGEID_FIELD_NUMBER = 4;
+    private int messageId_;
     /**
      * <pre>
-     * Since last ts/sod?
+     * Numeric incrementing message ID
      * </pre>
      *
-     * <code>optional int32 smallTs = 4;</code>
+     * <code>optional int32 messageId = 4;</code>
      */
-    public int getSmallTs() {
-      return smallTs_;
+    public int getMessageId() {
+      return messageId_;
     }
 
-    public static final int FIELDSETID_FIELD_NUMBER = 5;
+    public static final int SENTTS_FIELD_NUMBER = 5;
+    private long sentTs_;
+    /**
+     * <pre>
+     * ms TS
+     * </pre>
+     *
+     * <code>optional int64 sentTs = 5;</code>
+     */
+    public long getSentTs() {
+      return sentTs_;
+    }
+
+    public static final int FIELDSETID_FIELD_NUMBER = 7;
     private int fieldSetId_;
     /**
      * <pre>
      * Set of fields
      * </pre>
      *
-     * <code>optional int32 fieldSetId = 5;</code>
+     * <code>optional int32 fieldSetId = 7;</code>
      */
     public int getFieldSetId() {
       return fieldSetId_;
     }
 
-    public static final int DEFINEFIELDSET_FIELD_NUMBER = 6;
+    public static final int DEFINEFIELDSET_FIELD_NUMBER = 8;
     private FieldSetDef defineFieldSet_;
     /**
      * <pre>
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     public boolean hasDefineFieldSet() {
       return defineFieldSet_ != null;
@@ -3548,7 +4142,7 @@ public final class SampleMessage {
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     public FieldSetDef getDefineFieldSet() {
       return defineFieldSet_ == null ? FieldSetDef.getDefaultInstance() : defineFieldSet_;
@@ -3558,7 +4152,7 @@ public final class SampleMessage {
      * Define of fields
      * </pre>
      *
-     * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+     * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
      */
     public FieldSetDefOrBuilder getDefineFieldSetOrBuilder() {
       return getDefineFieldSet();
@@ -3652,17 +4246,20 @@ public final class SampleMessage {
       if (symbolId_ != 0) {
         output.writeInt32(2, symbolId_);
       }
-      if (ts_ != 0L) {
-        output.writeInt64(3, ts_);
+      if (sourceTs_ != 0L) {
+        output.writeInt64(3, sourceTs_);
       }
-      if (smallTs_ != 0) {
-        output.writeInt32(4, smallTs_);
+      if (messageId_ != 0) {
+        output.writeInt32(4, messageId_);
+      }
+      if (sentTs_ != 0L) {
+        output.writeInt64(5, sentTs_);
       }
       if (fieldSetId_ != 0) {
-        output.writeInt32(5, fieldSetId_);
+        output.writeInt32(7, fieldSetId_);
       }
       if (defineFieldSet_ != null) {
-        output.writeMessage(6, getDefineFieldSet());
+        output.writeMessage(8, getDefineFieldSet());
       }
       for (int i = 0; i < fieldIdDefs_.size(); i++) {
         output.writeMessage(9, fieldIdDefs_.get(i));
@@ -3684,21 +4281,25 @@ public final class SampleMessage {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, symbolId_);
       }
-      if (ts_ != 0L) {
+      if (sourceTs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, ts_);
+          .computeInt64Size(3, sourceTs_);
       }
-      if (smallTs_ != 0) {
+      if (messageId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, smallTs_);
+          .computeInt32Size(4, messageId_);
+      }
+      if (sentTs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, sentTs_);
       }
       if (fieldSetId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, fieldSetId_);
+          .computeInt32Size(7, fieldSetId_);
       }
       if (defineFieldSet_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, getDefineFieldSet());
+          .computeMessageSize(8, getDefineFieldSet());
       }
       for (int i = 0; i < fieldIdDefs_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -3728,10 +4329,12 @@ public final class SampleMessage {
           .equals(other.getSymbol());
       result = result && (getSymbolId()
           == other.getSymbolId());
-      result = result && (getTs()
-          == other.getTs());
-      result = result && (getSmallTs()
-          == other.getSmallTs());
+      result = result && (getSourceTs()
+          == other.getSourceTs());
+      result = result && (getMessageId()
+          == other.getMessageId());
+      result = result && (getSentTs()
+          == other.getSentTs());
       result = result && (getFieldSetId()
           == other.getFieldSetId());
       result = result && (hasDefineFieldSet() == other.hasDefineFieldSet());
@@ -3757,11 +4360,14 @@ public final class SampleMessage {
       hash = (53 * hash) + getSymbol().hashCode();
       hash = (37 * hash) + SYMBOLID_FIELD_NUMBER;
       hash = (53 * hash) + getSymbolId();
-      hash = (37 * hash) + TS_FIELD_NUMBER;
+      hash = (37 * hash) + SOURCETS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTs());
-      hash = (37 * hash) + SMALLTS_FIELD_NUMBER;
-      hash = (53 * hash) + getSmallTs();
+          getSourceTs());
+      hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
+      hash = (53 * hash) + getMessageId();
+      hash = (37 * hash) + SENTTS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSentTs());
       hash = (37 * hash) + FIELDSETID_FIELD_NUMBER;
       hash = (53 * hash) + getFieldSetId();
       if (hasDefineFieldSet()) {
@@ -3900,9 +4506,11 @@ public final class SampleMessage {
 
         symbolId_ = 0;
 
-        ts_ = 0L;
+        sourceTs_ = 0L;
 
-        smallTs_ = 0;
+        messageId_ = 0;
+
+        sentTs_ = 0L;
 
         fieldSetId_ = 0;
 
@@ -3914,13 +4522,13 @@ public final class SampleMessage {
         }
         if (fieldIdDefsBuilder_ == null) {
           fieldIdDefs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           fieldIdDefsBuilder_.clear();
         }
         if (valuesBuilder_ == null) {
           values_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
         } else {
           valuesBuilder_.clear();
         }
@@ -3950,8 +4558,9 @@ public final class SampleMessage {
         int to_bitField0_ = 0;
         result.symbol_ = symbol_;
         result.symbolId_ = symbolId_;
-        result.ts_ = ts_;
-        result.smallTs_ = smallTs_;
+        result.sourceTs_ = sourceTs_;
+        result.messageId_ = messageId_;
+        result.sentTs_ = sentTs_;
         result.fieldSetId_ = fieldSetId_;
         if (defineFieldSetBuilder_ == null) {
           result.defineFieldSet_ = defineFieldSet_;
@@ -3959,18 +4568,18 @@ public final class SampleMessage {
           result.defineFieldSet_ = defineFieldSetBuilder_.build();
         }
         if (fieldIdDefsBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             fieldIdDefs_ = java.util.Collections.unmodifiableList(fieldIdDefs_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.fieldIdDefs_ = fieldIdDefs_;
         } else {
           result.fieldIdDefs_ = fieldIdDefsBuilder_.build();
         }
         if (valuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
             values_ = java.util.Collections.unmodifiableList(values_);
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
           }
           result.values_ = values_;
         } else {
@@ -4025,11 +4634,14 @@ public final class SampleMessage {
         if (other.getSymbolId() != 0) {
           setSymbolId(other.getSymbolId());
         }
-        if (other.getTs() != 0L) {
-          setTs(other.getTs());
+        if (other.getSourceTs() != 0L) {
+          setSourceTs(other.getSourceTs());
         }
-        if (other.getSmallTs() != 0) {
-          setSmallTs(other.getSmallTs());
+        if (other.getMessageId() != 0) {
+          setMessageId(other.getMessageId());
+        }
+        if (other.getSentTs() != 0L) {
+          setSentTs(other.getSentTs());
         }
         if (other.getFieldSetId() != 0) {
           setFieldSetId(other.getFieldSetId());
@@ -4041,7 +4653,7 @@ public final class SampleMessage {
           if (!other.fieldIdDefs_.isEmpty()) {
             if (fieldIdDefs_.isEmpty()) {
               fieldIdDefs_ = other.fieldIdDefs_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensureFieldIdDefsIsMutable();
               fieldIdDefs_.addAll(other.fieldIdDefs_);
@@ -4054,7 +4666,7 @@ public final class SampleMessage {
               fieldIdDefsBuilder_.dispose();
               fieldIdDefsBuilder_ = null;
               fieldIdDefs_ = other.fieldIdDefs_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
               fieldIdDefsBuilder_ =
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getFieldIdDefsFieldBuilder() : null;
@@ -4067,7 +4679,7 @@ public final class SampleMessage {
           if (!other.values_.isEmpty()) {
             if (values_.isEmpty()) {
               values_ = other.values_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000100);
             } else {
               ensureValuesIsMutable();
               values_.addAll(other.values_);
@@ -4080,7 +4692,7 @@ public final class SampleMessage {
               valuesBuilder_.dispose();
               valuesBuilder_ = null;
               values_ = other.values_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000100);
               valuesBuilder_ =
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getValuesFieldBuilder() : null;
@@ -4243,78 +4855,116 @@ public final class SampleMessage {
         return this;
       }
 
-      private long ts_ ;
+      private long sourceTs_ ;
       /**
        * <pre>
-       * TS
+       * ms TS
        * </pre>
        *
-       * <code>optional int64 ts = 3;</code>
+       * <code>optional int64 sourceTs = 3;</code>
        */
-      public long getTs() {
-        return ts_;
+      public long getSourceTs() {
+        return sourceTs_;
       }
       /**
        * <pre>
-       * TS
+       * ms TS
        * </pre>
        *
-       * <code>optional int64 ts = 3;</code>
+       * <code>optional int64 sourceTs = 3;</code>
        */
-      public Builder setTs(long value) {
+      public Builder setSourceTs(long value) {
 
-        ts_ = value;
+        sourceTs_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * TS
+       * ms TS
        * </pre>
        *
-       * <code>optional int64 ts = 3;</code>
+       * <code>optional int64 sourceTs = 3;</code>
        */
-      public Builder clearTs() {
+      public Builder clearSourceTs() {
 
-        ts_ = 0L;
+        sourceTs_ = 0L;
         onChanged();
         return this;
       }
 
-      private int smallTs_ ;
+      private int messageId_ ;
       /**
        * <pre>
-       * Since last ts/sod?
+       * Numeric incrementing message ID
        * </pre>
        *
-       * <code>optional int32 smallTs = 4;</code>
+       * <code>optional int32 messageId = 4;</code>
        */
-      public int getSmallTs() {
-        return smallTs_;
+      public int getMessageId() {
+        return messageId_;
       }
       /**
        * <pre>
-       * Since last ts/sod?
+       * Numeric incrementing message ID
        * </pre>
        *
-       * <code>optional int32 smallTs = 4;</code>
+       * <code>optional int32 messageId = 4;</code>
        */
-      public Builder setSmallTs(int value) {
+      public Builder setMessageId(int value) {
 
-        smallTs_ = value;
+        messageId_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * Since last ts/sod?
+       * Numeric incrementing message ID
        * </pre>
        *
-       * <code>optional int32 smallTs = 4;</code>
+       * <code>optional int32 messageId = 4;</code>
        */
-      public Builder clearSmallTs() {
+      public Builder clearMessageId() {
 
-        smallTs_ = 0;
+        messageId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long sentTs_ ;
+      /**
+       * <pre>
+       * ms TS
+       * </pre>
+       *
+       * <code>optional int64 sentTs = 5;</code>
+       */
+      public long getSentTs() {
+        return sentTs_;
+      }
+      /**
+       * <pre>
+       * ms TS
+       * </pre>
+       *
+       * <code>optional int64 sentTs = 5;</code>
+       */
+      public Builder setSentTs(long value) {
+
+        sentTs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * ms TS
+       * </pre>
+       *
+       * <code>optional int64 sentTs = 5;</code>
+       */
+      public Builder clearSentTs() {
+
+        sentTs_ = 0L;
         onChanged();
         return this;
       }
@@ -4325,7 +4975,7 @@ public final class SampleMessage {
        * Set of fields
        * </pre>
        *
-       * <code>optional int32 fieldSetId = 5;</code>
+       * <code>optional int32 fieldSetId = 7;</code>
        */
       public int getFieldSetId() {
         return fieldSetId_;
@@ -4335,7 +4985,7 @@ public final class SampleMessage {
        * Set of fields
        * </pre>
        *
-       * <code>optional int32 fieldSetId = 5;</code>
+       * <code>optional int32 fieldSetId = 7;</code>
        */
       public Builder setFieldSetId(int value) {
 
@@ -4348,7 +4998,7 @@ public final class SampleMessage {
        * Set of fields
        * </pre>
        *
-       * <code>optional int32 fieldSetId = 5;</code>
+       * <code>optional int32 fieldSetId = 7;</code>
        */
       public Builder clearFieldSetId() {
 
@@ -4365,7 +5015,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public boolean hasDefineFieldSet() {
         return defineFieldSetBuilder_ != null || defineFieldSet_ != null;
@@ -4375,7 +5025,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public FieldSetDef getDefineFieldSet() {
         if (defineFieldSetBuilder_ == null) {
@@ -4389,7 +5039,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public Builder setDefineFieldSet(FieldSetDef value) {
         if (defineFieldSetBuilder_ == null) {
@@ -4409,7 +5059,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public Builder setDefineFieldSet(
           FieldSetDef.Builder builderForValue) {
@@ -4427,7 +5077,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public Builder mergeDefineFieldSet(FieldSetDef value) {
         if (defineFieldSetBuilder_ == null) {
@@ -4449,7 +5099,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public Builder clearDefineFieldSet() {
         if (defineFieldSetBuilder_ == null) {
@@ -4467,7 +5117,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public FieldSetDef.Builder getDefineFieldSetBuilder() {
 
@@ -4479,7 +5129,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       public FieldSetDefOrBuilder getDefineFieldSetOrBuilder() {
         if (defineFieldSetBuilder_ != null) {
@@ -4494,7 +5144,7 @@ public final class SampleMessage {
        * Define of fields
        * </pre>
        *
-       * <code>optional .tutorial.FieldSetDef defineFieldSet = 6;</code>
+       * <code>optional .tutorial.FieldSetDef defineFieldSet = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           FieldSetDef, FieldSetDef.Builder, FieldSetDefOrBuilder>
@@ -4513,9 +5163,9 @@ public final class SampleMessage {
       private java.util.List<FieldIdDef> fieldIdDefs_ =
         java.util.Collections.emptyList();
       private void ensureFieldIdDefsIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           fieldIdDefs_ = new java.util.ArrayList<FieldIdDef>(fieldIdDefs_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -4665,7 +5315,7 @@ public final class SampleMessage {
       public Builder clearFieldIdDefs() {
         if (fieldIdDefsBuilder_ == null) {
           fieldIdDefs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           fieldIdDefsBuilder_.clear();
@@ -4742,7 +5392,7 @@ public final class SampleMessage {
           fieldIdDefsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               FieldIdDef, FieldIdDef.Builder, FieldIdDefOrBuilder>(
                   fieldIdDefs_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           fieldIdDefs_ = null;
@@ -4753,9 +5403,9 @@ public final class SampleMessage {
       private java.util.List<FieldAndValue> values_ =
         java.util.Collections.emptyList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           values_ = new java.util.ArrayList<FieldAndValue>(values_);
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
          }
       }
 
@@ -4905,7 +5555,7 @@ public final class SampleMessage {
       public Builder clearValues() {
         if (valuesBuilder_ == null) {
           values_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
           onChanged();
         } else {
           valuesBuilder_.clear();
@@ -4982,7 +5632,7 @@ public final class SampleMessage {
           valuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               FieldAndValue, FieldAndValue.Builder, FieldAndValueOrBuilder>(
                   values_,
-                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  ((bitField0_ & 0x00000100) == 0x00000100),
                   getParentForChildren(),
                   isClean());
           values_ = null;
@@ -5752,11 +6402,6 @@ public final class SampleMessage {
      * <code>optional int32 pri = 2;</code>
      */
     int getPri();
-
-    /**
-     * <code>optional int64 until = 3;</code>
-     */
-    long getUntil();
   }
   /**
    * Protobuf type {@code tutorial.SubscriberMessageSubscribe}
@@ -5772,7 +6417,6 @@ public final class SampleMessage {
     private SubscriberMessageSubscribe() {
       symbols_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       pri_ = 0;
-      until_ = 0L;
     }
 
     @Override
@@ -5812,11 +6456,6 @@ public final class SampleMessage {
             case 16: {
 
               pri_ = input.readInt32();
-              break;
-            }
-            case 24: {
-
-              until_ = input.readInt64();
               break;
             }
           }
@@ -5884,15 +6523,6 @@ public final class SampleMessage {
       return pri_;
     }
 
-    public static final int UNTIL_FIELD_NUMBER = 3;
-    private long until_;
-    /**
-     * <code>optional int64 until = 3;</code>
-     */
-    public long getUntil() {
-      return until_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -5910,9 +6540,6 @@ public final class SampleMessage {
       }
       if (pri_ != 0) {
         output.writeInt32(2, pri_);
-      }
-      if (until_ != 0L) {
-        output.writeInt64(3, until_);
       }
     }
 
@@ -5932,10 +6559,6 @@ public final class SampleMessage {
       if (pri_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, pri_);
-      }
-      if (until_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, until_);
       }
       memoizedSize = size;
       return size;
@@ -5957,8 +6580,6 @@ public final class SampleMessage {
           .equals(other.getSymbolsList());
       result = result && (getPri()
           == other.getPri());
-      result = result && (getUntil()
-          == other.getUntil());
       return result;
     }
 
@@ -5975,9 +6596,6 @@ public final class SampleMessage {
       }
       hash = (37 * hash) + PRI_FIELD_NUMBER;
       hash = (53 * hash) + getPri();
-      hash = (37 * hash) + UNTIL_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getUntil());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6100,8 +6718,6 @@ public final class SampleMessage {
         bitField0_ = (bitField0_ & ~0x00000001);
         pri_ = 0;
 
-        until_ = 0L;
-
         return this;
       }
 
@@ -6132,7 +6748,6 @@ public final class SampleMessage {
         }
         result.symbols_ = symbols_;
         result.pri_ = pri_;
-        result.until_ = until_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6187,9 +6802,6 @@ public final class SampleMessage {
         }
         if (other.getPri() != 0) {
           setPri(other.getPri());
-        }
-        if (other.getUntil() != 0L) {
-          setUntil(other.getUntil());
         }
         onChanged();
         return this;
@@ -6334,32 +6946,6 @@ public final class SampleMessage {
       public Builder clearPri() {
 
         pri_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long until_ ;
-      /**
-       * <code>optional int64 until = 3;</code>
-       */
-      public long getUntil() {
-        return until_;
-      }
-      /**
-       * <code>optional int64 until = 3;</code>
-       */
-      public Builder setUntil(long value) {
-
-        until_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 until = 3;</code>
-       */
-      public Builder clearUntil() {
-
-        until_ = 0L;
         onChanged();
         return this;
       }
@@ -9264,6 +9850,11 @@ public final class SampleMessage {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tutorial_FieldIdDef_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tutorial_NullValue_descriptor;
+  private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tutorial_NullValue_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tutorial_FieldAndValue_descriptor;
   private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -9315,35 +9906,36 @@ public final class SampleMessage {
       "\n\014sample.proto\022\010tutorial\"\035\n\nStringList\022\017" +
       "\n\007strings\030\001 \003(\t\"3\n\013FieldSetDef\022\022\n\nfieldS" +
       "etId\030\001 \001(\005\022\020\n\010fieldIds\030\002 \003(\005\"0\n\nFieldIdD" +
-      "ef\022\017\n\007fieldId\030\001 \001(\005\022\021\n\tfieldName\030\002 \001(\t\"\322" +
-      "\001\n\rFieldAndValue\022\017\n\007fieldId\030\001 \001(\005\022\021\n\007_st" +
-      "ring\030\003 \001(\tH\000\022\020\n\006_int32\030\004 \001(\005H\000\022\020\n\006_int64" +
-      "\030\005 \001(\003H\000\022\017\n\005_bool\030\006 \001(\010H\000\022\021\n\007_double\030\007 \001" +
-      "(\001H\000\022\020\n\006_float\030\010 \001(\002H\000\022\r\n\003_ts\030\t \001(\005H\000\022+\n" +
-      "\013_stringList\030\n \001(\0132\024.tutorial.StringList" +
-      "H\000B\007\n\005value\"\343\001\n\013DataMessage\022\016\n\006symbol\030\001 ",
-      "\001(\t\022\020\n\010symbolId\030\002 \001(\005\022\n\n\002ts\030\003 \001(\003\022\017\n\007sma" +
-      "llTs\030\004 \001(\005\022\022\n\nfieldSetId\030\005 \001(\005\022-\n\016define" +
-      "FieldSet\030\006 \001(\0132\025.tutorial.FieldSetDef\022)\n" +
-      "\013fieldIdDefs\030\t \003(\0132\024.tutorial.FieldIdDef" +
-      "\022\'\n\006values\030\n \003(\0132\027.tutorial.FieldAndValu" +
-      "e\"H\n\031SubscriberMessagePriority\022\017\n\007symbol" +
-      "s\030\001 \003(\t\022\013\n\003pri\030\002 \001(\005\022\r\n\005until\030\003 \001(\003\"I\n\032S" +
-      "ubscriberMessageSubscribe\022\017\n\007symbols\030\001 \003" +
-      "(\t\022\013\n\003pri\030\002 \001(\005\022\r\n\005until\030\003 \001(\003\"4\n\032Subscr" +
-      "iberMessageQueueRate\022\026\n\016messagesPerSec\030\001",
-      " \001(\001\"&\n\025SubscriberMessageFlow\022\r\n\005bytes\030\001" +
-      " \001(\005\"\200\002\n\025SubscriberMessagePart\0227\n\010priori" +
-      "ty\030\001 \001(\0132#.tutorial.SubscriberMessagePri" +
-      "orityH\000\0229\n\tsubscribe\030\002 \001(\0132$.tutorial.Su" +
-      "bscriberMessageSubscribeH\000\0229\n\tqueueRate\030" +
-      "\003 \001(\0132$.tutorial.SubscriberMessageQueueR" +
-      "ateH\000\022/\n\004flow\030\004 \001(\0132\037.tutorial.Subscribe" +
-      "rMessageFlowH\000B\007\n\005value\"J\n\021SubscriberMes" +
-      "sage\0225\n\014messageParts\030\001 \003(\0132\037.tutorial.Su" +
-      "bscriberMessagePartB<\n+com.github.ebfhub",
-      ".fastprotobuf.sample.protoB\rSampleMessag" +
-      "eb\006proto3"
+      "ef\022\017\n\007fieldId\030\001 \001(\005\022\021\n\tfieldName\030\002 \001(\t\"\013" +
+      "\n\tNullValue\"\370\001\n\rFieldAndValue\022\017\n\007fieldId" +
+      "\030\001 \001(\005\022\021\n\007_string\030\003 \001(\tH\000\022\020\n\006_int32\030\004 \001(" +
+      "\005H\000\022\020\n\006_int64\030\005 \001(\003H\000\022\017\n\005_bool\030\006 \001(\010H\000\022\021" +
+      "\n\007_double\030\007 \001(\001H\000\022\020\n\006_float\030\010 \001(\002H\000\022\r\n\003_" +
+      "ts\030\t \001(\005H\000\022+\n\013_stringList\030\n \001(\0132\024.tutori" +
+      "al.StringListH\000\022$\n\005_null\030\013 \001(\0132\023.tutoria",
+      "l.NullValueH\000B\007\n\005value\"\373\001\n\013DataMessage\022\016" +
+      "\n\006symbol\030\001 \001(\t\022\020\n\010symbolId\030\002 \001(\005\022\020\n\010sour" +
+      "ceTs\030\003 \001(\003\022\021\n\tmessageId\030\004 \001(\005\022\016\n\006sentTs\030" +
+      "\005 \001(\003\022\022\n\nfieldSetId\030\007 \001(\005\022-\n\016defineField" +
+      "Set\030\010 \001(\0132\025.tutorial.FieldSetDef\022)\n\013fiel" +
+      "dIdDefs\030\t \003(\0132\024.tutorial.FieldIdDef\022\'\n\006v" +
+      "alues\030\n \003(\0132\027.tutorial.FieldAndValue\"H\n\031" +
+      "SubscriberMessagePriority\022\017\n\007symbols\030\001 \003" +
+      "(\t\022\013\n\003pri\030\002 \001(\005\022\r\n\005until\030\003 \001(\003\":\n\032Subscr" +
+      "iberMessageSubscribe\022\017\n\007symbols\030\001 \003(\t\022\013\n",
+      "\003pri\030\002 \001(\005\"4\n\032SubscriberMessageQueueRate" +
+      "\022\026\n\016messagesPerSec\030\001 \001(\001\"&\n\025SubscriberMe" +
+      "ssageFlow\022\r\n\005bytes\030\001 \001(\005\"\200\002\n\025SubscriberM" +
+      "essagePart\0227\n\010priority\030\001 \001(\0132#.tutorial." +
+      "SubscriberMessagePriorityH\000\0229\n\tsubscribe" +
+      "\030\002 \001(\0132$.tutorial.SubscriberMessageSubsc" +
+      "ribeH\000\0229\n\tqueueRate\030\003 \001(\0132$.tutorial.Sub" +
+      "scriberMessageQueueRateH\000\022/\n\004flow\030\004 \001(\0132" +
+      "\037.tutorial.SubscriberMessageFlowH\000B\007\n\005va" +
+      "lue\"J\n\021SubscriberMessage\0225\n\014messageParts",
+      "\030\001 \003(\0132\037.tutorial.SubscriberMessagePartB" +
+      "<\n+com.github.ebfhub.fastprotobuf.sample" +
+      ".protoB\rSampleMessageb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9375,50 +9967,56 @@ public final class SampleMessage {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_FieldIdDef_descriptor,
         new String[] { "FieldId", "FieldName", });
-    internal_static_tutorial_FieldAndValue_descriptor =
+    internal_static_tutorial_NullValue_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_tutorial_NullValue_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_tutorial_NullValue_descriptor,
+        new String[] { });
+    internal_static_tutorial_FieldAndValue_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_tutorial_FieldAndValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_FieldAndValue_descriptor,
-        new String[] { "FieldId", "String", "Int32", "Int64", "Bool", "Double", "Float", "Ts", "StringList", "Value", });
+        new String[] { "FieldId", "String", "Int32", "Int64", "Bool", "Double", "Float", "Ts", "StringList", "Null", "Value", });
     internal_static_tutorial_DataMessage_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_tutorial_DataMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_DataMessage_descriptor,
-        new String[] { "Symbol", "SymbolId", "Ts", "SmallTs", "FieldSetId", "DefineFieldSet", "FieldIdDefs", "Values", });
+        new String[] { "Symbol", "SymbolId", "SourceTs", "MessageId", "SentTs", "FieldSetId", "DefineFieldSet", "FieldIdDefs", "Values", });
     internal_static_tutorial_SubscriberMessagePriority_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_tutorial_SubscriberMessagePriority_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessagePriority_descriptor,
         new String[] { "Symbols", "Pri", "Until", });
     internal_static_tutorial_SubscriberMessageSubscribe_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_tutorial_SubscriberMessageSubscribe_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessageSubscribe_descriptor,
-        new String[] { "Symbols", "Pri", "Until", });
+        new String[] { "Symbols", "Pri", });
     internal_static_tutorial_SubscriberMessageQueueRate_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_tutorial_SubscriberMessageQueueRate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessageQueueRate_descriptor,
         new String[] { "MessagesPerSec", });
     internal_static_tutorial_SubscriberMessageFlow_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_tutorial_SubscriberMessageFlow_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessageFlow_descriptor,
         new String[] { "Bytes", });
     internal_static_tutorial_SubscriberMessagePart_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_tutorial_SubscriberMessagePart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessagePart_descriptor,
         new String[] { "Priority", "Subscribe", "QueueRate", "Flow", "Value", });
     internal_static_tutorial_SubscriberMessage_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_tutorial_SubscriberMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_SubscriberMessage_descriptor,

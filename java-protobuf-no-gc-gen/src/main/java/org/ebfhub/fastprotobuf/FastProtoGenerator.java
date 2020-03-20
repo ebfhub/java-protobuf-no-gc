@@ -241,6 +241,7 @@ public class FastProtoGenerator extends Generator {
                     sb.line("if(this." + field.getName() + "==null) {");
                     sb.line("this." + field.getName() + "="+ makeTakeList(ti)+";");
                     sb.line("}");
+                    sb.line("this." +info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
                     if(isMutable(ti)) {
                         sb.line(javaName + " sb = pool.take(" + javaName + ".class);");
                         sb.line("sb.append(val);");
@@ -255,6 +256,7 @@ public class FastProtoGenerator extends Generator {
 
                     sb.line("public " + thisClass
                             + " add" + upperCaseName(field.getName()) + "("+argJavaNameList+" vals) {");
+                    sb.line("this." +info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
 
                     sb.line("if(this." + field.getName() + "==null) {");
                     sb.line("this." + field.getName() + "="+ makeTakeList(ti)+";");
@@ -278,10 +280,10 @@ public class FastProtoGenerator extends Generator {
                     sb.line("public " + thisClass
                             + " add" + singular(upperCaseName(field.getName()),ti.repeated) + "("+javaName+" val) {");
 
+                    sb.line("this." +info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
                     sb.line("if (null==" + field.getName() + ") {");
                     sb.line(field.getName() + "="+ makeTakeList(ti)+";");
                     sb.line("}");
-                    sb.line(info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
                     sb.line( field.getName() + ".add(val);");
                     sb.line("return this;");
                     sb.line("}");
@@ -557,6 +559,7 @@ public class FastProtoGenerator extends Generator {
      * @param defer Defer to main class
      */
     public void createSet(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType, String thisClass, boolean makePrivate, boolean defer) {
+
         for(Map.Entry<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> b : byType.entrySet()){
 
             List<DescriptorProtos.FieldDescriptorProto> fields = b.getValue();
@@ -564,13 +567,7 @@ public class FastProtoGenerator extends Generator {
             String javaType = getJavaTypeName(b.getKey(),true);
 
 
-            if (type.repeated) {
-                continue;
-            }
-            if(type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING){
-                makeStringBuilderGetter(sb, info, fields, thisClass, makePrivate,  defer);
-            } else {
-
+            if(type.type != DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING&&!type.repeated){
 
                 if(type.typeName==null) {
                     if(!makePrivate)
@@ -599,9 +596,12 @@ public class FastProtoGenerator extends Generator {
                 sb.line("}");
             }
         }
+
+        makeStringBuilderGetter(sb, info,byType, thisClass, makePrivate, defer);
+
     }
 
-    private void makeStringBuilderGetter(JavaOutput sb, ClassInfo info, List<DescriptorProtos.FieldDescriptorProto> fields, String thisClass,boolean makePrivate, boolean defer) {
+    private void makeStringBuilderGetter(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType, String thisClass,boolean makePrivate, boolean defer) {
         if(makePrivate)
         {
             sb.line("private StringBuilder field_builder(int field) {");
@@ -610,25 +610,52 @@ public class FastProtoGenerator extends Generator {
         else {
             sb.line("@Override");
             sb.line("public StringBuilder field_builder(int field) {");
+            if(defer){
+                sb.line("return "+thisClass+"field_builder(field);");
+                sb.line("}");
+                return;
+            }
         }
         sb.line("switch(field) {");
 
-        for(DescriptorProtos.FieldDescriptorProto field:fields){
-            sb.line("case FieldNum."+field.getName()+":");
-            if(field.hasOneofIndex()){
-                sb.line(thisClass+info.fieldSetVar + "=" + thisClass+info.fieldSetVar +"& ~("+
-                        info.oneOfs.get(field.getOneofIndex()).fields.stream().map(a->"FieldBit."+a).collect(Collectors.joining("|"))+
-                        ")|FieldBit."+field.getName() + ";");
+        for(Map.Entry<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> b : byType.entrySet()) {
 
-            } else {
-                sb.line(thisClass+info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
+            List<DescriptorProtos.FieldDescriptorProto> fields = b.getValue();
+            TypeInfo type = b.getKey();
+            String javaType = getJavaTypeName(b.getKey(), true);
+
+
+            if (type.type == DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
+                for (DescriptorProtos.FieldDescriptorProto field : fields) {
+
+                    sb.line("case FieldNum." + field.getName() + ":");
+                    if (field.hasOneofIndex()) {
+                        sb.line(thisClass + info.fieldSetVar + "=" + thisClass + info.fieldSetVar + "& ~(" +
+                                info.oneOfs.get(field.getOneofIndex()).fields.stream().map(a -> "FieldBit." + a).collect(Collectors.joining("|")) +
+                                ")|FieldBit." + field.getName() + ";");
+
+                    } else {
+                        sb.line(thisClass + info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
+                    }
+                    if (type.repeated) {
+                        sb.line("if(this." + field.getName() + "==null) {");
+                        sb.line("this." + field.getName() + "=" + makeTakeList(type) + ";");
+                        sb.line("}");
+                        sb.line("this." + info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
+                        sb.line("StringBuilder sb = pool.take(StringBuilder.class);");
+                        sb.line("this." + field.getName() + ".add(sb);");
+                        sb.line("return sb;");
+
+
+                    } else {
+                        sb.line("if(" + thisClass + field.getName() + "==null) {");
+                        sb.line(thisClass + field.getName() + " = pool.take(StringBuilder.class);");
+                        sb.line("}");
+                        sb.line("return " + thisClass + field.getName() + ";");
+                    }
+                }
             }
-            sb.line("if("+thisClass+field.getName() + "==null) {");
-            sb.line(thisClass+field.getName() + " = pool.take(StringBuilder.class);");
-            sb.line("}");
-            sb.line("return "+thisClass+field.getName() + ";");
         }
-
         sb.line("default: throw new UnsupportedOperationException(\"Unable to get string builder field \"+field);");
         sb.line("}");
         sb.line("}");
