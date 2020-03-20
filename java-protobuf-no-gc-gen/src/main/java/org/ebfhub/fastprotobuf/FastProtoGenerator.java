@@ -597,21 +597,24 @@ public class FastProtoGenerator extends Generator {
             }
         }
 
-        makeStringBuilderGetter(sb, info,byType, thisClass, makePrivate, defer);
-
+        makeStringBuilderGetter(sb, info,byType, thisClass, makePrivate, defer,false);
+        makeStringBuilderGetter(sb, info,byType, thisClass, makePrivate, defer,true);
     }
 
-    private void makeStringBuilderGetter(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType, String thisClass,boolean makePrivate, boolean defer) {
+    private void makeStringBuilderGetter(JavaOutput sb, ClassInfo info, Map<TypeInfo, List<DescriptorProtos.FieldDescriptorProto>> byType,
+                                         String thisClass,boolean makePrivate, boolean defer, boolean repeat) {
+
+        String name = repeat?"field_add_builder":"field_builder";
         if(makePrivate)
         {
-            sb.line("private StringBuilder field_builder(int field) {");
+            sb.line("private StringBuilder "+name+"(int field) {");
 
         }
         else {
             sb.line("@Override");
-            sb.line("public StringBuilder field_builder(int field) {");
+            sb.line("public StringBuilder "+name+"(int field) {");
             if(defer){
-                sb.line("return "+thisClass+"field_builder(field);");
+                sb.line("return "+thisClass+name+"(field);");
                 sb.line("}");
                 return;
             }
@@ -627,6 +630,10 @@ public class FastProtoGenerator extends Generator {
 
             if (type.type == DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
                 for (DescriptorProtos.FieldDescriptorProto field : fields) {
+
+                    if(repeat != type.repeated){
+                        continue;
+                    }
 
                     sb.line("case FieldNum." + field.getName() + ":");
                     if (field.hasOneofIndex()) {

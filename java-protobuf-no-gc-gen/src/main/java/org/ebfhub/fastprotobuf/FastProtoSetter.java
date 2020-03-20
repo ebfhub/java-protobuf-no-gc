@@ -63,9 +63,7 @@ public interface FastProtoSetter {
      * @param field a int.
      * @return a {@link java.lang.StringBuilder} object.
      */
-    default StringBuilder field_add_builder(int field){
-        return field_builder(field);
-    }
+    StringBuilder field_add_builder(int field);
 
     /**
      * Add a message field, returning a setter component

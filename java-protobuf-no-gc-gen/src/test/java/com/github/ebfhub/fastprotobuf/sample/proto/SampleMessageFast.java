@@ -95,6 +95,10 @@ public class SampleMessageFast {
                 return StringList.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return StringList.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.strings: return Field.strings;
@@ -152,6 +156,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 case FieldNum.strings:
                     this.fieldsSet|=1;
@@ -295,6 +304,10 @@ public class SampleMessageFast {
                 return FieldSetDef.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return FieldSetDef.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.fieldSetId: return Field.fieldSetId;
@@ -357,6 +370,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
@@ -493,6 +511,10 @@ public class SampleMessageFast {
                 return FieldIdDef.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return FieldIdDef.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.fieldId: return Field.fieldId;
@@ -562,6 +584,11 @@ public class SampleMessageFast {
                         this.fieldName = pool.take(StringBuilder.class);
                     }
                     return this.fieldName;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
+            switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
@@ -666,6 +693,10 @@ public class SampleMessageFast {
                 return NullValue.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return NullValue.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     default: throw new UnsupportedOperationException();
@@ -722,6 +753,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
@@ -944,6 +980,10 @@ public class SampleMessageFast {
                 return FieldAndValue.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return FieldAndValue.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.fieldId: return Field.fieldId;
@@ -1089,6 +1129,11 @@ public class SampleMessageFast {
                         this._string = pool.take(StringBuilder.class);
                     }
                     return this._string;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
+            switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
@@ -1414,6 +1459,10 @@ public class SampleMessageFast {
                 return DataMessage.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return DataMessage.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.symbol: return Field.symbol;
@@ -1540,6 +1589,11 @@ public class SampleMessageFast {
                         this.symbol = pool.take(StringBuilder.class);
                     }
                     return this.symbol;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
+            switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
         }
@@ -1788,6 +1842,10 @@ public class SampleMessageFast {
                 return SubscriberMessagePriority.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessagePriority.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.symbols: return Field.symbols;
@@ -1855,6 +1913,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 case FieldNum.symbols:
                     this.fieldsSet|=1;
@@ -2014,6 +2077,10 @@ public class SampleMessageFast {
                 return SubscriberMessageSubscribe.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessageSubscribe.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.symbols: return Field.symbols;
@@ -2076,6 +2143,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 case FieldNum.symbols:
                     this.fieldsSet|=1;
@@ -2210,6 +2282,10 @@ public class SampleMessageFast {
                 return SubscriberMessageQueueRate.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessageQueueRate.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.messagesPerSec: return Field.messagesPerSec;
@@ -2271,6 +2347,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
@@ -2368,6 +2449,10 @@ public class SampleMessageFast {
                 return SubscriberMessageFlow.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessageFlow.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.bytes: return Field.bytes;
@@ -2429,6 +2514,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
@@ -2598,6 +2688,10 @@ public class SampleMessageFast {
                 return SubscriberMessagePart.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessagePart.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.priority: return Field.priority;
@@ -2734,6 +2828,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }
@@ -2917,6 +3016,10 @@ public class SampleMessageFast {
                 return SubscriberMessage.this.field_builder(field);
             }
             @Override
+            public StringBuilder field_add_builder(int field) {
+                return SubscriberMessage.this.field_add_builder(field);
+            }
+            @Override
             public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
                 switch(fieldNum){
                     case FieldNum.messageParts: return Field.messageParts;
@@ -2982,6 +3085,11 @@ public class SampleMessageFast {
             }
         }
         private StringBuilder field_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
             }

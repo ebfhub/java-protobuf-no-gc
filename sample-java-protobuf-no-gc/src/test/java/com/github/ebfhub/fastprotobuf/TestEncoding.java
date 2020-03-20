@@ -23,10 +23,25 @@ public class TestEncoding {
         return  Base64.getDecoder().decode(line);
     }
 
+    String good="AE8QAlIJCAAo7M7+/J5cUgkIAijszv78nlxSCQgEKOzO/vyeXFIJCAYo7M7+/J5cUgQICCAAUgUICiDEAVIFCAwgxgFSCQgOKOzO/vyeXA==";
+    String bad="AE8QBFIJCAAo/Jz//J5cUgkIAij8nP/8nlxSCQgEKPyc//yeXFIJCAYo/Jz//J5cUgQICCAAUgUICiDGAVIFCAwgyAFSCQgOKPyc//yeXA==";
+
     @Test
     public void testBadMessage() throws IOException {
-        String bad="AE8QBFIJCAAo/Jz//J5cUgkIAij8nP/8nlxSCQgEKPyc//yeXFIJCAYo/Jz//J5cUgQICCAAUgUICiDGAVIFCAwgyAFSCQgOKPyc//yeXA==";
         byte[] bb = decode(bad);
+        CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
+        FastProtoReader reader=new FastProtoReader();
+        FastProtoObjectPool pool=new FastProtoObjectPool();
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        reader.parse(is,msg.getSetter());
+
+        System.out.println(msg);
+
+    }
+
+    @Test
+    public void testGoodMessage() throws IOException {
+        byte[] bb = decode(good);
         CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
         FastProtoReader reader=new FastProtoReader();
         FastProtoObjectPool pool=new FastProtoObjectPool();
