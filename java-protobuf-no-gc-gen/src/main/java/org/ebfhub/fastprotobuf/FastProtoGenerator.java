@@ -212,13 +212,29 @@ public class FastProtoGenerator extends Generator {
         // GETTER
         TypeInfo ti = getJavaTypeInfo(field);
         sb.line("public " + getJavaTypeName(ti, true, ti.repeated)+ " get" + upperCaseName(field.getName())+ "() {");
+
+        sb.line("if((this." +info.fieldSetVar + "&" + info.bits.get(field.getName()) + ")!=0){");
+
         sb.line("return this." + field.getName() + ";");
+        sb.line("} else {");
+        if(ti.type==TypeInfoType.STRING&&!ti.repeated) {
+
+            sb.line("return \"\";");  // Java version returns "" if string unset
+        } else if(isMutableOrList(ti)) {
+
+            sb.line("return null;");
+        } else if (ti.type== TypeInfoType.BOOL){
+            sb.line("return false;");
+        } else {
+            sb.line("return 0;");
+        }
+        sb.line("}");
         sb.line("}");
 
 
         String javaName = getJavaTypeName(ti, false, false);
 
-        if(ti.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+        if(ti.type== TypeInfoType.MESSAGE) {
             sb.line("public " + javaName
                     + " create" + singular(upperCaseName(field.getName()),ti.repeated) + "() {");
             sb.line("return pool.take(" + javaName + ".class);");
@@ -230,7 +246,7 @@ public class FastProtoGenerator extends Generator {
 
             if(ti.repeated) {
 
-                if(ti.type!= DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+                if(ti.type!= TypeInfoType.MESSAGE) {
 
                     String argJavaName = getJavaTypeName(ti, true, false);
 
@@ -306,7 +322,7 @@ public class FastProtoGenerator extends Generator {
                 createAddMethod(sb, info, ti, field);
                 sb.line("}");
 
-                if(ti.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
+                if(ti.type== TypeInfoType.STRING) {
                     sb.line("public " + thisClass + " set" + upperCaseName(field.getName()) +
                             "(" + getJavaTypeName(ti, true) + " val) {");
                     addSetValue(sb, ti, field, "val", info , "this.");
@@ -358,11 +374,38 @@ public class FastProtoGenerator extends Generator {
                         sb.line("os.writeBool(FieldNum."+field.getName()+"," + field.getName() + ");");
                         break;
                     case TYPE_INT32:
-                        sb.line("os.writeSInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        sb.line("os.writeInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
                         break;
                     case TYPE_INT64:
+                        sb.line("os.writeInt64(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_SINT32:
+                        sb.line("os.writeSInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_SINT64:
                         sb.line("os.writeSInt64(FieldNum." +field.getName()+"," +field.getName() + ");");
                         break;
+
+                    case TYPE_UINT32:
+                        sb.line("os.writeUInt32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_UINT64:
+                        sb.line("os.writeUInt64(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_FIXED32:
+                        sb.line("os.writeFixed32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_FIXED64:
+                        sb.line("os.writeFixed64(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+
+                    case TYPE_SFIXED32:
+                        sb.line("os.writeSFixed32(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+                    case TYPE_SFIXED64:
+                        sb.line("os.writeSFixed64(FieldNum." +field.getName()+"," +field.getName() + ");");
+                        break;
+
                     case TYPE_DOUBLE:
                         sb.line("os.writeDouble(FieldNum." +field.getName()+"," + field.getName() + ");");
                         break;
@@ -567,7 +610,7 @@ public class FastProtoGenerator extends Generator {
             String javaType = getJavaTypeName(b.getKey(),true);
 
 
-            if(type.type != DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING&&!type.repeated){
+            if(type.type != TypeInfoType.STRING&&!type.repeated){
 
                 if(type.typeName==null) {
                     if(!makePrivate)
@@ -628,7 +671,7 @@ public class FastProtoGenerator extends Generator {
             String javaType = getJavaTypeName(b.getKey(), true);
 
 
-            if (type.type == DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING) {
+            if (type.type == TypeInfoType.STRING) {
                 for (DescriptorProtos.FieldDescriptorProto field : fields) {
 
                     if(repeat != type.repeated){
@@ -693,7 +736,7 @@ public class FastProtoGenerator extends Generator {
                 List<DescriptorProtos.FieldDescriptorProto> fields = b.getValue();
                 TypeInfo type = b.getKey();
 
-                if (type.type == DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+                if (type.type == TypeInfoType.MESSAGE) {
                     for (DescriptorProtos.FieldDescriptorProto field : fields) {
                         sb.line("case FieldNum." + field.getName() + ":");
 
@@ -711,8 +754,8 @@ public class FastProtoGenerator extends Generator {
     }
 
     String makeTakeList(TypeInfo type){
-        if(type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING||
-        type.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+        if(type.type== TypeInfoType.STRING||
+        type.type== TypeInfoType.MESSAGE) {
             return "pool.takeList()";
         } else {
             String javaTypeName = getJavaTypeName(type, false, false);
@@ -751,7 +794,7 @@ public class FastProtoGenerator extends Generator {
     private String upperCaseName(String name) {
 
         if (name != null && name.length() != 0) {
-            char[] chars = name.toCharArray();
+            char[] chars = name.replaceAll("^_","").toCharArray();
             chars[0] = Character.toUpperCase(chars[0]);
             return new String(chars);
         } else {
@@ -824,7 +867,7 @@ public class FastProtoGenerator extends Generator {
                 sb.line(thisStr + field.getName() + ".add(sb);");
                 sb.line("}");
 
-            } else if(typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING){
+            } else if(typeInfo.type== TypeInfoType.STRING){
                 sb.line("if("+thisStr + field.getName() + "==null) {");
                 sb.line(thisStr + field.getName() + "=pool.take("+javaTypeName+".class);");
                 sb.line("}");
@@ -852,11 +895,11 @@ public class FastProtoGenerator extends Generator {
     }
 
     private boolean isMutableOrList(TypeInfo typeInfo) {
-        return typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE||typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING||typeInfo.repeated;
+        return typeInfo.type== TypeInfoType.MESSAGE||typeInfo.type== TypeInfoType.STRING||typeInfo.repeated;
     }
     private boolean isMutable(TypeInfo typeInfo) {
-        return typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE||
-                typeInfo.type== DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING;
+        return typeInfo.type== TypeInfoType.MESSAGE||
+                typeInfo.type== TypeInfoType.STRING;
     }
 
     private String extractPackageName(DescriptorProtos.FileDescriptorProto proto) {
@@ -871,12 +914,20 @@ public class FastProtoGenerator extends Generator {
         return Strings.nullToEmpty(proto.getPackage());
     }
 
-    private Map<DescriptorProtos.FieldDescriptorProto.Type,String> javaTypes(){
+    private static Map<DescriptorProtos.FieldDescriptorProto.Type,String> javaTypes(){
         Map<DescriptorProtos.FieldDescriptorProto.Type,String> p = new HashMap<>();
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_BOOL, "boolean");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_DOUBLE, "double");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT32, "int");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT64, "long");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT32, "int");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT64, "long");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT32, "int");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT64, "long");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED32, "int");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED64, "long");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED32, "int");
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED64, "long");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING, "StringBuilder");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE, "Object");
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FLOAT, "float");
@@ -892,18 +943,50 @@ public class FastProtoGenerator extends Generator {
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT64, WireFormat.FieldType.INT64);
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING, WireFormat.FieldType.STRING);
         p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE,WireFormat.FieldType.MESSAGE);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT32, WireFormat.FieldType.SINT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT64, WireFormat.FieldType.SINT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT32, WireFormat.FieldType.UINT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT64, WireFormat.FieldType.UINT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED32, WireFormat.FieldType.SFIXED32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED64, WireFormat.FieldType.SFIXED64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED32, WireFormat.FieldType.FIXED32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED64, WireFormat.FieldType.FIXED64);
         return p;
 
     }
     private Map<DescriptorProtos.FieldDescriptorProto.Type,String> typeToJava = javaTypes();
     private Map<DescriptorProtos.FieldDescriptorProto.Type,WireFormat.FieldType> wireTypes = javaTypes1();
 
-    private String getJavaTypeName(DescriptorProtos.FieldDescriptorProto.Type type, boolean isInput) {
-        if(isInput&&type==DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING){
-            return "CharSequence";
-        }
-        return typeToJava.getOrDefault(type, type.name());
+    private static Map<DescriptorProtos.FieldDescriptorProto.Type,TypeInfoType> typeInfoToType(){
+        Map<DescriptorProtos.FieldDescriptorProto.Type,TypeInfoType> p = new HashMap<>();
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_BOOL, TypeInfoType.BOOL);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_DOUBLE, TypeInfoType.DOUBLE);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FLOAT, TypeInfoType.FLOAT);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT32, TypeInfoType.INT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT64, TypeInfoType.INT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING, TypeInfoType.STRING);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE,TypeInfoType.MESSAGE);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT32, TypeInfoType.INT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT64, TypeInfoType.INT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT32, TypeInfoType.INT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT64, TypeInfoType.INT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED32, TypeInfoType.INT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED64, TypeInfoType.INT64);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED32, TypeInfoType.INT32);
+        p.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED64, TypeInfoType.INT64);
+        return p;
 
+    }
+
+    enum TypeInfoType
+    {
+        BOOL,
+        STRING,
+        MESSAGE,
+        FLOAT,
+        DOUBLE,
+        INT32,
+        INT64
     }
 
     static class TypeInfo
@@ -911,12 +994,14 @@ public class FastProtoGenerator extends Generator {
         public TypeInfo(String typeName, DescriptorProtos.FieldDescriptorProto.Type type,boolean repeated) {
             this.typeName = typeName;
             this.repeated = repeated;
-            this.type = type;
+            this.type = typeInfoToType().get(type);
+            this.javaClass = javaTypes().get(type);
         }
 
         String typeName;
         boolean repeated;
-        DescriptorProtos.FieldDescriptorProto.Type type;
+        TypeInfoType type;
+        String javaClass;
 
         @Override
         public boolean equals(Object o) {
@@ -951,7 +1036,11 @@ public class FastProtoGenerator extends Generator {
             name =info.typeName;
 
         } else {
-            name = getJavaTypeName(info.type,isInput);
+            if(isInput&&info.type==TypeInfoType.STRING){
+                name= "CharSequence";
+            } else{
+                name=info.javaClass;
+            }
         }
 
         if(asLisyt){

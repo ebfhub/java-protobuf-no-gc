@@ -72,8 +72,8 @@ public class FastProtoSampleMain {
 
         for(int k=0;k<10;k++){
             SampleMessageFast.FieldAndValue val = msg2.addValuesElem();
-            val.set_string("fifty"+k);
-            val.set_bool(true);
+            val.setString("fifty"+k);
+            val.setBool(true);
             val.setFieldId(k);
         }
 
@@ -86,7 +86,7 @@ public class FastProtoSampleMain {
             msg2.setSymbol("sym12");
             msg2.setSentTs(System.currentTimeMillis());
             msg2.setSymbolId(123);
-            msg2.addValue(msg2.createValue().set_string("sym14").setFieldId(1000))
+            msg2.addValue(msg2.createValue().setString("sym14").setFieldId(1000))
                     .addFieldIdDef(msg2.createFieldIdDef().setFieldId(98).setFieldName("id1D"))
                     .addFieldIdDef(msg2.createFieldIdDef().setFieldId(99).setFieldName("anotherId"));
 

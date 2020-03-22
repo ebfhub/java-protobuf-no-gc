@@ -77,3 +77,28 @@ message SubscriberMessagePart {
 message SubscriberMessage {
     repeated SubscriberMessagePart messageParts = 1;
 }
+
+
+message AllTypes
+{
+    sint32 _sint32 = 1;
+    sint64 _sint64 = 2;
+    string _string = 3;
+    int32 _int32 = 4;
+    int64 _int64 = 5;
+    bool _bool = 6;
+    double _double = 7;
+    float _float = 8;
+    int32 _ts = 9;
+    StringList _stringList = 10;
+    NullValue _null = 11;
+
+    fixed32 _fixed32 = 12;
+    fixed64 _fixed64 = 13;
+    uint32 _uint32 = 14;
+    uint64 _uint64 = 15;
+
+    sfixed32 _sfixed32 = 16;
+    sfixed64 _sfixed64 = 17;
+
+}

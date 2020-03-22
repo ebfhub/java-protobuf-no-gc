@@ -49,40 +49,90 @@ public class FastProtoReader {
             switch(wt){
                 case WireFormat.WIRETYPE_VARINT:
                 {
-                    long value = is.readInt64();
                     switch(lt){
                         case INT32:
-                            setter.field_set(field,(int)value);
+                            setter.field_set(field, is.readInt32());
                             break;
+
                         case INT64:
-                            setter.field_set(field,value);
+                            setter.field_set(field, is.readInt64());
                             break;
+
+                        case SINT32:
+                            setter.field_set(field, is.readSInt32());
+                            break;
+
+                        case SINT64:
+                            setter.field_set(field, is.readSInt64());
+                            break;
+
+                        case UINT32:
+                            setter.field_set(field, is.readUInt32());
+                            break;
+
+                        case UINT64:
+                            setter.field_set(field, is.readUInt64());
+                            break;
+
+                        case FIXED32:
+                            setter.field_set(field, is.readFixed32());
+                            break;
+
+                        case FIXED64:
+                            setter.field_set(field, is.readFixed64());
+                            break;
+
+                        case SFIXED32:
+                            setter.field_set(field, is.readSFixed32());
+                            break;
+
+                        case SFIXED64:
+                            setter.field_set(field, is.readSFixed64());
+                            break;
+
+
                         case BOOL:
-                            setter.field_set(field, value != 0);
+                            setter.field_set(field, is.readBool());
                             break;
-                        default: throw new UnsupportedOperationException();
+
+                        default:
+                            throw new UnsupportedOperationException("unknown type "+lt+":"+fd.name);
                     }
                 }
                 break;
                 case WireFormat.WIRETYPE_FIXED32:
                 {
-                    int value = is.readRawLittleEndian32();
-                    if (lt == WireFormat.FieldType.FLOAT) {
-                        float f = Float.intBitsToFloat(value);
-                        setter.field_set(field, f);
-                    } else {
-                        throw new UnsupportedOperationException();
+                    switch(lt){
+                        case FLOAT:
+                            setter.field_set(field, is.readFloat());
+                            break;
+
+                        case SFIXED32:
+                            setter.field_set(field, is.readSFixed32());
+                            break;
+                        case FIXED32:
+                            setter.field_set(field, is.readFixed32());
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("unknown type "+lt+":"+fd.name);
                     }
                 }
                 break;
                 case WireFormat.WIRETYPE_FIXED64:
                 {
-                    long value = is.readRawLittleEndian64();
-                    if (lt == WireFormat.FieldType.DOUBLE) {
-                        double f = Double.longBitsToDouble(value);
-                        setter.field_set(field, f);
-                    } else {
-                        throw new UnsupportedOperationException();
+                    switch(lt){
+                        case DOUBLE:
+                            setter.field_set(field, is.readDouble());
+                            break;
+
+                        case SFIXED64:
+                            setter.field_set(field, is.readSFixed64());
+                            break;
+                        case FIXED64:
+                            setter.field_set(field, is.readFixed64());
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("unknown type "+lt+":"+fd.name);
                     }
                 }
                 break;

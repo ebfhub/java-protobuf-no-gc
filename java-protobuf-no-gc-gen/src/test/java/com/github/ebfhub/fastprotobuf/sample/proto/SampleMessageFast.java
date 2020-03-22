@@ -71,6 +71,14 @@ public class SampleMessageFast {
                 return StringList.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 StringList.this.field_set(field,val);
             }
@@ -79,15 +87,7 @@ public class SampleMessageFast {
                 StringList.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 StringList.this.field_set(field,val);
             }
             @Override
@@ -130,6 +130,16 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -140,19 +150,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -176,7 +176,11 @@ public class SampleMessageFast {
         }
 
         public java.util.List<? extends CharSequence> getStrings() {
-            return this.strings;
+            if((this.fieldsSet&1)!=0){
+                return this.strings;
+                } else {
+                return null;
+            }
         }
         public StringList addString(CharSequence val) {
             if(this.strings==null) {
@@ -263,7 +267,7 @@ public class SampleMessageFast {
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldSetId)!=0) {
-                os.writeSInt32(FieldNum.fieldSetId,fieldSetId);
+                os.writeInt32(FieldNum.fieldSetId,fieldSetId);
             }
             if((fieldsSet & FieldBit.fieldIds)!=0) {
                 for(int n=0,size=fieldIds.size();n<size;n++){
@@ -280,6 +284,14 @@ public class SampleMessageFast {
                 return FieldSetDef.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 FieldSetDef.this.field_set(field,val);
             }
@@ -288,15 +300,7 @@ public class SampleMessageFast {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
@@ -340,6 +344,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldSetId:
+                    this.fieldSetId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -350,23 +368,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.fieldSetId:
-                    this.fieldSetId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -381,7 +385,11 @@ public class SampleMessageFast {
         }
 
         public int getFieldSetId() {
-            return this.fieldSetId;
+            if((this.fieldsSet&1)!=0){
+                return this.fieldSetId;
+                } else {
+                return 0;
+            }
         }
         public FieldSetDef setFieldSetId(int val) {
             this.fieldSetId=val;
@@ -389,7 +397,11 @@ public class SampleMessageFast {
             return this;
         }
         public gnu.trove.list.array.TIntArrayList getFieldIds() {
-            return this.fieldIds;
+            if((this.fieldsSet&2)!=0){
+                return this.fieldIds;
+                } else {
+                return null;
+            }
         }
         public FieldSetDef addFieldId(int val) {
             if(this.fieldIds==null) {
@@ -472,7 +484,7 @@ public class SampleMessageFast {
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldId)!=0) {
-                os.writeSInt32(FieldNum.fieldId,fieldId);
+                os.writeInt32(FieldNum.fieldId,fieldId);
             }
             if((fieldsSet & FieldBit.fieldName)!=0) {
                 writer.writeString(FieldNum.fieldName,os,fieldName);
@@ -487,6 +499,14 @@ public class SampleMessageFast {
                 return FieldIdDef.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 FieldIdDef.this.field_set(field,val);
             }
@@ -495,15 +515,7 @@ public class SampleMessageFast {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
@@ -547,6 +559,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldId:
+                    this.fieldId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -557,23 +583,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.fieldId:
-                    this.fieldId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -594,7 +606,11 @@ public class SampleMessageFast {
         }
 
         public int getFieldId() {
-            return this.fieldId;
+            if((this.fieldsSet&1)!=0){
+                return this.fieldId;
+                } else {
+                return 0;
+            }
         }
         public FieldIdDef setFieldId(int val) {
             this.fieldId=val;
@@ -602,7 +618,11 @@ public class SampleMessageFast {
             return this;
         }
         public CharSequence getFieldName() {
-            return this.fieldName;
+            if((this.fieldsSet&2)!=0){
+                return this.fieldName;
+                } else {
+                return "";
+            }
         }
         public StringBuilder initFieldName() {
             if (null==fieldName) {
@@ -669,6 +689,14 @@ public class SampleMessageFast {
                 return NullValue.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 NullValue.this.field_set(field,val);
             }
@@ -677,15 +705,7 @@ public class SampleMessageFast {
                 NullValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 NullValue.this.field_set(field,val);
             }
             @Override
@@ -727,6 +747,16 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -737,19 +767,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -911,16 +931,16 @@ public class SampleMessageFast {
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldId)!=0) {
-                os.writeSInt32(FieldNum.fieldId,fieldId);
+                os.writeInt32(FieldNum.fieldId,fieldId);
             }
             if((fieldsSet & FieldBit._string)!=0) {
                 writer.writeString(FieldNum._string,os,_string);
             }
             if((fieldsSet & FieldBit._int32)!=0) {
-                os.writeSInt32(FieldNum._int32,_int32);
+                os.writeInt32(FieldNum._int32,_int32);
             }
             if((fieldsSet & FieldBit._int64)!=0) {
-                os.writeSInt64(FieldNum._int64,_int64);
+                os.writeInt64(FieldNum._int64,_int64);
             }
             if((fieldsSet & FieldBit._bool)!=0) {
                 os.writeBool(FieldNum._bool,_bool);
@@ -932,7 +952,7 @@ public class SampleMessageFast {
                 os.writeFloat(FieldNum._float,_float);
             }
             if((fieldsSet & FieldBit._ts)!=0) {
-                os.writeSInt32(FieldNum._ts,_ts);
+                os.writeInt32(FieldNum._ts,_ts);
             }
             if((fieldsSet & FieldBit._stringList)!=0) {
                 writer.writeMessage(FieldNum._stringList,os,this._stringList);
@@ -950,6 +970,17 @@ public class SampleMessageFast {
                 return FieldAndValue.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                FieldAndValue.this.field_set(field,val);
+            }
+            public void field_set(int field, NullValue val) {
+                FieldAndValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                FieldAndValue.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 FieldAndValue.this.field_set(field,val);
             }
@@ -957,22 +988,11 @@ public class SampleMessageFast {
             public void field_set(int field, double val) {
                 FieldAndValue.this.field_set(field,val);
             }
-            public void field_set(int field, NullValue val) {
-                FieldAndValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, float val) {
-                FieldAndValue.this.field_set(field,val);
-            }
-            public void field_set(int field, StringList val) {
-                FieldAndValue.this.field_set(field,val);
-            }
             @Override
             public void field_set(int field, boolean val) {
                 FieldAndValue.this.field_set(field,val);
             }
-            @Override
-            public void field_set(int field, int val) {
+            public void field_set(int field, StringList val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
@@ -1036,24 +1056,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, long val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum._int64:
-                    this._int64=val;
-                    fieldsSet|=8;
-                    oneOf=OneOf._int64;
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=64;
+                    oneOf=OneOf._float;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                case FieldNum._double:
-                    this._double=val;
-                    fieldsSet|=32;
-                    oneOf=OneOf._double;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, NullValue val) {
@@ -1067,39 +1077,6 @@ public class SampleMessageFast {
                     oneOf=OneOf._null;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                case FieldNum._float:
-                    this._float=val;
-                    fieldsSet|=64;
-                    oneOf=OneOf._float;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, StringList val) {
-            switch(field) {
-                case FieldNum._stringList:
-                    if(this._stringList!=null){
-                        pool.returnSpecific(this._stringList);
-                    }
-                    this._stringList=val;
-                    fieldsSet|=256;
-                    oneOf=OneOf._stringList;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
-            }
-        }
-        private void field_set(int field, boolean val) {
-            switch(field) {
-                case FieldNum._bool:
-                    this._bool=val;
-                    fieldsSet|=16;
-                    oneOf=OneOf._bool;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
         private void field_set(int field, int val) {
@@ -1121,6 +1098,49 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private void field_set(int field, long val) {
+            switch(field) {
+                case FieldNum._int64:
+                    this._int64=val;
+                    fieldsSet|=8;
+                    oneOf=OneOf._int64;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=32;
+                    oneOf=OneOf._double;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=16;
+                    oneOf=OneOf._bool;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, StringList val) {
+            switch(field) {
+                case FieldNum._stringList:
+                    if(this._stringList!=null){
+                        pool.returnSpecific(this._stringList);
+                    }
+                    this._stringList=val;
+                    fieldsSet|=256;
+                    oneOf=OneOf._stringList;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
+            }
+        }
         private StringBuilder field_builder(int field) {
             switch(field) {
                 case FieldNum._string:
@@ -1139,24 +1159,32 @@ public class SampleMessageFast {
         }
 
         public int getFieldId() {
-            return this.fieldId;
+            if((this.fieldsSet&1)!=0){
+                return this.fieldId;
+                } else {
+                return 0;
+            }
         }
         public FieldAndValue setFieldId(int val) {
             this.fieldId=val;
             fieldsSet|=1;
             return this;
         }
-        public CharSequence get_string() {
-            return this._string;
+        public CharSequence getString() {
+            if((this.fieldsSet&2)!=0){
+                return this._string;
+                } else {
+                return "";
+            }
         }
-        public StringBuilder init_string() {
+        public StringBuilder initString() {
             if (null==_string) {
                 _string=pool.take(StringBuilder.class);
             }
             fieldsSet|=FieldBit._string;
             return _string;
         }
-        public FieldAndValue set_string(CharSequence val) {
+        public FieldAndValue setString(CharSequence val) {
             if(this._string==null) {
                 this._string=pool.take(StringBuilder.class);
             }
@@ -1166,74 +1194,102 @@ public class SampleMessageFast {
             oneOf=OneOf._string;
             return this;
         }
-        public int get_int32() {
-            return this._int32;
+        public int getInt32() {
+            if((this.fieldsSet&4)!=0){
+                return this._int32;
+                } else {
+                return 0;
+            }
         }
-        public FieldAndValue set_int32(int val) {
+        public FieldAndValue setInt32(int val) {
             this._int32=val;
             fieldsSet|=4;
             oneOf=OneOf._int32;
             return this;
         }
-        public long get_int64() {
-            return this._int64;
+        public long getInt64() {
+            if((this.fieldsSet&8)!=0){
+                return this._int64;
+                } else {
+                return 0;
+            }
         }
-        public FieldAndValue set_int64(long val) {
+        public FieldAndValue setInt64(long val) {
             this._int64=val;
             fieldsSet|=8;
             oneOf=OneOf._int64;
             return this;
         }
-        public boolean get_bool() {
-            return this._bool;
+        public boolean getBool() {
+            if((this.fieldsSet&16)!=0){
+                return this._bool;
+                } else {
+                return false;
+            }
         }
-        public FieldAndValue set_bool(boolean val) {
+        public FieldAndValue setBool(boolean val) {
             this._bool=val;
             fieldsSet|=16;
             oneOf=OneOf._bool;
             return this;
         }
-        public double get_double() {
-            return this._double;
+        public double getDouble() {
+            if((this.fieldsSet&32)!=0){
+                return this._double;
+                } else {
+                return 0;
+            }
         }
-        public FieldAndValue set_double(double val) {
+        public FieldAndValue setDouble(double val) {
             this._double=val;
             fieldsSet|=32;
             oneOf=OneOf._double;
             return this;
         }
-        public float get_float() {
-            return this._float;
+        public float getFloat() {
+            if((this.fieldsSet&64)!=0){
+                return this._float;
+                } else {
+                return 0;
+            }
         }
-        public FieldAndValue set_float(float val) {
+        public FieldAndValue setFloat(float val) {
             this._float=val;
             fieldsSet|=64;
             oneOf=OneOf._float;
             return this;
         }
-        public int get_ts() {
-            return this._ts;
+        public int getTs() {
+            if((this.fieldsSet&128)!=0){
+                return this._ts;
+                } else {
+                return 0;
+            }
         }
-        public FieldAndValue set_ts(int val) {
+        public FieldAndValue setTs(int val) {
             this._ts=val;
             fieldsSet|=128;
             oneOf=OneOf._ts;
             return this;
         }
-        public StringList get_stringList() {
-            return this._stringList;
+        public StringList getStringList() {
+            if((this.fieldsSet&256)!=0){
+                return this._stringList;
+                } else {
+                return null;
+            }
         }
-        public StringList create_stringList() {
+        public StringList createStringList() {
             return pool.take(StringList.class);
         }
-        public StringList init_stringList() {
+        public StringList initStringList() {
             if (null==_stringList) {
                 _stringList=pool.take(StringList.class);
             }
             fieldsSet|=FieldBit._stringList;
             return _stringList;
         }
-        public FieldAndValue set_stringList(StringList val) {
+        public FieldAndValue setStringList(StringList val) {
             if(this._stringList!=null){
                 pool.returnSpecific(this._stringList);
             }
@@ -1242,20 +1298,24 @@ public class SampleMessageFast {
             oneOf=OneOf._stringList;
             return this;
         }
-        public NullValue get_null() {
-            return this._null;
+        public NullValue getNull() {
+            if((this.fieldsSet&512)!=0){
+                return this._null;
+                } else {
+                return null;
+            }
         }
-        public NullValue create_null() {
+        public NullValue createNull() {
             return pool.take(NullValue.class);
         }
-        public NullValue init_null() {
+        public NullValue initNull() {
             if (null==_null) {
                 _null=pool.take(NullValue.class);
             }
             fieldsSet|=FieldBit._null;
             return _null;
         }
-        public FieldAndValue set_null(NullValue val) {
+        public FieldAndValue setNull(NullValue val) {
             if(this._null!=null){
                 pool.returnSpecific(this._null);
             }
@@ -1395,19 +1455,19 @@ public class SampleMessageFast {
                 writer.writeString(FieldNum.symbol,os,symbol);
             }
             if((fieldsSet & FieldBit.symbolId)!=0) {
-                os.writeSInt32(FieldNum.symbolId,symbolId);
+                os.writeInt32(FieldNum.symbolId,symbolId);
             }
             if((fieldsSet & FieldBit.sourceTs)!=0) {
-                os.writeSInt64(FieldNum.sourceTs,sourceTs);
+                os.writeInt64(FieldNum.sourceTs,sourceTs);
             }
             if((fieldsSet & FieldBit.messageId)!=0) {
-                os.writeSInt32(FieldNum.messageId,messageId);
+                os.writeInt32(FieldNum.messageId,messageId);
             }
             if((fieldsSet & FieldBit.sentTs)!=0) {
-                os.writeSInt64(FieldNum.sentTs,sentTs);
+                os.writeInt64(FieldNum.sentTs,sentTs);
             }
             if((fieldsSet & FieldBit.fieldSetId)!=0) {
-                os.writeSInt32(FieldNum.fieldSetId,fieldSetId);
+                os.writeInt32(FieldNum.fieldSetId,fieldSetId);
             }
             if((fieldsSet & FieldBit.defineFieldSet)!=0) {
                 writer.writeMessage(FieldNum.defineFieldSet,os,this.defineFieldSet);
@@ -1431,6 +1491,17 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return DataMessage.this.field_add(field);
             }
+            public void field_set(int field, FieldSetDef val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                DataMessage.this.field_set(field,val);
+            }
             @Override
             public void field_set(int field, long val) {
                 DataMessage.this.field_set(field,val);
@@ -1440,18 +1511,7 @@ public class SampleMessageFast {
                 DataMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                DataMessage.this.field_set(field,val);
-            }
-            public void field_set(int field, FieldSetDef val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 DataMessage.this.field_set(field,val);
             }
             @Override
@@ -1499,6 +1559,12 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
+                case FieldNum.defineFieldSet:
+                    if (null==defineFieldSet) {
+                        defineFieldSet=pool.take(FieldSetDef.class);
+                    }
+                    fieldsSet|=FieldBit.defineFieldSet;
+                    return defineFieldSet;
                 case FieldNum.fieldIdDefs:
                     if (null==fieldIdDefs) {
                         fieldIdDefs=pool.takeList();
@@ -1515,13 +1581,41 @@ public class SampleMessageFast {
                     FieldAndValue values_res = pool.take(FieldAndValue.class);
                     values.add(values_res);
                     return values_res;
-                case FieldNum.defineFieldSet:
-                    if (null==defineFieldSet) {
-                        defineFieldSet=pool.take(FieldSetDef.class);
-                    }
-                    fieldsSet|=FieldBit.defineFieldSet;
-                    return defineFieldSet;
                 default: throw new UnsupportedOperationException("Unable to add");
+            }
+        }
+        private void field_set(int field, FieldSetDef val) {
+            switch(field) {
+                case FieldNum.defineFieldSet:
+                    if(this.defineFieldSet!=null){
+                        pool.returnSpecific(this.defineFieldSet);
+                    }
+                    this.defineFieldSet=val;
+                    fieldsSet|=64;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from FieldSetDef");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.symbolId:
+                    this.symbolId=val;
+                    fieldsSet|=2;
+                    break;
+                case FieldNum.messageId:
+                    this.messageId=val;
+                    fieldsSet|=8;
+                    break;
+                case FieldNum.fieldSetId:
+                    this.fieldSetId=val;
+                    fieldsSet|=32;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private void field_set(int field, long val) {
@@ -1542,43 +1636,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, FieldSetDef val) {
-            switch(field) {
-                case FieldNum.defineFieldSet:
-                    if(this.defineFieldSet!=null){
-                        pool.returnSpecific(this.defineFieldSet);
-                    }
-                    this.defineFieldSet=val;
-                    fieldsSet|=64;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from FieldSetDef");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.symbolId:
-                    this.symbolId=val;
-                    fieldsSet|=2;
-                    break;
-                case FieldNum.messageId:
-                    this.messageId=val;
-                    fieldsSet|=8;
-                    break;
-                case FieldNum.fieldSetId:
-                    this.fieldSetId=val;
-                    fieldsSet|=32;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1599,7 +1659,11 @@ public class SampleMessageFast {
         }
 
         public CharSequence getSymbol() {
-            return this.symbol;
+            if((this.fieldsSet&1)!=0){
+                return this.symbol;
+                } else {
+                return "";
+            }
         }
         public StringBuilder initSymbol() {
             if (null==symbol) {
@@ -1618,7 +1682,11 @@ public class SampleMessageFast {
             return this;
         }
         public int getSymbolId() {
-            return this.symbolId;
+            if((this.fieldsSet&2)!=0){
+                return this.symbolId;
+                } else {
+                return 0;
+            }
         }
         public DataMessage setSymbolId(int val) {
             this.symbolId=val;
@@ -1626,7 +1694,11 @@ public class SampleMessageFast {
             return this;
         }
         public long getSourceTs() {
-            return this.sourceTs;
+            if((this.fieldsSet&4)!=0){
+                return this.sourceTs;
+                } else {
+                return 0;
+            }
         }
         public DataMessage setSourceTs(long val) {
             this.sourceTs=val;
@@ -1634,7 +1706,11 @@ public class SampleMessageFast {
             return this;
         }
         public int getMessageId() {
-            return this.messageId;
+            if((this.fieldsSet&8)!=0){
+                return this.messageId;
+                } else {
+                return 0;
+            }
         }
         public DataMessage setMessageId(int val) {
             this.messageId=val;
@@ -1642,7 +1718,11 @@ public class SampleMessageFast {
             return this;
         }
         public long getSentTs() {
-            return this.sentTs;
+            if((this.fieldsSet&16)!=0){
+                return this.sentTs;
+                } else {
+                return 0;
+            }
         }
         public DataMessage setSentTs(long val) {
             this.sentTs=val;
@@ -1650,7 +1730,11 @@ public class SampleMessageFast {
             return this;
         }
         public int getFieldSetId() {
-            return this.fieldSetId;
+            if((this.fieldsSet&32)!=0){
+                return this.fieldSetId;
+                } else {
+                return 0;
+            }
         }
         public DataMessage setFieldSetId(int val) {
             this.fieldSetId=val;
@@ -1658,7 +1742,11 @@ public class SampleMessageFast {
             return this;
         }
         public FieldSetDef getDefineFieldSet() {
-            return this.defineFieldSet;
+            if((this.fieldsSet&64)!=0){
+                return this.defineFieldSet;
+                } else {
+                return null;
+            }
         }
         public FieldSetDef createDefineFieldSet() {
             return pool.take(FieldSetDef.class);
@@ -1679,7 +1767,11 @@ public class SampleMessageFast {
             return this;
         }
         public java.util.List<FieldIdDef> getFieldIdDefs() {
-            return this.fieldIdDefs;
+            if((this.fieldsSet&128)!=0){
+                return this.fieldIdDefs;
+                } else {
+                return null;
+            }
         }
         public FieldIdDef createFieldIdDef() {
             return pool.take(FieldIdDef.class);
@@ -1705,7 +1797,11 @@ public class SampleMessageFast {
             return fieldIdDefs.size();
         }
         public java.util.List<FieldAndValue> getValues() {
-            return this.values;
+            if((this.fieldsSet&256)!=0){
+                return this.values;
+                } else {
+                return null;
+            }
         }
         public FieldAndValue createValue() {
             return pool.take(FieldAndValue.class);
@@ -1803,10 +1899,10 @@ public class SampleMessageFast {
                 }
             }
             if((fieldsSet & FieldBit.pri)!=0) {
-                os.writeSInt32(FieldNum.pri,pri);
+                os.writeInt32(FieldNum.pri,pri);
             }
             if((fieldsSet & FieldBit.until)!=0) {
-                os.writeSInt64(FieldNum.until,until);
+                os.writeInt64(FieldNum.until,until);
             }
         }
 
@@ -1818,6 +1914,14 @@ public class SampleMessageFast {
                 return SubscriberMessagePriority.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
@@ -1826,15 +1930,7 @@ public class SampleMessageFast {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
@@ -1879,6 +1975,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 case FieldNum.until:
@@ -1893,23 +2003,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1933,7 +2029,11 @@ public class SampleMessageFast {
         }
 
         public java.util.List<? extends CharSequence> getSymbols() {
-            return this.symbols;
+            if((this.fieldsSet&1)!=0){
+                return this.symbols;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessagePriority addSymbol(CharSequence val) {
             if(this.symbols==null) {
@@ -1961,7 +2061,11 @@ public class SampleMessageFast {
             return symbols.size();
         }
         public int getPri() {
-            return this.pri;
+            if((this.fieldsSet&2)!=0){
+                return this.pri;
+                } else {
+                return 0;
+            }
         }
         public SubscriberMessagePriority setPri(int val) {
             this.pri=val;
@@ -1969,7 +2073,11 @@ public class SampleMessageFast {
             return this;
         }
         public long getUntil() {
-            return this.until;
+            if((this.fieldsSet&4)!=0){
+                return this.until;
+                } else {
+                return 0;
+            }
         }
         public SubscriberMessagePriority setUntil(long val) {
             this.until=val;
@@ -2041,7 +2149,7 @@ public class SampleMessageFast {
                 }
             }
             if((fieldsSet & FieldBit.pri)!=0) {
-                os.writeSInt32(FieldNum.pri,pri);
+                os.writeInt32(FieldNum.pri,pri);
             }
         }
 
@@ -2053,6 +2161,14 @@ public class SampleMessageFast {
                 return SubscriberMessageSubscribe.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
@@ -2061,15 +2177,7 @@ public class SampleMessageFast {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
@@ -2113,6 +2221,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -2123,23 +2245,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2163,7 +2271,11 @@ public class SampleMessageFast {
         }
 
         public java.util.List<? extends CharSequence> getSymbols() {
-            return this.symbols;
+            if((this.fieldsSet&1)!=0){
+                return this.symbols;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessageSubscribe addSymbol(CharSequence val) {
             if(this.symbols==null) {
@@ -2191,7 +2303,11 @@ public class SampleMessageFast {
             return symbols.size();
         }
         public int getPri() {
-            return this.pri;
+            if((this.fieldsSet&2)!=0){
+                return this.pri;
+                } else {
+                return 0;
+            }
         }
         public SubscriberMessageSubscribe setPri(int val) {
             this.pri=val;
@@ -2258,6 +2374,14 @@ public class SampleMessageFast {
                 return SubscriberMessageQueueRate.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
@@ -2266,15 +2390,7 @@ public class SampleMessageFast {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
@@ -2317,6 +2433,16 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -2331,19 +2457,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2358,7 +2474,11 @@ public class SampleMessageFast {
         }
 
         public double getMessagesPerSec() {
-            return this.messagesPerSec;
+            if((this.fieldsSet&1)!=0){
+                return this.messagesPerSec;
+                } else {
+                return 0;
+            }
         }
         public SubscriberMessageQueueRate setMessagesPerSec(double val) {
             this.messagesPerSec=val;
@@ -2413,7 +2533,7 @@ public class SampleMessageFast {
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.bytes)!=0) {
-                os.writeSInt32(FieldNum.bytes,bytes);
+                os.writeInt32(FieldNum.bytes,bytes);
             }
         }
 
@@ -2425,6 +2545,14 @@ public class SampleMessageFast {
                 return SubscriberMessageFlow.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
@@ -2433,15 +2561,7 @@ public class SampleMessageFast {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
@@ -2484,6 +2604,20 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.bytes:
+                    this.bytes=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -2494,23 +2628,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.bytes:
-                    this.bytes=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2525,7 +2645,11 @@ public class SampleMessageFast {
         }
 
         public int getBytes() {
-            return this.bytes;
+            if((this.fieldsSet&1)!=0){
+                return this.bytes;
+                } else {
+                return 0;
+            }
         }
         public SubscriberMessageFlow setBytes(int val) {
             this.bytes=val;
@@ -2652,13 +2776,15 @@ public class SampleMessageFast {
                 return SubscriberMessagePart.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            public void field_set(int field, SubscriberMessageFlow val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            public void field_set(int field, SubscriberMessageSubscribe val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
@@ -2668,19 +2794,17 @@ public class SampleMessageFast {
             public void field_set(int field, SubscriberMessagePriority val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
-            @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, SubscriberMessageQueueRate val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            public void field_set(int field, SubscriberMessageSubscribe val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
             public void field_set(int field, boolean val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
-            public void field_set(int field, SubscriberMessageQueueRate val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
+            public void field_set(int field, SubscriberMessageFlow val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
@@ -2723,18 +2847,6 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
-                case FieldNum.flow:
-                    if (null==flow) {
-                        flow=pool.take(SubscriberMessageFlow.class);
-                    }
-                    fieldsSet|=FieldBit.flow;
-                    return flow;
-                case FieldNum.subscribe:
-                    if (null==subscribe) {
-                        subscribe=pool.take(SubscriberMessageSubscribe.class);
-                    }
-                    fieldsSet|=FieldBit.subscribe;
-                    return subscribe;
                 case FieldNum.priority:
                     if (null==priority) {
                         priority=pool.take(SubscriberMessagePriority.class);
@@ -2747,38 +2859,34 @@ public class SampleMessageFast {
                     }
                     fieldsSet|=FieldBit.queueRate;
                     return queueRate;
+                case FieldNum.subscribe:
+                    if (null==subscribe) {
+                        subscribe=pool.take(SubscriberMessageSubscribe.class);
+                    }
+                    fieldsSet|=FieldBit.subscribe;
+                    return subscribe;
+                case FieldNum.flow:
+                    if (null==flow) {
+                        flow=pool.take(SubscriberMessageFlow.class);
+                    }
+                    fieldsSet|=FieldBit.flow;
+                    return flow;
                 default: throw new UnsupportedOperationException("Unable to add");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, SubscriberMessageFlow val) {
-            switch(field) {
-                case FieldNum.flow:
-                    if(this.flow!=null){
-                        pool.returnSpecific(this.flow);
-                    }
-                    this.flow=val;
-                    fieldsSet|=8;
-                    oneOf=OneOf.flow;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
-            }
-        }
-        private void field_set(int field, SubscriberMessageSubscribe val) {
-            switch(field) {
-                case FieldNum.subscribe:
-                    if(this.subscribe!=null){
-                        pool.returnSpecific(this.subscribe);
-                    }
-                    this.subscribe=val;
-                    fieldsSet|=2;
-                    oneOf=OneOf.subscribe;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageSubscribe");
             }
         }
         private void field_set(int field, double val) {
@@ -2799,16 +2907,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessagePriority");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, boolean val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
         private void field_set(int field, SubscriberMessageQueueRate val) {
             switch(field) {
                 case FieldNum.queueRate:
@@ -2822,9 +2920,35 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageQueueRate");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, SubscriberMessageSubscribe val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                case FieldNum.subscribe:
+                    if(this.subscribe!=null){
+                        pool.returnSpecific(this.subscribe);
+                    }
+                    this.subscribe=val;
+                    fieldsSet|=2;
+                    oneOf=OneOf.subscribe;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageSubscribe");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, SubscriberMessageFlow val) {
+            switch(field) {
+                case FieldNum.flow:
+                    if(this.flow!=null){
+                        pool.returnSpecific(this.flow);
+                    }
+                    this.flow=val;
+                    fieldsSet|=8;
+                    oneOf=OneOf.flow;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2839,7 +2963,11 @@ public class SampleMessageFast {
         }
 
         public SubscriberMessagePriority getPriority() {
-            return this.priority;
+            if((this.fieldsSet&1)!=0){
+                return this.priority;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessagePriority createPriority() {
             return pool.take(SubscriberMessagePriority.class);
@@ -2861,7 +2989,11 @@ public class SampleMessageFast {
             return this;
         }
         public SubscriberMessageSubscribe getSubscribe() {
-            return this.subscribe;
+            if((this.fieldsSet&2)!=0){
+                return this.subscribe;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessageSubscribe createSubscribe() {
             return pool.take(SubscriberMessageSubscribe.class);
@@ -2883,7 +3015,11 @@ public class SampleMessageFast {
             return this;
         }
         public SubscriberMessageQueueRate getQueueRate() {
-            return this.queueRate;
+            if((this.fieldsSet&4)!=0){
+                return this.queueRate;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessageQueueRate createQueueRate() {
             return pool.take(SubscriberMessageQueueRate.class);
@@ -2905,7 +3041,11 @@ public class SampleMessageFast {
             return this;
         }
         public SubscriberMessageFlow getFlow() {
-            return this.flow;
+            if((this.fieldsSet&8)!=0){
+                return this.flow;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessageFlow createFlow() {
             return pool.take(SubscriberMessageFlow.class);
@@ -2992,6 +3132,14 @@ public class SampleMessageFast {
                 return SubscriberMessage.this.field_add(field);
             }
             @Override
+            public void field_set(int field, float val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, long val) {
                 SubscriberMessage.this.field_set(field,val);
             }
@@ -3000,15 +3148,7 @@ public class SampleMessageFast {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
@@ -3059,6 +3199,16 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, long val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
@@ -3069,19 +3219,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -3096,7 +3236,11 @@ public class SampleMessageFast {
         }
 
         public java.util.List<SubscriberMessagePart> getMessageParts() {
-            return this.messageParts;
+            if((this.fieldsSet&1)!=0){
+                return this.messageParts;
+                } else {
+                return null;
+            }
         }
         public SubscriberMessagePart createMessagePart() {
             return pool.take(SubscriberMessagePart.class);
@@ -3120,6 +3264,710 @@ public class SampleMessageFast {
         }
         public int getMessagePartsSize() {
             return messageParts.size();
+        }
+
+    }
+    public static class AllTypes implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
+        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+        private int _sint32;
+        private long _sint64;
+        private StringBuilder _string;
+        private int _int32;
+        private long _int64;
+        private boolean _bool;
+        private double _double;
+        private float _float;
+        private int _ts;
+        private StringList _stringList;
+        private NullValue _null;
+        private int _fixed32;
+        private long _fixed64;
+        private int _uint32;
+        private long _uint64;
+        private int _sfixed32;
+        private long _sfixed64;
+
+
+        private int fieldsSet=0;
+
+        private AllTypes (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
+            this.pool=pool;
+        }
+        public static AllTypes create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
+            return new AllTypes(pool);
+        }
+        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
+            return this.pool;
+        }
+        private static class FieldNum {
+            static final int _sint32=1;
+            static final int _sint64=2;
+            static final int _string=3;
+            static final int _int32=4;
+            static final int _int64=5;
+            static final int _bool=6;
+            static final int _double=7;
+            static final int _float=8;
+            static final int _ts=9;
+            static final int _stringList=10;
+            static final int _null=11;
+            static final int _fixed32=12;
+            static final int _fixed64=13;
+            static final int _uint32=14;
+            static final int _uint64=15;
+            static final int _sfixed32=16;
+            static final int _sfixed64=17;
+        }
+        private static class FieldBit {
+            static final int _sint32=1;
+            static final int _sint64=2;
+            static final int _string=4;
+            static final int _int32=8;
+            static final int _int64=16;
+            static final int _bool=32;
+            static final int _double=64;
+            static final int _float=128;
+            static final int _ts=256;
+            static final int _stringList=512;
+            static final int _null=1024;
+            static final int _fixed32=2048;
+            static final int _fixed64=4096;
+            static final int _uint32=8192;
+            static final int _uint64=16384;
+            static final int _sfixed32=32768;
+            static final int _sfixed64=65536;
+        }
+
+        public static class Field {
+            public static org.ebfhub.fastprotobuf.FastProtoField _sint32=new org.ebfhub.fastprotobuf.FastProtoField("_sint32",FieldNum._sint32,FieldBit._sint32,WireFormat.FieldType.SINT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _sint64=new org.ebfhub.fastprotobuf.FastProtoField("_sint64",FieldNum._sint64,FieldBit._sint64,WireFormat.FieldType.SINT64,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _string=new org.ebfhub.fastprotobuf.FastProtoField("_string",FieldNum._string,FieldBit._string,WireFormat.FieldType.STRING,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _int32=new org.ebfhub.fastprotobuf.FastProtoField("_int32",FieldNum._int32,FieldBit._int32,WireFormat.FieldType.INT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _int64=new org.ebfhub.fastprotobuf.FastProtoField("_int64",FieldNum._int64,FieldBit._int64,WireFormat.FieldType.INT64,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _bool=new org.ebfhub.fastprotobuf.FastProtoField("_bool",FieldNum._bool,FieldBit._bool,WireFormat.FieldType.BOOL,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _double=new org.ebfhub.fastprotobuf.FastProtoField("_double",FieldNum._double,FieldBit._double,WireFormat.FieldType.DOUBLE,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _float=new org.ebfhub.fastprotobuf.FastProtoField("_float",FieldNum._float,FieldBit._float,WireFormat.FieldType.FLOAT,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _ts=new org.ebfhub.fastprotobuf.FastProtoField("_ts",FieldNum._ts,FieldBit._ts,WireFormat.FieldType.INT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _stringList=new org.ebfhub.fastprotobuf.FastProtoField("_stringList",FieldNum._stringList,FieldBit._stringList,WireFormat.FieldType.MESSAGE,false,StringList.class);
+            public static org.ebfhub.fastprotobuf.FastProtoField _null=new org.ebfhub.fastprotobuf.FastProtoField("_null",FieldNum._null,FieldBit._null,WireFormat.FieldType.MESSAGE,false,NullValue.class);
+            public static org.ebfhub.fastprotobuf.FastProtoField _fixed32=new org.ebfhub.fastprotobuf.FastProtoField("_fixed32",FieldNum._fixed32,FieldBit._fixed32,WireFormat.FieldType.FIXED32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _fixed64=new org.ebfhub.fastprotobuf.FastProtoField("_fixed64",FieldNum._fixed64,FieldBit._fixed64,WireFormat.FieldType.FIXED64,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _uint32=new org.ebfhub.fastprotobuf.FastProtoField("_uint32",FieldNum._uint32,FieldBit._uint32,WireFormat.FieldType.UINT32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _uint64=new org.ebfhub.fastprotobuf.FastProtoField("_uint64",FieldNum._uint64,FieldBit._uint64,WireFormat.FieldType.UINT64,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _sfixed32=new org.ebfhub.fastprotobuf.FastProtoField("_sfixed32",FieldNum._sfixed32,FieldBit._sfixed32,WireFormat.FieldType.SFIXED32,false,null);
+            public static org.ebfhub.fastprotobuf.FastProtoField _sfixed64=new org.ebfhub.fastprotobuf.FastProtoField("_sfixed64",FieldNum._sfixed64,FieldBit._sfixed64,WireFormat.FieldType.SFIXED64,false,null);
+        }
+
+        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
+            return (fieldsSet & f.bit)!=0;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            if((fieldsSet & FieldBit._sint32)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_sint32=").append(_sint32);
+            }
+            if((fieldsSet & FieldBit._sint64)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_sint64=").append(_sint64);
+            }
+            if((fieldsSet & FieldBit._string)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_string=").append(_string);
+            }
+            if((fieldsSet & FieldBit._int32)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_int32=").append(_int32);
+            }
+            if((fieldsSet & FieldBit._int64)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_int64=").append(_int64);
+            }
+            if((fieldsSet & FieldBit._bool)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_bool=").append(_bool);
+            }
+            if((fieldsSet & FieldBit._double)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_double=").append(_double);
+            }
+            if((fieldsSet & FieldBit._float)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_float=").append(_float);
+            }
+            if((fieldsSet & FieldBit._ts)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_ts=").append(_ts);
+            }
+            if((fieldsSet & FieldBit._stringList)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_stringList=").append(_stringList);
+            }
+            if((fieldsSet & FieldBit._null)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_null=").append(_null);
+            }
+            if((fieldsSet & FieldBit._fixed32)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_fixed32=").append(_fixed32);
+            }
+            if((fieldsSet & FieldBit._fixed64)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_fixed64=").append(_fixed64);
+            }
+            if((fieldsSet & FieldBit._uint32)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_uint32=").append(_uint32);
+            }
+            if((fieldsSet & FieldBit._uint64)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_uint64=").append(_uint64);
+            }
+            if((fieldsSet & FieldBit._sfixed32)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_sfixed32=").append(_sfixed32);
+            }
+            if((fieldsSet & FieldBit._sfixed64)!=0) {
+                if(sb.length()>0) sb.append(";");
+                sb.append("_sfixed64=").append(_sfixed64);
+            }
+            return sb.toString();
+        }
+        @Override
+        public void clear(){
+            fieldsSet=0;
+            if(this._string!=null){
+                this.pool.returnSpecific(this._string);
+                this._string=null;
+            }
+            if(this._stringList!=null){
+                this.pool.returnSpecific(this._stringList);
+                this._stringList=null;
+            }
+            if(this._null!=null){
+                this.pool.returnSpecific(this._null);
+                this._null=null;
+            }
+        }
+        public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
+            if((fieldsSet & FieldBit._sint32)!=0) {
+                os.writeSInt32(FieldNum._sint32,_sint32);
+            }
+            if((fieldsSet & FieldBit._sint64)!=0) {
+                os.writeSInt64(FieldNum._sint64,_sint64);
+            }
+            if((fieldsSet & FieldBit._string)!=0) {
+                writer.writeString(FieldNum._string,os,_string);
+            }
+            if((fieldsSet & FieldBit._int32)!=0) {
+                os.writeInt32(FieldNum._int32,_int32);
+            }
+            if((fieldsSet & FieldBit._int64)!=0) {
+                os.writeInt64(FieldNum._int64,_int64);
+            }
+            if((fieldsSet & FieldBit._bool)!=0) {
+                os.writeBool(FieldNum._bool,_bool);
+            }
+            if((fieldsSet & FieldBit._double)!=0) {
+                os.writeDouble(FieldNum._double,_double);
+            }
+            if((fieldsSet & FieldBit._float)!=0) {
+                os.writeFloat(FieldNum._float,_float);
+            }
+            if((fieldsSet & FieldBit._ts)!=0) {
+                os.writeInt32(FieldNum._ts,_ts);
+            }
+            if((fieldsSet & FieldBit._stringList)!=0) {
+                writer.writeMessage(FieldNum._stringList,os,this._stringList);
+            }
+            if((fieldsSet & FieldBit._null)!=0) {
+                writer.writeMessage(FieldNum._null,os,this._null);
+            }
+            if((fieldsSet & FieldBit._fixed32)!=0) {
+                os.writeFixed32(FieldNum._fixed32,_fixed32);
+            }
+            if((fieldsSet & FieldBit._fixed64)!=0) {
+                os.writeFixed64(FieldNum._fixed64,_fixed64);
+            }
+            if((fieldsSet & FieldBit._uint32)!=0) {
+                os.writeUInt32(FieldNum._uint32,_uint32);
+            }
+            if((fieldsSet & FieldBit._uint64)!=0) {
+                os.writeUInt64(FieldNum._uint64,_uint64);
+            }
+            if((fieldsSet & FieldBit._sfixed32)!=0) {
+                os.writeSFixed32(FieldNum._sfixed32,_sfixed32);
+            }
+            if((fieldsSet & FieldBit._sfixed64)!=0) {
+                os.writeSFixed64(FieldNum._sfixed64,_sfixed64);
+            }
+        }
+
+        @Override
+        public org.ebfhub.fastprotobuf.FastProtoSetter getSetter() { return _setter; }
+        private final org.ebfhub.fastprotobuf.FastProtoSetter _setter = new org.ebfhub.fastprotobuf.FastProtoSetter(){
+            @Override
+            public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
+                return AllTypes.this.field_add(field);
+            }
+            @Override
+            public void field_set(int field, float val) {
+                AllTypes.this.field_set(field,val);
+            }
+            public void field_set(int field, NullValue val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, long val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, boolean val) {
+                AllTypes.this.field_set(field,val);
+            }
+            public void field_set(int field, StringList val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public StringBuilder field_builder(int field) {
+                return AllTypes.this.field_builder(field);
+            }
+            @Override
+            public StringBuilder field_add_builder(int field) {
+                return AllTypes.this.field_add_builder(field);
+            }
+            @Override
+            public org.ebfhub.fastprotobuf.FastProtoField field_getDef(int fieldNum){
+                switch(fieldNum){
+                    case FieldNum._sint32: return Field._sint32;
+                    case FieldNum._sint64: return Field._sint64;
+                    case FieldNum._string: return Field._string;
+                    case FieldNum._int32: return Field._int32;
+                    case FieldNum._int64: return Field._int64;
+                    case FieldNum._bool: return Field._bool;
+                    case FieldNum._double: return Field._double;
+                    case FieldNum._float: return Field._float;
+                    case FieldNum._ts: return Field._ts;
+                    case FieldNum._stringList: return Field._stringList;
+                    case FieldNum._null: return Field._null;
+                    case FieldNum._fixed32: return Field._fixed32;
+                    case FieldNum._fixed64: return Field._fixed64;
+                    case FieldNum._uint32: return Field._uint32;
+                    case FieldNum._uint64: return Field._uint64;
+                    case FieldNum._sfixed32: return Field._sfixed32;
+                    case FieldNum._sfixed64: return Field._sfixed64;
+                    default: throw new UnsupportedOperationException();
+                }
+            }
+
+            private final java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_all = java.util.Arrays.asList(Field._sint32, Field._sint64, Field._string, Field._int32, Field._int64, Field._bool, Field._double, Field._float, Field._ts, Field._stringList, Field._null, Field._fixed32, Field._fixed64, Field._uint32, Field._uint64, Field._sfixed32, Field._sfixed64);
+
+            @Override
+            public java.util.List<org.ebfhub.fastprotobuf.FastProtoField> field_getAll(){
+                return field_all;
+            }
+
+            @Override
+            public void clear(){
+                AllTypes.this.clear();
+            }
+            @Override
+            public String toString(){
+                return AllTypes.this.toString();
+            }
+
+        };
+
+        // Private impls
+        private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
+            switch(field) {
+                case FieldNum._null:
+                    if (null==_null) {
+                        _null=pool.take(NullValue.class);
+                    }
+                    fieldsSet|=FieldBit._null;
+                    return _null;
+                case FieldNum._stringList:
+                    if (null==_stringList) {
+                        _stringList=pool.take(StringList.class);
+                    }
+                    fieldsSet|=FieldBit._stringList;
+                    return _stringList;
+                default: throw new UnsupportedOperationException("Unable to add");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=128;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, NullValue val) {
+            switch(field) {
+                case FieldNum._null:
+                    if(this._null!=null){
+                        pool.returnSpecific(this._null);
+                    }
+                    this._null=val;
+                    fieldsSet|=1024;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum._sint32:
+                    this._sint32=val;
+                    fieldsSet|=1;
+                    break;
+                case FieldNum._int32:
+                    this._int32=val;
+                    fieldsSet|=8;
+                    break;
+                case FieldNum._ts:
+                    this._ts=val;
+                    fieldsSet|=256;
+                    break;
+                case FieldNum._fixed32:
+                    this._fixed32=val;
+                    fieldsSet|=2048;
+                    break;
+                case FieldNum._uint32:
+                    this._uint32=val;
+                    fieldsSet|=8192;
+                    break;
+                case FieldNum._sfixed32:
+                    this._sfixed32=val;
+                    fieldsSet|=32768;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
+        private void field_set(int field, long val) {
+            switch(field) {
+                case FieldNum._sint64:
+                    this._sint64=val;
+                    fieldsSet|=2;
+                    break;
+                case FieldNum._int64:
+                    this._int64=val;
+                    fieldsSet|=16;
+                    break;
+                case FieldNum._fixed64:
+                    this._fixed64=val;
+                    fieldsSet|=4096;
+                    break;
+                case FieldNum._uint64:
+                    this._uint64=val;
+                    fieldsSet|=16384;
+                    break;
+                case FieldNum._sfixed64:
+                    this._sfixed64=val;
+                    fieldsSet|=65536;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=64;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=32;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, StringList val) {
+            switch(field) {
+                case FieldNum._stringList:
+                    if(this._stringList!=null){
+                        pool.returnSpecific(this._stringList);
+                    }
+                    this._stringList=val;
+                    fieldsSet|=512;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
+            }
+        }
+        private StringBuilder field_builder(int field) {
+            switch(field) {
+                case FieldNum._string:
+                    this.fieldsSet|=4;
+                    if(this._string==null) {
+                        this._string = pool.take(StringBuilder.class);
+                    }
+                    return this._string;
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+        private StringBuilder field_add_builder(int field) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to get string builder field "+field);
+            }
+        }
+
+        public int getSint32() {
+            if((this.fieldsSet&1)!=0){
+                return this._sint32;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setSint32(int val) {
+            this._sint32=val;
+            fieldsSet|=1;
+            return this;
+        }
+        public long getSint64() {
+            if((this.fieldsSet&2)!=0){
+                return this._sint64;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setSint64(long val) {
+            this._sint64=val;
+            fieldsSet|=2;
+            return this;
+        }
+        public CharSequence getString() {
+            if((this.fieldsSet&4)!=0){
+                return this._string;
+                } else {
+                return "";
+            }
+        }
+        public StringBuilder initString() {
+            if (null==_string) {
+                _string=pool.take(StringBuilder.class);
+            }
+            fieldsSet|=FieldBit._string;
+            return _string;
+        }
+        public AllTypes setString(CharSequence val) {
+            if(this._string==null) {
+                this._string=pool.take(StringBuilder.class);
+            }
+            this._string.setLength(0);
+            this._string.append(val);
+            fieldsSet|=4;
+            return this;
+        }
+        public int getInt32() {
+            if((this.fieldsSet&8)!=0){
+                return this._int32;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setInt32(int val) {
+            this._int32=val;
+            fieldsSet|=8;
+            return this;
+        }
+        public long getInt64() {
+            if((this.fieldsSet&16)!=0){
+                return this._int64;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setInt64(long val) {
+            this._int64=val;
+            fieldsSet|=16;
+            return this;
+        }
+        public boolean getBool() {
+            if((this.fieldsSet&32)!=0){
+                return this._bool;
+                } else {
+                return false;
+            }
+        }
+        public AllTypes setBool(boolean val) {
+            this._bool=val;
+            fieldsSet|=32;
+            return this;
+        }
+        public double getDouble() {
+            if((this.fieldsSet&64)!=0){
+                return this._double;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setDouble(double val) {
+            this._double=val;
+            fieldsSet|=64;
+            return this;
+        }
+        public float getFloat() {
+            if((this.fieldsSet&128)!=0){
+                return this._float;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setFloat(float val) {
+            this._float=val;
+            fieldsSet|=128;
+            return this;
+        }
+        public int getTs() {
+            if((this.fieldsSet&256)!=0){
+                return this._ts;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setTs(int val) {
+            this._ts=val;
+            fieldsSet|=256;
+            return this;
+        }
+        public StringList getStringList() {
+            if((this.fieldsSet&512)!=0){
+                return this._stringList;
+                } else {
+                return null;
+            }
+        }
+        public StringList createStringList() {
+            return pool.take(StringList.class);
+        }
+        public StringList initStringList() {
+            if (null==_stringList) {
+                _stringList=pool.take(StringList.class);
+            }
+            fieldsSet|=FieldBit._stringList;
+            return _stringList;
+        }
+        public AllTypes setStringList(StringList val) {
+            if(this._stringList!=null){
+                pool.returnSpecific(this._stringList);
+            }
+            this._stringList=val;
+            fieldsSet|=512;
+            return this;
+        }
+        public NullValue getNull() {
+            if((this.fieldsSet&1024)!=0){
+                return this._null;
+                } else {
+                return null;
+            }
+        }
+        public NullValue createNull() {
+            return pool.take(NullValue.class);
+        }
+        public NullValue initNull() {
+            if (null==_null) {
+                _null=pool.take(NullValue.class);
+            }
+            fieldsSet|=FieldBit._null;
+            return _null;
+        }
+        public AllTypes setNull(NullValue val) {
+            if(this._null!=null){
+                pool.returnSpecific(this._null);
+            }
+            this._null=val;
+            fieldsSet|=1024;
+            return this;
+        }
+        public int getFixed32() {
+            if((this.fieldsSet&2048)!=0){
+                return this._fixed32;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setFixed32(int val) {
+            this._fixed32=val;
+            fieldsSet|=2048;
+            return this;
+        }
+        public long getFixed64() {
+            if((this.fieldsSet&4096)!=0){
+                return this._fixed64;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setFixed64(long val) {
+            this._fixed64=val;
+            fieldsSet|=4096;
+            return this;
+        }
+        public int getUint32() {
+            if((this.fieldsSet&8192)!=0){
+                return this._uint32;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setUint32(int val) {
+            this._uint32=val;
+            fieldsSet|=8192;
+            return this;
+        }
+        public long getUint64() {
+            if((this.fieldsSet&16384)!=0){
+                return this._uint64;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setUint64(long val) {
+            this._uint64=val;
+            fieldsSet|=16384;
+            return this;
+        }
+        public int getSfixed32() {
+            if((this.fieldsSet&32768)!=0){
+                return this._sfixed32;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setSfixed32(int val) {
+            this._sfixed32=val;
+            fieldsSet|=32768;
+            return this;
+        }
+        public long getSfixed64() {
+            if((this.fieldsSet&65536)!=0){
+                return this._sfixed64;
+                } else {
+                return 0;
+            }
+        }
+        public AllTypes setSfixed64(long val) {
+            this._sfixed64=val;
+            fieldsSet|=65536;
+            return this;
         }
 
     }

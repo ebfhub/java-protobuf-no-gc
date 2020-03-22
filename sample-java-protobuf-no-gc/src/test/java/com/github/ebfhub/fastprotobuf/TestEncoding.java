@@ -13,8 +13,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TestEncoding {
 
@@ -101,7 +100,7 @@ public class TestEncoding {
 
         for(int k=0;k<10;k++){
             msg2.addValue(msg2.createValue()
-                    .set_string("fifty"+k).set_bool(true).setFieldId(k));
+                    .setString("fifty"+k).setBool(true).setFieldId(k));
         }
 
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
@@ -119,9 +118,9 @@ public class TestEncoding {
 
                     .addValue(
                             msg2.createValue()
-                                .set_string("sym14")
+                                .setString("sym14")
                                 .setFieldId(1000)
-                                .set_stringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
                                         .addString("onwe")
                                         .addString("strTwo")
                                         .addString("ninety")
@@ -164,9 +163,9 @@ public class TestEncoding {
                 .setSymbol("sym12")
                 .addValue(
                         msg2.createValue()
-                                .set_string("sym14")
+                                .setString("sym14")
                                 .setFieldId(1000)
-                                .set_stringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
                                         .addString("a")
                                         .addString("b")
                                         .addString("c")
@@ -174,7 +173,7 @@ public class TestEncoding {
 
                 );
 
-        SampleMessageFast.StringList sl = msg2.getValues().get(0).get_stringList();
+        SampleMessageFast.StringList sl = msg2.getValues().get(0).getStringList();
         assertEquals(Arrays.asList("one","two","a","b","c","d1000"), sl.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
@@ -193,7 +192,111 @@ public class TestEncoding {
 
         List<SampleMessageFast.FieldAndValue> vals = msg3.getValues();
         assertEquals(1,vals.size());
-        SampleMessageFast.StringList list = vals.get(0).get_stringList();
+        SampleMessageFast.StringList list = vals.get(0).getStringList();
         assertEquals(Arrays.asList("one","two","a","b","c","d1000"), list.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
+    }
+
+
+    @Test
+    public void testSimple() throws IOException {
+        FastProtoReader reader = new FastProtoReader();
+        FastProtoObjectPool pool = reader.getPool();
+        FastProtoWriter writer = new FastProtoWriter();
+        SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.create(pool);
+        msg2
+                .setSymbol("sym12")
+                .addValue(
+                        msg2.createValue()
+                                .setFieldId(1000)
+                                .setDouble(99.5))
+
+        ;
+        assertEquals(1000,msg2.getValues().get(0).getFieldId());
+
+        ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
+        CodedOutputStream o2 = CodedOutputStream.newInstance(os1);
+        os1.reset();
+        msg2.write(o2, writer);
+        o2.flush();
+
+
+        byte[] tmp1 = os1.getBytes();
+        int tmpLen = os1.size();
+        msg3.clear();
+        reader.readItem(msg3, tmp1, 0, tmpLen);
+
+        assertEquals(1000,msg3.getValues().get(0).getFieldId());
+
+
+    }
+        @Test
+    public void testRandomData() throws IOException {
+            FastProtoReader reader = new FastProtoReader();
+            FastProtoObjectPool pool = reader.getPool();
+            FastProtoWriter writer = new FastProtoWriter();
+
+        for(int n=0;n<1000;n++) {
+
+
+            SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.create(pool);
+            SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.create(pool);
+
+            List<String> s = Arrays.asList("one", "two");
+
+            msg2
+                    .setSymbol("sym12")
+                    .addValue(
+                            msg2.createValue()
+                                    .setFieldId(1000)
+                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                            .addString("a")
+                                            .addString("b")
+                                            .addString("c")
+                                            .addString("d1000"))
+
+                    )
+                    .addValue(
+                            msg2.createValue()
+                                    .setFieldId(1003)
+                                    .setDouble(Math.random()*n)
+
+                    )
+                    .addValue(
+                            msg2.createValue()
+                                    .setFieldId(1003)
+                                    .setBool(true)
+
+                    )
+            ;
+
+            SampleMessageFast.StringList sl = msg2.getValues().get(0).getStringList();
+            assertEquals(Arrays.asList("one", "two", "a", "b", "c", "d1000"), sl.getStrings().stream().map(a -> a.toString()).collect(Collectors.toList()));
+
+            ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
+            CodedOutputStream o2 = CodedOutputStream.newInstance(os1);
+            os1.reset();
+            msg2.write(o2, writer);
+            o2.flush();
+
+
+            byte[] tmp1 = os1.getBytes();
+            int tmpLen = os1.size();
+            msg3.clear();
+            reader.readItem(msg3, tmp1, 0, tmpLen);
+
+            assertEquals("sym12", msg3.getSymbol().toString());
+
+            List<SampleMessageFast.FieldAndValue> vals = msg3.getValues();
+            assertTrue( vals.size()>=1);
+            SampleMessageFast.StringList list = vals.get(0).getStringList();
+            assertEquals(Arrays.asList("one", "two", "a", "b", "c", "d1000"), list.getStrings().stream().map(a -> a.toString()).collect(Collectors.toList()));
+
+            assertEquals(msg2.toString(),msg3.toString());
+            pool.returnOne(msg2);
+            pool.returnOne(msg3);
+
+
+        }
     }
 }
