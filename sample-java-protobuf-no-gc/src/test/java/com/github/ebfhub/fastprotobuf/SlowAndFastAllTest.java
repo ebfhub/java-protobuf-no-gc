@@ -19,60 +19,75 @@ public class SlowAndFastAllTest {
     @Test
     public void testNewReadsOld() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         SampleMessage.AllTypes oldMsg = SampleMessage.AllTypes.newBuilder()
-                .setBool(true)
-                .setString("hello")
-                .setFloat(98.97f)
-                .setDouble(98.99)
-                .setInt32(77)
-                .setInt64(1000000000)
-                .setSint32(77)
-                .setSint64(2000000000)
-                .setSfixed32(77)
-                .setSfixed64(3000000000L)
-                .setUint32(77)
-                .setUint64(4000000000L)
-                .setFixed32(77)
-                .setFixed64(5000000000L)
+            .setBool(true)
+            .setString("hello")
+            .setFloat(98.97f)
+            .setDouble(98.99)
+            .setInt32(77)
+            .setInt64(1000000000)
+            .setSint32(77)
+            .setSint64(2000000000)
+            .setSfixed32(77)
+            .setSfixed64(3000000000L)
+            .setUint32(77)
+            .setUint64(4000000000L)
+            .setFixed32(77)
+            .setFixed64(5000000000L)
+            .setNull( SampleMessage.NullValue.newBuilder())
+            .setStringList(SampleMessage.StringList.newBuilder()
+                    .addStrings("hello").addStrings("world")
+                    .build())
+            .build();
 
-
-                .setNull( SampleMessage.NullValue.newBuilder())
-                .setStringList(SampleMessage.StringList.newBuilder()
-                        .addStrings("hello").addStrings("world")
-                        .build())
-                .build();
-
-        SampleMessageFast.AllTypes newMsg = copyThrough(oldMsg);
-
-
-        compareResults(oldMsg, newMsg);
-
+        compareOldAndNew(oldMsg);
     }
 
 
     @Test
     public void testNewReadsOldNeg() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         SampleMessage.AllTypes oldMsg = SampleMessage.AllTypes.newBuilder()
-                .setBool(false)
-                .setFloat(-98.97f)
-                .setDouble(-98.99)
-                .setInt32(-77)
-                .setInt64(-1000000000)
-                .setSint32(-77)
-                .setSint64(-2000000000)
-                .setSfixed32(-77)
-                .setSfixed64(-3000000000L)
-                .setUint32(-77)
-                .setUint64(-4000000000L)
-                .setFixed32(-77)
-                .setFixed64(-5000000000L)
+            .setBool(false)
+            .setFloat(-98.97f)
+            .setDouble(-98.99)
+            .setInt32(-77)
+            .setInt64(-1000000000)
+            .setSint32(-77)
+            .setSint64(-2000000000)
+            .setSfixed32(-77)
+            .setSfixed64(-3000000000L)
+            .setUint32(-77)
+            .setUint64(-4000000000L)
+            .setFixed32(-77)
+            .setFixed64(-5000000000L)
+           .build();
+
+        compareOldAndNew((SampleMessage.AllTypes) oldMsg);
+    }
 
 
-                .build();
-
-        SampleMessageFast.AllTypes newMsg = copyThrough(oldMsg);
-
-
+    private void compareOldAndNew(com.google.protobuf.GeneratedMessageV3 oldMsg) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        byte[] oldBytes = oldMsg.toByteArray();
+        SampleMessageFast.AllTypes newMsg = copyThrough(oldBytes);
         compareResults(oldMsg, newMsg);
+
+        byte[] newBytes = getNewBytes(newMsg);
+        com.google.protobuf.GeneratedMessageV3 oldV2 = oldMsg.getParserForType().parseFrom(newBytes);
+        compareResults(oldMsg, oldV2);
+        compareResults(oldV2, newMsg);
+    }
+
+    byte[] getNewBytes(FastProtoWritable msg2) throws IOException {
+        ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
+        CodedOutputStream o2 = CodedOutputStream.newInstance(os1);
+        os1.reset();
+
+        FastProtoWriter writer = new FastProtoWriter();
+
+        msg2.write(o2, writer);
+        o2.flush();
+
+
+        return os1.getBytes();
 
     }
 
@@ -112,8 +127,7 @@ public class SlowAndFastAllTest {
         return v;
     }
 
-    private SampleMessageFast.AllTypes copyThrough(SampleMessage.AllTypes oldMsg) throws IOException {
-        byte[] bytes=oldMsg.toByteArray();
+    private SampleMessageFast.AllTypes copyThrough(byte[] bytes) throws IOException {
         System.out.println(ProtoDebug.decodeProto(bytes,false));
 
         CodedInputStream is=CodedInputStream.newInstance(bytes);
