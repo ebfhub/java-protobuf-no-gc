@@ -687,6 +687,9 @@ public class FastProtoGenerator extends Generator {
                     } else {
                         sb.line(thisClass + info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
                     }
+                    genOneOfSet(sb, info, field);
+
+
                     if (type.repeated) {
                         sb.line("if(this." + field.getName() + "==null) {");
                         sb.line("this." + field.getName() + "=" + makeTakeList(type) + ";");
@@ -694,6 +697,8 @@ public class FastProtoGenerator extends Generator {
                         sb.line("this." + info.fieldSetVar + "|=" + info.bits.get(field.getName()) + ";");
                         sb.line("StringBuilder sb = pool.take(StringBuilder.class);");
                         sb.line("this." + field.getName() + ".add(sb);");
+
+
                         sb.line("return sb;");
 
 
@@ -701,6 +706,8 @@ public class FastProtoGenerator extends Generator {
                         sb.line("if(" + thisClass + field.getName() + "==null) {");
                         sb.line(thisClass + field.getName() + " = pool.take(StringBuilder.class);");
                         sb.line("}");
+
+
                         sb.line("return " + thisClass + field.getName() + ";");
                     }
                 }
@@ -774,6 +781,9 @@ public class FastProtoGenerator extends Generator {
      */
     public void createAddMethod(JavaOutput sb, ClassInfo info, TypeInfo type, DescriptorProtos.FieldDescriptorProto field) {
         String javaTypeName = getJavaTypeName(type, false, false);
+        genOneOfSet(sb, info, field);
+
+
         if(type.repeated) {
             sb.line("if (null==" + field.getName() + ") {");
             sb.line(field.getName() + "="+ makeTakeList(type)+";");
@@ -788,6 +798,14 @@ public class FastProtoGenerator extends Generator {
             sb.line("}");
             sb.line(info.fieldSetVar + "|=FieldBit." + field.getName() + ";");
             sb.line("return "+field.getName()+";");
+        }
+
+    }
+
+    private void genOneOfSet(JavaOutput sb, ClassInfo info, DescriptorProtos.FieldDescriptorProto field) {
+        if (field.hasOneofIndex()) {
+            OneOf ii = info.oneOfs.get(field.getOneofIndex());
+            sb.line(ii.valueName + "=" + ii.className + "." + field.getName() + ";");
         }
     }
 
@@ -888,10 +906,7 @@ public class FastProtoGenerator extends Generator {
         }
         sb.line(info.fieldSetVar+"|="+info.bits.get(field.getName())+";");
 
-        if(field.hasOneofIndex()){
-            OneOf ii = info.oneOfs.get(field.getOneofIndex());
-            sb.line(ii.valueName+"="+ii.className+"."+field.getName()+";");
-        }
+        genOneOfSet(sb, info, field);
     }
 
     private boolean isMutableOrList(TypeInfo typeInfo) {

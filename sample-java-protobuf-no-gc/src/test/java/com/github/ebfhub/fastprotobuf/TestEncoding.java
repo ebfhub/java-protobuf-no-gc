@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -149,32 +151,88 @@ public class TestEncoding {
 
     @Test
     public void testStringList() throws IOException {
-        FastProtoReader reader = new FastProtoReader();
-        FastProtoObjectPool pool = reader.getPool();
-        FastProtoWriter writer=new FastProtoWriter();
+        List<String> s = Arrays.asList("one","two");
+        assertCommon((pool,m)->{
+            m
+                    .setSymbol("sym12")
+                    .addValue(
+                            m.createValue()
+                                    .setString("sym14")
+                                    .setFieldId(1000)
+                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                            .addString("a")
+                                            .addString("b")
+                                            .addString("c")
+                                            .addString("d1000"))
 
+                    );
+        }, m->{
+            assertEquals("sym12", m.getSymbol().toString());
 
-        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
-        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+            List<SampleMessageFast.FieldAndValue> vals = m.getValues();
+            assertEquals(1,vals.size());
+            assertEquals(SampleMessageFast.FieldAndValue.OneOf._stringList, vals.get(0).getOneOf());
+            SampleMessageFast.StringList list = vals.get(0).getStringList();
+            assertEquals(Arrays.asList("one","two","a","b","c","d1000"), list.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
+        });
+    }
+
+    @Test
+    public void testOneOf() throws IOException {
 
         List<String> s = Arrays.asList("one","two");
 
-        msg2
-                .setSymbol("sym12")
-                .addValue(
-                        msg2.createValue()
-                                .setString("sym14")
-                                .setFieldId(1000)
-                                .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
-                                        .addString("a")
-                                        .addString("b")
-                                        .addString("c")
-                                        .addString("d1000"))
+        BiConsumer<FastProtoObjectPool,SampleMessageFast.DataMessage> setup = (pool,m)-> {
+            m
+                    .setSymbol("sym12")
+                    .addValue(
+                            m.createValue()
+                                    .setString("sym14")
+                                    .setFieldId(1000)
+                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s))
 
-                );
+                    )
+                    .addValue(
+                            m.createValue()
+                                    .setString("sym14")
+                                    .setFieldId(1000)
+                                    .setString("d1000")
 
-        SampleMessageFast.StringList sl = msg2.getValues().get(0).getStringList();
-        assertEquals(Arrays.asList("one","two","a","b","c","d1000"), sl.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
+                    )
+            ;
+
+        };
+
+        Consumer<SampleMessageFast.DataMessage> asserting = m->{
+            assertEquals("sym12", m.getSymbol().toString());
+
+            List<SampleMessageFast.FieldAndValue> vals = m.getValues();
+            assertEquals(2, vals.size());
+            {
+                SampleMessageFast.FieldAndValue v = vals.get(0);
+                assertEquals(SampleMessageFast.FieldAndValue.OneOf._stringList, v.getOneOf());
+                SampleMessageFast.StringList list = v.getStringList();
+                assertEquals(Arrays.asList("one", "two"), list.getStrings().stream().map(CharSequence::toString).collect(Collectors.toList()));
+            }
+            {
+                SampleMessageFast.FieldAndValue v = vals.get(1);
+                assertEquals(SampleMessageFast.FieldAndValue.OneOf._string, v.getOneOf());
+                assertEquals("d1000", v.getString().toString());
+            }
+        };
+        assertCommon(setup, asserting);
+    }
+
+    private void assertCommon(BiConsumer<FastProtoObjectPool, SampleMessageFast.DataMessage> setup, Consumer<SampleMessageFast.DataMessage> asserting) throws IOException {
+        FastProtoReader reader = new FastProtoReader();
+        FastProtoWriter writer=new FastProtoWriter();
+        FastProtoObjectPool pool = reader.getPool();
+
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
+        setup.accept(pool,msg2);
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+
+        asserting.accept(msg2);
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
         CodedOutputStream o2 =  CodedOutputStream.newInstance(os1);
@@ -188,12 +246,10 @@ public class TestEncoding {
         msg3.clear();
         reader.readItem(msg3,tmp1,0,tmpLen);
 
-        assertEquals("sym12", msg3.getSymbol().toString());
+        for(SampleMessageFast.DataMessage m : Arrays.asList(msg2,msg3)) {
+            asserting.accept(m);
 
-        List<SampleMessageFast.FieldAndValue> vals = msg3.getValues();
-        assertEquals(1,vals.size());
-        SampleMessageFast.StringList list = vals.get(0).getStringList();
-        assertEquals(Arrays.asList("one","two","a","b","c","d1000"), list.getStrings().stream().map(a->a.toString()).collect(Collectors.toList()));
+        }
     }
 
 

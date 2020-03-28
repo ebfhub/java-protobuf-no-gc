@@ -1042,12 +1042,14 @@ public class SampleMessageFast {
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
                 case FieldNum._null:
+                    oneOf=OneOf._null;
                     if (null==_null) {
                         _null=pool.take(NullValue.class);
                     }
                     fieldsSet|=FieldBit._null;
                     return _null;
                 case FieldNum._stringList:
+                    oneOf=OneOf._stringList;
                     if (null==_stringList) {
                         _stringList=pool.take(StringList.class);
                     }
@@ -1145,6 +1147,7 @@ public class SampleMessageFast {
             switch(field) {
                 case FieldNum._string:
                     this.fieldsSet=this.fieldsSet& ~(FieldBit._string|FieldBit._int32|FieldBit._int64|FieldBit._bool|FieldBit._double|FieldBit._float|FieldBit._ts|FieldBit._stringList|FieldBit._null)|FieldBit._string;
+                    oneOf=OneOf._string;
                     if(this._string==null) {
                         this._string = pool.take(StringBuilder.class);
                     }
@@ -1178,6 +1181,7 @@ public class SampleMessageFast {
             }
         }
         public StringBuilder initString() {
+            oneOf=OneOf._string;
             if (null==_string) {
                 _string=pool.take(StringBuilder.class);
             }
@@ -1283,6 +1287,7 @@ public class SampleMessageFast {
             return pool.take(StringList.class);
         }
         public StringList initStringList() {
+            oneOf=OneOf._stringList;
             if (null==_stringList) {
                 _stringList=pool.take(StringList.class);
             }
@@ -1309,6 +1314,7 @@ public class SampleMessageFast {
             return pool.take(NullValue.class);
         }
         public NullValue initNull() {
+            oneOf=OneOf._null;
             if (null==_null) {
                 _null=pool.take(NullValue.class);
             }
@@ -2848,24 +2854,28 @@ public class SampleMessageFast {
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
                 case FieldNum.priority:
+                    oneOf=OneOf.priority;
                     if (null==priority) {
                         priority=pool.take(SubscriberMessagePriority.class);
                     }
                     fieldsSet|=FieldBit.priority;
                     return priority;
                 case FieldNum.queueRate:
+                    oneOf=OneOf.queueRate;
                     if (null==queueRate) {
                         queueRate=pool.take(SubscriberMessageQueueRate.class);
                     }
                     fieldsSet|=FieldBit.queueRate;
                     return queueRate;
                 case FieldNum.subscribe:
+                    oneOf=OneOf.subscribe;
                     if (null==subscribe) {
                         subscribe=pool.take(SubscriberMessageSubscribe.class);
                     }
                     fieldsSet|=FieldBit.subscribe;
                     return subscribe;
                 case FieldNum.flow:
+                    oneOf=OneOf.flow;
                     if (null==flow) {
                         flow=pool.take(SubscriberMessageFlow.class);
                     }
@@ -2973,6 +2983,7 @@ public class SampleMessageFast {
             return pool.take(SubscriberMessagePriority.class);
         }
         public SubscriberMessagePriority initPriority() {
+            oneOf=OneOf.priority;
             if (null==priority) {
                 priority=pool.take(SubscriberMessagePriority.class);
             }
@@ -2999,6 +3010,7 @@ public class SampleMessageFast {
             return pool.take(SubscriberMessageSubscribe.class);
         }
         public SubscriberMessageSubscribe initSubscribe() {
+            oneOf=OneOf.subscribe;
             if (null==subscribe) {
                 subscribe=pool.take(SubscriberMessageSubscribe.class);
             }
@@ -3025,6 +3037,7 @@ public class SampleMessageFast {
             return pool.take(SubscriberMessageQueueRate.class);
         }
         public SubscriberMessageQueueRate initQueueRate() {
+            oneOf=OneOf.queueRate;
             if (null==queueRate) {
                 queueRate=pool.take(SubscriberMessageQueueRate.class);
             }
@@ -3051,6 +3064,7 @@ public class SampleMessageFast {
             return pool.take(SubscriberMessageFlow.class);
         }
         public SubscriberMessageFlow initFlow() {
+            oneOf=OneOf.flow;
             if (null==flow) {
                 flow=pool.take(SubscriberMessageFlow.class);
             }
