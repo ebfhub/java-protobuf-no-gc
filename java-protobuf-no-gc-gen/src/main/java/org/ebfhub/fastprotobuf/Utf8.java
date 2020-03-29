@@ -36,7 +36,7 @@ public final class Utf8 {
         abstract void putByte(Object src, long offset, byte b);
     }
     //Decode
-    static final int getCharsFromUtf8(final long offsetBytes, final int utf8LengthBytes,
+    public static final int getCharsFromUtf8(final long offsetBytes, final int utf8LengthBytes,
                                       final Appendable dst, final long cumBaseOffset, final Object unsafeObj, ByteProvider unsafe)
             throws IOException, Utf8CodingException {
 
@@ -261,7 +261,7 @@ public final class Utf8 {
 
     /******************/
     //Encode
-    static long putCharsToUtf8(final long offsetBytes, final CharSequence src,
+    public static long putCharsToUtf8(final long offsetBytes, final CharSequence src,
                                final long capacityBytes, final long cumBaseOffset, final Object unsafeObj, ByteWriter unsafe) {
 
 

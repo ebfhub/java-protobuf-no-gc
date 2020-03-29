@@ -14,15 +14,20 @@ import java.util.List;
  * @version $Id: $Id
  */
 public class FastProtoWriter {
-    // TODO allow for longer
     private byte[] buf = new byte[1024];
 
     final Utf8.ByteWriter writer = new Utf8.ByteWriter() {
         @Override
         void putByte(Object src, long offset, byte b) {
-            ((byte[])src)[(int)offset]=b;
+            if(offset==buf.length){
+                byte[]buf2 = new byte[buf.length*2];
+                System.arraycopy(buf,0,buf2,0,buf.length);
+                buf=buf2;
+            }
+            buf[(int)offset]=b;
         }
     };
+
     /**
      * <p>writeString.</p>
      *
