@@ -22,10 +22,10 @@
     </scm>
     <artifactId>java-protobuf-no-gc</artifactId>
     <groupId>com.github.ebfhub</groupId>
-    <version>1.1</version>
+    <version>1.1.1</version>
 
     <properties>
-        <java-protobuf-version>1.1</java-protobuf-version>
+        <java-protobuf-version>1.1.1</java-protobuf-version>
         <slf4jVersion>1.6.5</slf4jVersion>
         <lombok.version>1.14.8</lombok.version>
         <protobuf.input.directory>${project.basedir}/src/main/proto</protobuf.input.directory>

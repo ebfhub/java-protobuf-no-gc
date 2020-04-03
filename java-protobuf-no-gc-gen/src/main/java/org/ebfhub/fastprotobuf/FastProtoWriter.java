@@ -28,6 +28,14 @@ public class FastProtoWriter {
         }
     };
 
+    public int getStringBufferLen(){
+        return buf.length;
+    }
+
+    public void setStringBuffer(byte[]b){
+        buf = b;
+    }
+
     /**
      * <p>writeString.</p>
      *
@@ -37,7 +45,7 @@ public class FastProtoWriter {
      * @throws java.io.IOException if any.
      */
     public void writeString(int field, CodedOutputStream os, CharSequence str) throws IOException {
-        long len = Utf8.putCharsToUtf8(0, str, buf.length, 0, buf, writer);
+        long len = Utf8.putCharsToUtf8(0, str, Integer.MAX_VALUE, 0, buf, writer);
         os.writeTag(field, WireFormat.WIRETYPE_LENGTH_DELIMITED);
         os.writeUInt32NoTag((int)len);
         os.writeLazy(buf, 0, (int)len);
