@@ -26,7 +26,20 @@ public class TestEncoding {
 
     String good="AE8QAlIJCAAo7M7+/J5cUgkIAijszv78nlxSCQgEKOzO/vyeXFIJCAYo7M7+/J5cUgQICCAAUgUICiDEAVIFCAwgxgFSCQgOKOzO/vyeXA==";
     String bad="AE8QBFIJCAAo/Jz//J5cUgkIAij8nP/8nlxSCQgEKPyc//yeXFIJCAYo/Jz//J5cUgQICCAAUgUICiDGAVIFCAwgyAFSCQgOKPyc//yeXA==";
+    String bad2 = "EANSCQgFKN/DprKULlIJCAYo38OmspQuUgkIByjfw6aylC5SCQgIKN/DprKULlIECAkgAFIbCAoaF0pPSE4wLjY0MzUxMDQ5MzAzMDM5MDUyUgsICzmGyh2xfDUiQA==";
+    @Test
+    public void testBadMessage2() throws IOException {
+        byte[] bb = decode(bad2);
+        CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
+        FastProtoReader reader=new FastProtoReader();
+        FastProtoObjectPool pool=new FastProtoObjectPool();
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        reader.parse(is,msg.getSetter());
 
+        System.out.println(msg);
+        assertEquals(SampleMessageFast.FieldAndValue.OneOf._string,msg.getValues().get(5).getOneOf());
+
+    }
     @Test
     public void testBadMessage() throws IOException {
         byte[] bb = decode(bad);
