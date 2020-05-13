@@ -41,8 +41,6 @@ public class SlowAndFastTest {
                 .build();
 
         byte[] bytes=oldMsg.toByteArray();
-        System.out.println("Bytes = "+new String(bytes));
-        System.out.println(ProtoDebug.decodeProto(bytes,false));
 
         CodedInputStream is=CodedInputStream.newInstance(bytes);
 

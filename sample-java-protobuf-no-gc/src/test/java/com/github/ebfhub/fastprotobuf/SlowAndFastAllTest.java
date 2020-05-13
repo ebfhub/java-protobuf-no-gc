@@ -128,8 +128,6 @@ public class SlowAndFastAllTest {
     }
 
     private SampleMessageFast.AllTypes copyThrough(byte[] bytes) throws IOException {
-        System.out.println(ProtoDebug.decodeProto(bytes,false));
-
         CodedInputStream is=CodedInputStream.newInstance(bytes);
 
         FastProtoReader reader = new FastProtoReader();

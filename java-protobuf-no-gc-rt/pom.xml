@@ -9,7 +9,7 @@
     </parent>
     <version>${java-protobuf-version}</version>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>java-protobuf-no-gc-gen</artifactId>
+    <artifactId>java-protobuf-no-gc-rt</artifactId>
 
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -48,15 +48,11 @@
             <artifactId>trove4j</artifactId>
             <version>${trove.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.ebfhub</groupId>
-            <artifactId>java-protobuf-no-gc-rt</artifactId>
-            <version>1.1.2</version>
-        </dependency>
+
     </dependencies>
 
     <build>
-        <finalName>fast-proto</finalName>
+        <finalName>fast-proto-rt</finalName>
         <plugins>
 
             <!-- download source code in Eclipse, best practice -->

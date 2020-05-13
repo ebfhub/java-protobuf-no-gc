@@ -102,3 +102,7 @@ message AllTypes
     sfixed64 _sfixed64 = 17;
 
 }
+
+service MarketDataService {
+    rpc SubscribeToMarketData(DataMessage) returns (stream DataMessage){}
+}
