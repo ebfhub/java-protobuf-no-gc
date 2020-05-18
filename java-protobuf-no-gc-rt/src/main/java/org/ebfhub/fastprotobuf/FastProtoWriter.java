@@ -4,6 +4,7 @@ import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,37 @@ public class FastProtoWriter {
         os.writeLazy(buf, 0, (int)len);
     }
 
+    private static class MutableOutputStream extends OutputStream
+    {
+        OutputStream nested;
+
+        public MutableOutputStream(ReusableByteArrayOutputStream bos) {
+            nested=bos;
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            nested.write(b);
+        }
+
+    }
+
     private static class Helper
     {
         ReusableByteArrayOutputStream bos = new ReusableByteArrayOutputStream();
-        CodedOutputStream os = CodedOutputStream.newInstance(bos);
+        MutableOutputStream mos = new MutableOutputStream(bos);
+        CodedOutputStream os = CodedOutputStream.newInstance(mos);
+
+
+        public void reset() {
+            mos.nested=bos;
+            bos.reset();
+        }
+
+        CodedOutputStream set(OutputStream outputStream){
+            mos.nested=outputStream;
+            return os;
+        }
     }
     private List<Helper> pool=new ArrayList<>();
 
@@ -97,4 +125,20 @@ public class FastProtoWriter {
             pool.add(h);
         }
     }
+
+    public void write(OutputStream outputStream, FastProtoWritable w) throws IOException {
+        Helper h = pool.size()==0?new Helper():pool.remove(pool.size()-1);
+        try {
+            CodedOutputStream os = h.set(outputStream);
+            w.write(os, this);
+            os.flush();
+        }
+        finally {
+            h.reset();
+            pool.add(h);
+        }
+
+    }
+
+
 }

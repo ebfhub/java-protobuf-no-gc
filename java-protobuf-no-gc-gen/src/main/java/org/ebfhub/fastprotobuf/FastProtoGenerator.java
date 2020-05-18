@@ -1,8 +1,7 @@
 package org.ebfhub.fastprotobuf;
 
 import com.google.common.base.Strings;
-import com.google.protobuf.DescriptorProtos;
-import com.google.protobuf.WireFormat;
+import com.google.protobuf.*;
 import com.google.protobuf.compiler.PluginProtos;
 import com.salesforce.jprotoc.Generator;
 import com.salesforce.jprotoc.GeneratorException;
@@ -19,6 +18,9 @@ import java.util.stream.Collectors;
  */
 public class FastProtoGenerator extends Generator {
     private final boolean debug;
+    private Map<String,String> pNameToName=new HashMap<>();
+    private String poolClassName = FastProtoObjectPool.class.getName().replaceAll("[$]", ".");
+    private final String classSuffix;
 
     /**
      * <p>Constructor for FastProtoGenerator.</p>
@@ -27,8 +29,17 @@ public class FastProtoGenerator extends Generator {
      */
     public FastProtoGenerator(boolean debug) {
         this.debug=debug;
+        this.classSuffix = "Fast";
     }
-
+    /**
+     * <p>Constructor for FastProtoGenerator.</p>
+     *
+     * @param debug a boolean.
+     */
+    public FastProtoGenerator(boolean debug, String classSuffix) {
+        this.debug=debug;
+        this.classSuffix = classSuffix;
+    }
     /**
      * <p>main.</p>
      *
@@ -45,11 +56,6 @@ public class FastProtoGenerator extends Generator {
     }
 
 
-    static final String CLASS_SUFFIX="Fast";
-    Map<String,String> pNameToName=new HashMap<>();
-    String poolClassName = FastProtoObjectPool.class.getName().replaceAll("[$]", ".");
-
-
     /** {@inheritDoc} */
     @Override
     public List<PluginProtos.CodeGeneratorResponse.File> generateFiles(PluginProtos.CodeGeneratorRequest request) throws GeneratorException {
@@ -60,7 +66,20 @@ public class FastProtoGenerator extends Generator {
         for (DescriptorProtos.FileDescriptorProto protoFile : request.getProtoFileList()) {
             if (request.getFileToGenerateList().contains(protoFile.getName())) {
 
-                String className = protoFile.getOptions().getJavaOuterClassname()+ CLASS_SUFFIX;
+                for(DescriptorProtos.ServiceDescriptorProto svc : protoFile.getServiceList()){
+                    JavaOutput sb = new JavaOutput();
+                    String className=createService(sb,protoFile, svc);
+
+                    String packageName = extractPackageName(protoFile);
+
+                    String output=sb.toString();
+                    String fileName = className+ ".java";
+
+                    files.add(buildFile(packageName,fileName,output));
+
+                }
+
+                String className = protoFile.getOptions().getJavaOuterClassname() + classSuffix;
                 this.javaClassName=className;
                 this.javaPackage = protoFile.getOptions().getJavaPackage();
 
@@ -82,6 +101,10 @@ public class FastProtoGenerator extends Generator {
                 sb.blank();
                 sb.line("public class "+className+" {");
 
+                sb.line("public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor(){");
+                sb.line("throw new UnsupportedOperationException();");
+                sb.line("}");
+
                 for(DescriptorProtos.DescriptorProto pp : protoFile.getMessageTypeList()){
 
                     pNameToName.put("."+protoFile.getPackage()+"."+pp.getName(),pp.getName());
@@ -92,11 +115,10 @@ public class FastProtoGenerator extends Generator {
                     ClassInfo info = calcClassInfo(pp);
                     String thisClass = info.className;
 
-                    sb.line("public static class "+thisClass+" implements "+
+                    sb.line("public static class "+thisClass+"  extends "+FastProtoMessageBase.class.getName()+"<"+thisClass+"> implements "+
                             FastProtoMessage.class.getName()+","+
                             FastProtoWritable.class.getName()+"{");
 
-                    sb.line("private "+poolClassName+" pool;");
                     // Create fields
                     for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
 
@@ -104,20 +126,60 @@ public class FastProtoGenerator extends Generator {
                         sb.line("private " + getJavaTypeName(ti, false) + " " + field.getName() + ";");
 
                     }
-                    sb.blank();
-                    sb.blank();
-                    sb.line("private int "+info.fieldSetVar+"=0;");
-                    sb.blank();
-
 
                     sb.line("private "+ thisClass+" ("+poolClassName+" pool){");
-                    sb.line("this.pool=pool;");
+                    sb.line("super(pool);");
                     sb.line("}");
                     sb.line("public static "+ thisClass+" create("+poolClassName+" pool){");
                     sb.line("return new "+thisClass+"(pool);");
                     sb.line("}");
-                    sb.line("public "+poolClassName+" getPool(){");
-                    sb.line("return this.pool;");
+                    sb.line("private static "+thisClass+" DEFAULT_INSTANCE=null;");
+
+
+                    /** Create default instance - used by GRPC */
+                    sb.line("public static "+thisClass+" getDefaultInstance() {");
+                    sb.line("if(DEFAULT_INSTANCE==null){");
+                    sb.line("DEFAULT_INSTANCE=newBuilder();");
+                    sb.line("}");
+                    sb.line("return DEFAULT_INSTANCE;");
+                    sb.line("}");
+
+
+                    sb.line("public static "+thisClass+" newBuilder() {");
+                    sb.line("return getDefaultPool().take("+thisClass+".class);");
+                    sb.line("}");
+
+                    sb.line("public "+thisClass+" build(){");
+                    sb.line("return this;");
+                    sb.line("}");
+
+
+                    sb.line("@Override");
+                    sb.line("public com.google.protobuf.Parser<? extends "+Message.class.getName()+"> getParserForType() {");
+                    sb.line("return PARSER;");
+                    sb.line("}");
+
+
+                    /** Create getParser - used by GRPC */
+                    sb.line("private static final com.google.protobuf.Parser<"+thisClass+">");
+                    sb.line("PARSER = new com.google.protobuf.AbstractParser<"+thisClass+">() {");
+                    sb.line("public "+thisClass+" parsePartialFrom(");
+                    sb.line("com.google.protobuf.CodedInputStream input,");
+                    sb.line("com.google.protobuf.ExtensionRegistryLite extensionRegistry)");
+                    sb.line("throws com.google.protobuf.InvalidProtocolBufferException {");
+                    sb.line(FastProtoReader.class.getName()+" reader = getDefaultReader();");
+                    sb.line(thisClass+" res = newBuilder();");
+                    sb.line("try {");
+                    sb.line("reader.parse(input,res.getSetter());");
+                    sb.line("} catch( java.io.IOException e) {");
+                    sb.line("throw new RuntimeException(e);");
+                    sb.line("} ");
+                    sb.line("return res;");
+                    sb.line("}");
+                    sb.line("};");
+                    sb.line("");
+                    sb.line("public static com.google.protobuf.Parser<"+thisClass+"> parser() {");
+                    sb.line("    return PARSER;");
                     sb.line("}");
 
                     generateFieldDefStatics(sb, pp, info);
@@ -139,15 +201,13 @@ public class FastProtoGenerator extends Generator {
                         sb.line("}\n");
                     }
 
-                    sb.line("public boolean isSet("+FastProtoField.class.getName()+" f){");
-                    sb.line("return ("+info.fieldSetVar+" & f.bit)!=0;");
-                    sb.line("}");
                     sb.blank();
 
 
                     generateToString(sb, pp);
                     generateClear(sb, pp, info);
 
+                    generateSerializedSize(sb,pp);
                     generateWrite(sb, pp);
 
                     sb.blank();
@@ -175,6 +235,296 @@ public class FastProtoGenerator extends Generator {
         }
 
         return files;
+    }
+
+    private String createService(JavaOutput sb,DescriptorProtos.FileDescriptorProto protoFile, DescriptorProtos.ServiceDescriptorProto svc) {
+        sb.line("package "+protoFile.getOptions().getJavaPackage()+";");
+
+        sb.line("\n" +
+                "import static io.grpc.stub.ClientCalls.asyncUnaryCall;\n" +
+                "import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;\n" +
+                "import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;\n" +
+                "import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;\n" +
+                "import static io.grpc.stub.ClientCalls.blockingUnaryCall;\n" +
+                "import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;\n" +
+                "import static io.grpc.stub.ClientCalls.futureUnaryCall;\n" +
+                "import static io.grpc.MethodDescriptor.generateFullMethodName;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncUnaryCall;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;\n" +
+                "import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;\n" +
+                "\n" +
+                "/**\n" +
+                " */\n" +
+                "@javax.annotation.Generated(\n" +
+                "    value = \"by gRPC proto compiler (version 1.2.0)\",\n" +
+                "    comments = \"Source: "+protoFile.getName()+"\")\n" );
+
+        String className=svc.getName()+classSuffix+"Grpc";
+
+        sb.line("public final class "+className+" {\n" +
+                "\n" +
+                "  private "+className+"() {}\n" +
+                "\n" +
+                "  public static final String SERVICE_NAME = \""+protoFile.getPackage()+"."+svc.getName()+"\";\n" +
+                "\n" );
+
+        List<MethodDetails> methods = new ArrayList<>();
+        int num=0;
+        for(DescriptorProtos.MethodDescriptorProto method : svc.getMethodList()) {
+            methods.add(new MethodDetails(protoFile, method, num++));
+        }
+
+        for(MethodDetails method : methods)
+        {
+            sb.line(
+                    "  // Static method descriptors that strictly reflect the proto.\n" +
+                            "  @io.grpc.ExperimentalApi(\"https://github.com/grpc/grpc-java/issues/1901\")\n" +
+                            "  public static final io.grpc.MethodDescriptor<"+ method.inputType +",\n" +
+                            "      "+ method.outputType +"> "+ method.mName +" =\n" +
+                            "      io.grpc.MethodDescriptor.create(\n" +
+                            "          io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING,\n" +
+                            "          generateFullMethodName(\n" +
+                            "              \""+protoFile.getPackage()+"."+svc.getName()+"\", \""+method.name+"\"),\n" +
+                            "          io.grpc.protobuf.ProtoUtils.marshaller("+ method.inputType +".getDefaultInstance()),\n" +
+                            "          io.grpc.protobuf.ProtoUtils.marshaller("+ method.outputType +".getDefaultInstance()));\n" +
+                            "\n" );
+        }
+
+        sb.line(
+                "  /**\n" +
+                "   * Creates a new async stub that supports all call types for the service\n" +
+                "   */\n" +
+                "  public static "+svc.getName()+"Stub newStub(io.grpc.Channel channel) {\n" +
+                "    return new "+svc.getName()+"Stub(channel);\n" +
+                "  }\n" +
+                "\n" +
+                "  /**\n" +
+                "   * Creates a new blocking-style stub that supports unary and streaming output calls on the service\n" +
+                "   */\n" +
+                "  public static "+svc.getName()+"BlockingStub newBlockingStub(\n" +
+                "      io.grpc.Channel channel) {\n" +
+                "    return new "+svc.getName()+"BlockingStub(channel);\n" +
+                "  }\n" +
+                "\n" +
+                "  /**\n" +
+                "   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service\n" +
+                "   */\n" +
+                "  public static "+svc.getName()+"FutureStub newFutureStub(\n" +
+                "      io.grpc.Channel channel) {\n" +
+                "    return new "+svc.getName()+"FutureStub(channel);\n" +
+                "  }\n" +
+                "\n" +
+                "  /**\n" +
+                "   */\n" +
+                "  public static abstract class "+svc.getName()+"ImplBase implements io.grpc.BindableService {\n" +
+                "\n" );
+        for(MethodDetails method : methods)
+        {
+
+            sb.line(
+                    "    /**\n" +
+                            "     */\n" +
+                            "    public void "+method.methodName+"("+method.inputType+" request,\n" +
+                            "        io.grpc.stub.StreamObserver<"+method.outputType+"> responseObserver) {\n" +
+                            "      asyncUnimplementedUnaryCall("+method.mName+", "+wrapObserver(method, "responseObserver")+");\n" +
+                            "    }\n" +
+                            "\n");
+        }
+        sb.line(
+                "    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {\n" +
+                        "      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())\n" );
+        for(MethodDetails method : methods)
+        {
+            sb.line(
+                    "          .addMethod(\n" +
+                            "            "+method.mName+",\n" +
+                            "            asyncServerStreamingCall(\n" +
+                            "              new MethodHandlers<\n" +
+                            "                "+method.inputType+",\n" +
+                            "                "+method.outputType+">(\n" +
+                            "                  this, "+method.idName+")))\n");
+
+        }
+        sb.line("          .build();\n" +
+                            "    }\n" +
+                            "  }\n" +
+                            "\n");
+
+
+        sb.line(
+                "  /**\n" +
+                "   */\n" +
+                "  public static final class "+svc.getName()+"Stub extends io.grpc.stub.AbstractStub<"+svc.getName()+"Stub> {\n" +
+                "    private "+svc.getName()+"Stub(io.grpc.Channel channel) {\n" +
+                "      super(channel);\n" +
+                "    }\n" +
+                "\n" +
+                "    private "+svc.getName()+"Stub(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      super(channel, callOptions);\n" +
+                "    }\n" +
+                "\n" +
+                "    @java.lang.Override\n" +
+                "    protected "+svc.getName()+"Stub build(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      return new "+svc.getName()+"Stub(channel, callOptions);\n" +
+                "    }\n" +
+                "\n" +
+                "    /**\n" +
+                "     */\n" );
+        for(MethodDetails method : methods)
+        {
+            sb.line(
+                    "    public void " + method.methodName + "(" + method.inputType + " request,\n" +
+                            "        io.grpc.stub.StreamObserver<" + method.outputType + "> responseObserver) {\n" +
+                            "      asyncServerStreamingCall(\n" +
+                            "          getChannel().newCall(" + method.mName + ", getCallOptions()), request, " + wrapObserver(method, "responseObserver") + "" + ");\n" +
+                            "    }\n" +
+                            "  }\n");
+        }
+        sb.line(
+                "\n" +
+                "  /**\n" +
+                "   */\n" +
+                "  public static final class "+svc.getName()+"BlockingStub extends io.grpc.stub.AbstractStub<"+svc.getName()+"BlockingStub> {\n" +
+                "    private "+svc.getName()+"BlockingStub(io.grpc.Channel channel) {\n" +
+                "      super(channel);\n" +
+                "    }\n" +
+                "\n" +
+                "    private "+svc.getName()+"BlockingStub(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      super(channel, callOptions);\n" +
+                "    }\n" +
+                "\n" +
+                "    @java.lang.Override\n" +
+                "    protected "+svc.getName()+"BlockingStub build(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      return new "+svc.getName()+"BlockingStub(channel, callOptions);\n" +
+                "    }\n" +
+                "\n" +
+                "    /**\n" +
+                "     */\n" );
+        for(MethodDetails method : methods)
+        {
+            sb.line(
+                    "    public java.util.Iterator<"+method.outputType+"> subscribeToMarketData(\n" +
+                            "        "+method.inputType+" request) {\n" +
+                            "      return blockingServerStreamingCall(\n" +
+                            "          getChannel(), "+method.mName+", getCallOptions(), request);\n" +
+                            "    }\n" +
+                            "  }\n" +
+                            "\n");
+        }
+        sb.line(
+                "  /**\n" +
+                "   */\n" +
+                "  public static final class "+svc.getName()+"FutureStub extends io.grpc.stub.AbstractStub<"+svc.getName()+"FutureStub> {\n" +
+                "    private "+svc.getName()+"FutureStub(io.grpc.Channel channel) {\n" +
+                "      super(channel);\n" +
+                "    }\n" +
+                "\n" +
+                "    private "+svc.getName()+"FutureStub(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      super(channel, callOptions);\n" +
+                "    }\n" +
+                "\n" +
+                "    @java.lang.Override\n" +
+                "    protected "+svc.getName()+"FutureStub build(io.grpc.Channel channel,\n" +
+                "        io.grpc.CallOptions callOptions) {\n" +
+                "      return new "+svc.getName()+"FutureStub(channel, callOptions);\n" +
+                "    }\n" +
+                "  }\n" +
+                "\n" );
+
+        for(MethodDetails method : methods)
+        {
+            sb.line(
+
+                    "  private static final int "+method.idName+" = "+method.idNum+";\n" );
+        }
+        sb.line(
+                "\n" +
+                "  private static final class MethodHandlers<Req, Resp> implements\n" +
+                "      io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,\n" +
+                "      io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,\n" +
+                "      io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,\n" +
+                "      io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {\n" +
+                "    private final "+svc.getName()+"ImplBase serviceImpl;\n" +
+                "    private final int methodId;\n" +
+                "\n" +
+                "    MethodHandlers("+svc.getName()+"ImplBase serviceImpl, int methodId) {\n" +
+                "      this.serviceImpl = serviceImpl;\n" +
+                "      this.methodId = methodId;\n" +
+                "    }\n" +
+                "\n" +
+                "    @java.lang.Override\n" +
+                "    @java.lang.SuppressWarnings(\"unchecked\")\n" +
+                "    public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {\n" +
+                "      switch (methodId) {\n" );
+        for(MethodDetails method : methods) {
+            sb.line(
+                    "        case "+method.idName+":\n" +
+                            "          serviceImpl."+method.methodName+"(("+method.inputType+") request,\n" +
+                            "              (io.grpc.stub.StreamObserver<"+method.outputType+">) responseObserver);\n" +
+                            "          break;\n");
+        }
+        sb.line(
+
+                "        default:\n" +
+                "          throw new AssertionError();\n" +
+                "      }\n" +
+                "    }\n" +
+                "\n" +
+                "    @java.lang.Override\n" +
+                "    @java.lang.SuppressWarnings(\"unchecked\")\n" +
+                "    public io.grpc.stub.StreamObserver<Req> invoke(\n" +
+                "        io.grpc.stub.StreamObserver<Resp> responseObserver) {\n" +
+                "      switch (methodId) {\n" +
+                "        default:\n" +
+                "          throw new AssertionError();\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "\n" +
+                "  private static final class "+svc.getName()+"DescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {\n" +
+                "    @java.lang.Override\n" +
+                "    public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {\n" +
+                "      //return com.github.ebfhub.fastprotobuf.sample.proto.SampleMessage.getDescriptor();\n" +
+                "      throw new UnsupportedOperationException();\n"+
+                "    }\n" +
+                "  }\n" +
+                "\n" +
+                "  private static volatile io.grpc.ServiceDescriptor serviceDescriptor;\n" +
+                "\n" +
+                "  public static io.grpc.ServiceDescriptor getServiceDescriptor() {\n" +
+                "    io.grpc.ServiceDescriptor result = serviceDescriptor;\n" +
+                "    if (result == null) {\n" +
+                "      synchronized ("+svc.getName()+"Grpc.class) {\n" +
+                "        result = serviceDescriptor;\n" +
+                "        if (result == null) {\n" +
+                "          serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)\n" +
+                "              .setSchemaDescriptor(new "+svc.getName()+"DescriptorSupplier())\n" );
+        for(MethodDetails method : methods) {
+            sb.line(
+                    "              .addMethod("+method.mName+")\n");
+        }
+        sb.line(
+                "              .build();\n" +
+                "        }\n" +
+                "      }\n" +
+                "    }\n" +
+                "    return result;\n" +
+                "  }\n" +
+                "}\n");
+
+        return className;
+    }
+
+    private String wrapObserver(MethodDetails method, String var) {
+        return "new "+FastProtoStreamObserver.class.getName()+"<" + method.outputType + ">("+var+")";
     }
 
     private void generateFieldDefStatics(JavaOutput sb, DescriptorProtos.DescriptorProto pp, ClassInfo info) {
@@ -252,7 +602,6 @@ public class FastProtoGenerator extends Generator {
 
                     sb.line("public " + thisClass
                             + " add" + singular(upperCaseName(field.getName()),true) + "("+argJavaName+" val) {");
-                    //String javaTypeName="StringBuilder";
 
                     sb.line("if(this." + field.getName() + "==null) {");
                     sb.line("this." + field.getName() + "="+ makeTakeList(ti)+";");
@@ -346,6 +695,65 @@ public class FastProtoGenerator extends Generator {
             sb.line("return this;");
             sb.line("}");
 
+        }
+    }
+
+    private static Map<DescriptorProtos.FieldDescriptorProto.Type, String> names;
+    static {
+        names=new HashMap<>();
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_BOOL,"Bool");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT32, "Int32");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT64, "Int64");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT32, "SInt32");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SINT64, "SInt64");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT32, "UInt32");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT64, "UInt64");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED32, "Fixed32");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FIXED64, "Fixed64");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED32, "SFixed32");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_SFIXED64, "SFixed64");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_DOUBLE, "Double");
+        names.put(DescriptorProtos.FieldDescriptorProto.Type.TYPE_FLOAT, "Float");
+    }
+
+    private void generateSerializedSize(JavaOutput sb, DescriptorProtos.DescriptorProto pp){
+        sb.line("@Override");
+        sb.line("public int getSerializedSize() {");
+        sb.line( "int size=0;");
+
+        String cos = CodedOutputStream.class.getName();
+        for(DescriptorProtos.FieldDescriptorProto field:pp.getFieldList()){
+
+            TypeInfo ti = getJavaTypeInfo(field);
+            sb.line("if((fieldsSet & FieldBit."+field.getName()+")!=0) {");
+            if(ti.repeated){
+                sb.line("for(int n=0,__numItems="+field.getName()+".size();n<__numItems;n++){");
+                String var=field.getName() + ".get(n)";
+                generateSerializedSize(sb, cos, field, var);
+                sb.line("}");
+            } else {
+                String var = field.getName();
+                generateSerializedSize(sb, cos, field, var);
+
+            }
+            sb.line("}");
+
+        }
+        sb.line("return size;");
+        sb.line("}");
+    }
+
+    private void generateSerializedSize(JavaOutput sb, String cos, DescriptorProtos.FieldDescriptorProto field, String var) {
+        switch(field.getType()) {
+            case TYPE_MESSAGE:
+                sb.line("size+="+ FastProtoMessageBase.class.getName()+".computeMessageSize(FieldNum." +field.getName()+"," + var + ");");
+                break;
+            case TYPE_STRING:
+                sb.line("size+="+FastProtoMessageBase.class.getName()+".computeStringSize(FieldNum." +field.getName()+"," + var + ");");
+                break;
+            default:
+                sb.line("size+="+cos+".compute"+names.get(field.getType())+"Size(FieldNum."+field.getName()+"," + var + ");");
+                break;
         }
     }
 
@@ -1090,6 +1498,33 @@ public class FastProtoGenerator extends Generator {
 
     private PluginProtos.CodeGeneratorResponse.File buildFile(String packageName, String fileName, String content) {
         return makeFile(absoluteFileName(packageName,fileName), content);
+    }
+
+    private class MethodDetails {
+        final String mName;
+        final String idName;
+        final String inputType;
+        final String outputType;
+        final int idNum;
+        final String name;
+        final String methodName;
+
+        public MethodDetails(DescriptorProtos.FileDescriptorProto protoFile, DescriptorProtos.MethodDescriptorProto method, int num) {
+            name = method.getName();
+            methodName = method.getName().substring(0,1).toLowerCase()+method.getName().substring(1);
+
+            mName = "METHOD" + method.getName().replaceAll("([A-Z])", "_$1").toUpperCase();
+            idName = "METHODID" + method.getName().replaceAll("([A-Z])", "_$1").toUpperCase();
+            idNum=num;
+
+            String pkg = protoFile.getOptions().getJavaPackage();
+            String outerClassName = protoFile.getOptions().getJavaOuterClassname() + classSuffix;
+            String prefix = pkg+"."+outerClassName+".";
+            inputType = prefix + method.getInputType().replaceAll("[.]" + protoFile.getPackage() + "[.]", "");
+            outputType = prefix + method.getOutputType().replaceAll("[.]" + protoFile.getPackage() + "[.]", "");
+
+        }
+
     }
 //
 //    private String getComments(DescriptorProtos.SourceCodeInfo.Location location) {

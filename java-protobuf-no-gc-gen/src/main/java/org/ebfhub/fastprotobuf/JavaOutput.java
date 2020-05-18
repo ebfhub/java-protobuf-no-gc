@@ -30,6 +30,14 @@ class JavaOutput {
 
     void line(String l) {
 
+        if(l.indexOf('\n')!=-1){
+            String[] parts = l.split("\n");
+            for(String part:parts){
+                line(part.trim());
+            }
+            return;
+        }
+
         if (l.contains("}")&&!l.contains("{")) {
             pop(IndentType.BRACE);
         }

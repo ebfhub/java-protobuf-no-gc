@@ -7,21 +7,53 @@ import com.google.protobuf.CodedOutputStream;
 @SuppressWarnings({"unused","SwitchStatementWithTooFewBranches","ForLoopReplaceableByForEach","UnusedReturnValue","ArraysAsListWithZeroOrOneArgument"})
 
 public class SampleMessageFast {
-    public static class StringList implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor(){
+        throw new UnsupportedOperationException();
+    }
+    public static class StringList  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<StringList> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private java.util.ArrayList<StringBuilder> strings;
-
-
-        private int fieldsSet=0;
-
         private StringList (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static StringList create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new StringList(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static StringList DEFAULT_INSTANCE=null;
+        public static StringList getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static StringList newBuilder() {
+            return getDefaultPool().take(StringList.class);
+        }
+        public StringList build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<StringList>
+        PARSER = new com.google.protobuf.AbstractParser<StringList>() {
+            public StringList parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                StringList res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<StringList> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int strings=1;
@@ -34,9 +66,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField strings=new org.ebfhub.fastprotobuf.FastProtoField("strings",FieldNum.strings,FieldBit.strings,WireFormat.FieldType.STRING,true,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -55,6 +84,16 @@ public class SampleMessageFast {
                 this.strings=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.strings)!=0) {
+                for(int n=0,__numItems=strings.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum.strings,strings.get(n));
+                }
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.strings)!=0) {
                 for(int n=0,size=strings.size();n<size;n++){
@@ -71,6 +110,10 @@ public class SampleMessageFast {
                 return StringList.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 StringList.this.field_set(field,val);
             }
@@ -79,15 +122,11 @@ public class SampleMessageFast {
                 StringList.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 StringList.this.field_set(field,val);
             }
             @Override
@@ -130,6 +169,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -140,19 +184,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -209,22 +248,51 @@ public class SampleMessageFast {
         }
 
     }
-    public static class FieldSetDef implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class FieldSetDef  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<FieldSetDef> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private int fieldSetId;
         private gnu.trove.list.array.TIntArrayList fieldIds;
-
-
-        private int fieldsSet=0;
-
         private FieldSetDef (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static FieldSetDef create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new FieldSetDef(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static FieldSetDef DEFAULT_INSTANCE=null;
+        public static FieldSetDef getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static FieldSetDef newBuilder() {
+            return getDefaultPool().take(FieldSetDef.class);
+        }
+        public FieldSetDef build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<FieldSetDef>
+        PARSER = new com.google.protobuf.AbstractParser<FieldSetDef>() {
+            public FieldSetDef parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                FieldSetDef res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<FieldSetDef> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int fieldSetId=1;
@@ -240,9 +308,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField fieldIds=new org.ebfhub.fastprotobuf.FastProtoField("fieldIds",FieldNum.fieldIds,FieldBit.fieldIds,WireFormat.FieldType.INT32,true,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -265,6 +330,19 @@ public class SampleMessageFast {
                 this.fieldIds=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.fieldSetId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.fieldSetId,fieldSetId);
+            }
+            if((fieldsSet & FieldBit.fieldIds)!=0) {
+                for(int n=0,__numItems=fieldIds.size();n<__numItems;n++){
+                    size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.fieldIds,fieldIds.get(n));
+                }
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldSetId)!=0) {
                 os.writeInt32(FieldNum.fieldSetId,fieldSetId);
@@ -284,6 +362,10 @@ public class SampleMessageFast {
                 return FieldSetDef.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 FieldSetDef.this.field_set(field,val);
             }
@@ -292,15 +374,11 @@ public class SampleMessageFast {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
@@ -344,6 +422,15 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldSetId:
+                    this.fieldSetId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -354,23 +441,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.fieldSetId:
-                    this.fieldSetId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -426,22 +504,51 @@ public class SampleMessageFast {
         }
 
     }
-    public static class FieldIdDef implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class FieldIdDef  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<FieldIdDef> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private int fieldId;
         private StringBuilder fieldName;
-
-
-        private int fieldsSet=0;
-
         private FieldIdDef (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static FieldIdDef create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new FieldIdDef(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static FieldIdDef DEFAULT_INSTANCE=null;
+        public static FieldIdDef getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static FieldIdDef newBuilder() {
+            return getDefaultPool().take(FieldIdDef.class);
+        }
+        public FieldIdDef build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<FieldIdDef>
+        PARSER = new com.google.protobuf.AbstractParser<FieldIdDef>() {
+            public FieldIdDef parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                FieldIdDef res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<FieldIdDef> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int fieldId=1;
@@ -457,9 +564,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField fieldName=new org.ebfhub.fastprotobuf.FastProtoField("fieldName",FieldNum.fieldName,FieldBit.fieldName,WireFormat.FieldType.STRING,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -482,6 +586,17 @@ public class SampleMessageFast {
                 this.fieldName=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.fieldId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.fieldId,fieldId);
+            }
+            if((fieldsSet & FieldBit.fieldName)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum.fieldName,fieldName);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldId)!=0) {
                 os.writeInt32(FieldNum.fieldId,fieldId);
@@ -499,6 +614,10 @@ public class SampleMessageFast {
                 return FieldIdDef.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 FieldIdDef.this.field_set(field,val);
             }
@@ -507,15 +626,11 @@ public class SampleMessageFast {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
@@ -559,6 +674,15 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldId:
+                    this.fieldId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -569,23 +693,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.fieldId:
-                    this.fieldId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -642,20 +757,49 @@ public class SampleMessageFast {
         }
 
     }
-    public static class NullValue implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
-
-
-        private int fieldsSet=0;
-
+    public static class NullValue  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<NullValue> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private NullValue (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static NullValue create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new NullValue(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static NullValue DEFAULT_INSTANCE=null;
+        public static NullValue getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static NullValue newBuilder() {
+            return getDefaultPool().take(NullValue.class);
+        }
+        public NullValue build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<NullValue>
+        PARSER = new com.google.protobuf.AbstractParser<NullValue>() {
+            public NullValue parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                NullValue res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<NullValue> parser() {
+            return PARSER;
         }
         private static class FieldNum {
         }
@@ -665,9 +809,6 @@ public class SampleMessageFast {
         public static class Field {
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -677,6 +818,11 @@ public class SampleMessageFast {
         @Override
         public void clear(){
             fieldsSet=0;
+        }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            return size;
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
         }
@@ -689,6 +835,10 @@ public class SampleMessageFast {
                 return NullValue.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 NullValue.this.field_set(field,val);
             }
@@ -697,15 +847,11 @@ public class SampleMessageFast {
                 NullValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 NullValue.this.field_set(field,val);
             }
             @Override
@@ -747,6 +893,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -757,19 +908,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -785,8 +931,7 @@ public class SampleMessageFast {
 
 
     }
-    public static class FieldAndValue implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class FieldAndValue  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<FieldAndValue> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private int fieldId;
         private StringBuilder _string;
         private int _int32;
@@ -797,18 +942,48 @@ public class SampleMessageFast {
         private int _ts;
         private StringList _stringList;
         private NullValue _null;
-
-
-        private int fieldsSet=0;
-
         private FieldAndValue (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static FieldAndValue create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new FieldAndValue(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static FieldAndValue DEFAULT_INSTANCE=null;
+        public static FieldAndValue getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static FieldAndValue newBuilder() {
+            return getDefaultPool().take(FieldAndValue.class);
+        }
+        public FieldAndValue build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<FieldAndValue>
+        PARSER = new com.google.protobuf.AbstractParser<FieldAndValue>() {
+            public FieldAndValue parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                FieldAndValue res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<FieldAndValue> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int fieldId=1;
@@ -862,9 +1037,6 @@ public class SampleMessageFast {
         private OneOf oneOf=null;
         public OneOf getOneOf(){
             return oneOf;
-        }
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
         }
 
         @Override
@@ -929,6 +1101,41 @@ public class SampleMessageFast {
             }
             this.oneOf=null;
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.fieldId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.fieldId,fieldId);
+            }
+            if((fieldsSet & FieldBit._string)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum._string,_string);
+            }
+            if((fieldsSet & FieldBit._int32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum._int32,_int32);
+            }
+            if((fieldsSet & FieldBit._int64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt64Size(FieldNum._int64,_int64);
+            }
+            if((fieldsSet & FieldBit._bool)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeBoolSize(FieldNum._bool,_bool);
+            }
+            if((fieldsSet & FieldBit._double)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeDoubleSize(FieldNum._double,_double);
+            }
+            if((fieldsSet & FieldBit._float)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeFloatSize(FieldNum._float,_float);
+            }
+            if((fieldsSet & FieldBit._ts)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum._ts,_ts);
+            }
+            if((fieldsSet & FieldBit._stringList)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum._stringList,_stringList);
+            }
+            if((fieldsSet & FieldBit._null)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum._null,_null);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.fieldId)!=0) {
                 os.writeInt32(FieldNum.fieldId,fieldId);
@@ -969,16 +1176,7 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return FieldAndValue.this.field_add(field);
             }
-            @Override
-            public void field_set(int field, double val) {
-                FieldAndValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
-                FieldAndValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, StringList val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
@@ -986,13 +1184,22 @@ public class SampleMessageFast {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, boolean val) {
+            public void field_set(int field, double val) {
                 FieldAndValue.this.field_set(field,val);
             }
             public void field_set(int field, NullValue val) {
                 FieldAndValue.this.field_set(field,val);
             }
-            public void field_set(int field, StringList val) {
+            @Override
+            public void field_set(int field, long val) {
+                FieldAndValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, boolean val) {
+                FieldAndValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
@@ -1041,13 +1248,6 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
-                case FieldNum._null:
-                    oneOf=OneOf._null;
-                    if (null==_null) {
-                        _null=pool.take(NullValue.class);
-                    }
-                    fieldsSet|=FieldBit._null;
-                    return _null;
                 case FieldNum._stringList:
                     oneOf=OneOf._stringList;
                     if (null==_stringList) {
@@ -1055,37 +1255,27 @@ public class SampleMessageFast {
                     }
                     fieldsSet|=FieldBit._stringList;
                     return _stringList;
+                case FieldNum._null:
+                    oneOf=OneOf._null;
+                    if (null==_null) {
+                        _null=pool.take(NullValue.class);
+                    }
+                    fieldsSet|=FieldBit._null;
+                    return _null;
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, double val) {
+        private void field_set(int field, StringList val) {
             switch(field) {
-                case FieldNum._double:
-                    this._double=val;
-                    fieldsSet|=32;
-                    oneOf=OneOf._double;
+                case FieldNum._stringList:
+                    if(this._stringList!=null){
+                        pool.returnSpecific(this._stringList);
+                    }
+                    this._stringList=val;
+                    fieldsSet|=256;
+                    oneOf=OneOf._stringList;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                case FieldNum._int64:
-                    this._int64=val;
-                    fieldsSet|=8;
-                    oneOf=OneOf._int64;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                case FieldNum._float:
-                    this._float=val;
-                    fieldsSet|=64;
-                    oneOf=OneOf._float;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
             }
         }
         private void field_set(int field, int val) {
@@ -1107,14 +1297,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                case FieldNum._bool:
-                    this._bool=val;
-                    fieldsSet|=16;
-                    oneOf=OneOf._bool;
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=32;
+                    oneOf=OneOf._double;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
         private void field_set(int field, NullValue val) {
@@ -1130,17 +1320,34 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
             }
         }
-        private void field_set(int field, StringList val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                case FieldNum._stringList:
-                    if(this._stringList!=null){
-                        pool.returnSpecific(this._stringList);
-                    }
-                    this._stringList=val;
-                    fieldsSet|=256;
-                    oneOf=OneOf._stringList;
+                case FieldNum._int64:
+                    this._int64=val;
+                    fieldsSet|=8;
+                    oneOf=OneOf._int64;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=16;
+                    oneOf=OneOf._bool;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=64;
+                    oneOf=OneOf._float;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1332,8 +1539,7 @@ public class SampleMessageFast {
         }
 
     }
-    public static class DataMessage implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class DataMessage  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<DataMessage> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private StringBuilder symbol;
         private int symbolId;
         private long sourceTs;
@@ -1343,18 +1549,48 @@ public class SampleMessageFast {
         private FieldSetDef defineFieldSet;
         private java.util.ArrayList<FieldIdDef> fieldIdDefs;
         private java.util.ArrayList<FieldAndValue> values;
-
-
-        private int fieldsSet=0;
-
         private DataMessage (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static DataMessage create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new DataMessage(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static DataMessage DEFAULT_INSTANCE=null;
+        public static DataMessage getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static DataMessage newBuilder() {
+            return getDefaultPool().take(DataMessage.class);
+        }
+        public DataMessage build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<DataMessage>
+        PARSER = new com.google.protobuf.AbstractParser<DataMessage>() {
+            public DataMessage parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                DataMessage res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<DataMessage> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int symbol=1;
@@ -1391,9 +1627,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField values=new org.ebfhub.fastprotobuf.FastProtoField("values",FieldNum.values,FieldBit.values,WireFormat.FieldType.MESSAGE,true,FieldAndValue.class);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -1456,6 +1689,42 @@ public class SampleMessageFast {
                 this.values=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.symbol)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum.symbol,symbol);
+            }
+            if((fieldsSet & FieldBit.symbolId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.symbolId,symbolId);
+            }
+            if((fieldsSet & FieldBit.sourceTs)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt64Size(FieldNum.sourceTs,sourceTs);
+            }
+            if((fieldsSet & FieldBit.messageId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.messageId,messageId);
+            }
+            if((fieldsSet & FieldBit.sentTs)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt64Size(FieldNum.sentTs,sentTs);
+            }
+            if((fieldsSet & FieldBit.fieldSetId)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.fieldSetId,fieldSetId);
+            }
+            if((fieldsSet & FieldBit.defineFieldSet)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.defineFieldSet,defineFieldSet);
+            }
+            if((fieldsSet & FieldBit.fieldIdDefs)!=0) {
+                for(int n=0,__numItems=fieldIdDefs.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.fieldIdDefs,fieldIdDefs.get(n));
+                }
+            }
+            if((fieldsSet & FieldBit.values)!=0) {
+                for(int n=0,__numItems=values.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.values,values.get(n));
+                }
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.symbol)!=0) {
                 writer.writeString(FieldNum.symbol,os,symbol);
@@ -1497,6 +1766,13 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return DataMessage.this.field_add(field);
             }
+            public void field_set(int field, FieldSetDef val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
+                DataMessage.this.field_set(field,val);
+            }
             @Override
             public void field_set(int field, double val) {
                 DataMessage.this.field_set(field,val);
@@ -1506,18 +1782,11 @@ public class SampleMessageFast {
                 DataMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                DataMessage.this.field_set(field,val);
-            }
-            public void field_set(int field, FieldSetDef val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 DataMessage.this.field_set(field,val);
             }
             @Override
@@ -1573,12 +1842,6 @@ public class SampleMessageFast {
                     FieldAndValue values_res = pool.take(FieldAndValue.class);
                     values.add(values_res);
                     return values_res;
-                case FieldNum.defineFieldSet:
-                    if (null==defineFieldSet) {
-                        defineFieldSet=pool.take(FieldSetDef.class);
-                    }
-                    fieldsSet|=FieldBit.defineFieldSet;
-                    return defineFieldSet;
                 case FieldNum.fieldIdDefs:
                     if (null==fieldIdDefs) {
                         fieldIdDefs=pool.takeList();
@@ -1587,30 +1850,13 @@ public class SampleMessageFast {
                     FieldIdDef fieldIdDefs_res = pool.take(FieldIdDef.class);
                     fieldIdDefs.add(fieldIdDefs_res);
                     return fieldIdDefs_res;
+                case FieldNum.defineFieldSet:
+                    if (null==defineFieldSet) {
+                        defineFieldSet=pool.take(FieldSetDef.class);
+                    }
+                    fieldsSet|=FieldBit.defineFieldSet;
+                    return defineFieldSet;
                 default: throw new UnsupportedOperationException("Unable to add");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                case FieldNum.sourceTs:
-                    this.sourceTs=val;
-                    fieldsSet|=4;
-                    break;
-                case FieldNum.sentTs:
-                    this.sentTs=val;
-                    fieldsSet|=16;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, FieldSetDef val) {
@@ -1642,9 +1888,32 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, long val) {
+            switch(field) {
+                case FieldNum.sourceTs:
+                    this.sourceTs=val;
+                    fieldsSet|=4;
+                    break;
+                case FieldNum.sentTs:
+                    this.sentTs=val;
+                    fieldsSet|=16;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1834,23 +2103,52 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessagePriority implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessagePriority  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessagePriority> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private java.util.ArrayList<StringBuilder> symbols;
         private int pri;
         private long until;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessagePriority (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessagePriority create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessagePriority(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessagePriority DEFAULT_INSTANCE=null;
+        public static SubscriberMessagePriority getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessagePriority newBuilder() {
+            return getDefaultPool().take(SubscriberMessagePriority.class);
+        }
+        public SubscriberMessagePriority build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessagePriority>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessagePriority>() {
+            public SubscriberMessagePriority parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessagePriority res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessagePriority> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int symbols=1;
@@ -1869,9 +2167,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField until=new org.ebfhub.fastprotobuf.FastProtoField("until",FieldNum.until,FieldBit.until,WireFormat.FieldType.INT64,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -1898,6 +2193,22 @@ public class SampleMessageFast {
                 this.symbols=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.symbols)!=0) {
+                for(int n=0,__numItems=symbols.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum.symbols,symbols.get(n));
+                }
+            }
+            if((fieldsSet & FieldBit.pri)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.pri,pri);
+            }
+            if((fieldsSet & FieldBit.until)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt64Size(FieldNum.until,until);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.symbols)!=0) {
                 for(int n=0,size=symbols.size();n<size;n++){
@@ -1920,6 +2231,10 @@ public class SampleMessageFast {
                 return SubscriberMessagePriority.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
@@ -1928,15 +2243,11 @@ public class SampleMessageFast {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
@@ -1981,6 +2292,15 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -1995,23 +2315,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2092,22 +2403,51 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessageSubscribe implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessageSubscribe  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessageSubscribe> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private java.util.ArrayList<StringBuilder> symbols;
         private int pri;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessageSubscribe (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessageSubscribe create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessageSubscribe(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessageSubscribe DEFAULT_INSTANCE=null;
+        public static SubscriberMessageSubscribe getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessageSubscribe newBuilder() {
+            return getDefaultPool().take(SubscriberMessageSubscribe.class);
+        }
+        public SubscriberMessageSubscribe build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessageSubscribe>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessageSubscribe>() {
+            public SubscriberMessageSubscribe parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessageSubscribe res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessageSubscribe> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int symbols=1;
@@ -2123,9 +2463,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField pri=new org.ebfhub.fastprotobuf.FastProtoField("pri",FieldNum.pri,FieldBit.pri,WireFormat.FieldType.INT32,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -2148,6 +2485,19 @@ public class SampleMessageFast {
                 this.symbols=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.symbols)!=0) {
+                for(int n=0,__numItems=symbols.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum.symbols,symbols.get(n));
+                }
+            }
+            if((fieldsSet & FieldBit.pri)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.pri,pri);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.symbols)!=0) {
                 for(int n=0,size=symbols.size();n<size;n++){
@@ -2167,6 +2517,10 @@ public class SampleMessageFast {
                 return SubscriberMessageSubscribe.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
@@ -2175,15 +2529,11 @@ public class SampleMessageFast {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
@@ -2227,6 +2577,15 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -2237,23 +2596,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2322,21 +2672,50 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessageQueueRate implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessageQueueRate  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessageQueueRate> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private double messagesPerSec;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessageQueueRate (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessageQueueRate create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessageQueueRate(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessageQueueRate DEFAULT_INSTANCE=null;
+        public static SubscriberMessageQueueRate getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessageQueueRate newBuilder() {
+            return getDefaultPool().take(SubscriberMessageQueueRate.class);
+        }
+        public SubscriberMessageQueueRate build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessageQueueRate>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessageQueueRate>() {
+            public SubscriberMessageQueueRate parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessageQueueRate res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessageQueueRate> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int messagesPerSec=1;
@@ -2349,9 +2728,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField messagesPerSec=new org.ebfhub.fastprotobuf.FastProtoField("messagesPerSec",FieldNum.messagesPerSec,FieldBit.messagesPerSec,WireFormat.FieldType.DOUBLE,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -2365,6 +2741,14 @@ public class SampleMessageFast {
         @Override
         public void clear(){
             fieldsSet=0;
+        }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.messagesPerSec)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeDoubleSize(FieldNum.messagesPerSec,messagesPerSec);
+            }
+            return size;
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.messagesPerSec)!=0) {
@@ -2380,6 +2764,10 @@ public class SampleMessageFast {
                 return SubscriberMessageQueueRate.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
@@ -2388,15 +2776,11 @@ public class SampleMessageFast {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
@@ -2439,6 +2823,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 case FieldNum.messagesPerSec:
@@ -2453,19 +2842,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2493,21 +2877,50 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessageFlow implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessageFlow  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessageFlow> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private int bytes;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessageFlow (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessageFlow create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessageFlow(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessageFlow DEFAULT_INSTANCE=null;
+        public static SubscriberMessageFlow getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessageFlow newBuilder() {
+            return getDefaultPool().take(SubscriberMessageFlow.class);
+        }
+        public SubscriberMessageFlow build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessageFlow>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessageFlow>() {
+            public SubscriberMessageFlow parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessageFlow res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessageFlow> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int bytes=1;
@@ -2520,9 +2933,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField bytes=new org.ebfhub.fastprotobuf.FastProtoField("bytes",FieldNum.bytes,FieldBit.bytes,WireFormat.FieldType.INT32,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -2536,6 +2946,14 @@ public class SampleMessageFast {
         @Override
         public void clear(){
             fieldsSet=0;
+        }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.bytes)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum.bytes,bytes);
+            }
+            return size;
         }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.bytes)!=0) {
@@ -2551,6 +2969,10 @@ public class SampleMessageFast {
                 return SubscriberMessageFlow.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
@@ -2559,15 +2981,11 @@ public class SampleMessageFast {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
@@ -2610,6 +3028,15 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.bytes:
+                    this.bytes=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -2620,23 +3047,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                case FieldNum.bytes:
-                    this.bytes=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2664,24 +3082,53 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessagePart implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessagePart  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessagePart> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private SubscriberMessagePriority priority;
         private SubscriberMessageSubscribe subscribe;
         private SubscriberMessageQueueRate queueRate;
         private SubscriberMessageFlow flow;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessagePart (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessagePart create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessagePart(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessagePart DEFAULT_INSTANCE=null;
+        public static SubscriberMessagePart getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessagePart newBuilder() {
+            return getDefaultPool().take(SubscriberMessagePart.class);
+        }
+        public SubscriberMessagePart build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessagePart>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessagePart>() {
+            public SubscriberMessagePart parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessagePart res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessagePart> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int priority=1;
@@ -2712,9 +3159,6 @@ public class SampleMessageFast {
         private OneOf oneOf=null;
         public OneOf getOneOf(){
             return oneOf;
-        }
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
         }
 
         @Override
@@ -2759,6 +3203,23 @@ public class SampleMessageFast {
             }
             this.oneOf=null;
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.priority)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.priority,priority);
+            }
+            if((fieldsSet & FieldBit.subscribe)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.subscribe,subscribe);
+            }
+            if((fieldsSet & FieldBit.queueRate)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.queueRate,queueRate);
+            }
+            if((fieldsSet & FieldBit.flow)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.flow,flow);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.priority)!=0) {
                 writer.writeMessage(FieldNum.priority,os,this.priority);
@@ -2781,21 +3242,6 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return SubscriberMessagePart.this.field_add(field);
             }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            public void field_set(int field, SubscriberMessageFlow val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, float val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
             public void field_set(int field, SubscriberMessageQueueRate val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
@@ -2804,13 +3250,28 @@ public class SampleMessageFast {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, boolean val) {
+            public void field_set(int field, double val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             public void field_set(int field, SubscriberMessagePriority val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
+            @Override
+            public void field_set(int field, long val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
             public void field_set(int field, SubscriberMessageSubscribe val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, boolean val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            public void field_set(int field, SubscriberMessageFlow val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
@@ -2853,13 +3314,6 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
-                case FieldNum.flow:
-                    oneOf=OneOf.flow;
-                    if (null==flow) {
-                        flow=pool.take(SubscriberMessageFlow.class);
-                    }
-                    fieldsSet|=FieldBit.flow;
-                    return flow;
                 case FieldNum.queueRate:
                     oneOf=OneOf.queueRate;
                     if (null==queueRate) {
@@ -2881,35 +3335,14 @@ public class SampleMessageFast {
                     }
                     fieldsSet|=FieldBit.subscribe;
                     return subscribe;
-                default: throw new UnsupportedOperationException("Unable to add");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, SubscriberMessageFlow val) {
-            switch(field) {
                 case FieldNum.flow:
-                    if(this.flow!=null){
-                        pool.returnSpecific(this.flow);
-                    }
-                    this.flow=val;
-                    fieldsSet|=8;
                     oneOf=OneOf.flow;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                    if (null==flow) {
+                        flow=pool.take(SubscriberMessageFlow.class);
+                    }
+                    fieldsSet|=FieldBit.flow;
+                    return flow;
+                default: throw new UnsupportedOperationException("Unable to add");
             }
         }
         private void field_set(int field, SubscriberMessageQueueRate val) {
@@ -2930,9 +3363,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
         private void field_set(int field, SubscriberMessagePriority val) {
@@ -2948,6 +3381,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessagePriority");
             }
         }
+        private void field_set(int field, long val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
         private void field_set(int field, SubscriberMessageSubscribe val) {
             switch(field) {
                 case FieldNum.subscribe:
@@ -2959,6 +3397,29 @@ public class SampleMessageFast {
                     oneOf=OneOf.subscribe;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageSubscribe");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, SubscriberMessageFlow val) {
+            switch(field) {
+                case FieldNum.flow:
+                    if(this.flow!=null){
+                        pool.returnSpecific(this.flow);
+                    }
+                    this.flow=val;
+                    fieldsSet|=8;
+                    oneOf=OneOf.flow;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -3082,21 +3543,50 @@ public class SampleMessageFast {
         }
 
     }
-    public static class SubscriberMessage implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class SubscriberMessage  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<SubscriberMessage> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private java.util.ArrayList<SubscriberMessagePart> messageParts;
-
-
-        private int fieldsSet=0;
-
         private SubscriberMessage (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static SubscriberMessage create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new SubscriberMessage(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static SubscriberMessage DEFAULT_INSTANCE=null;
+        public static SubscriberMessage getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static SubscriberMessage newBuilder() {
+            return getDefaultPool().take(SubscriberMessage.class);
+        }
+        public SubscriberMessage build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<SubscriberMessage>
+        PARSER = new com.google.protobuf.AbstractParser<SubscriberMessage>() {
+            public SubscriberMessage parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                SubscriberMessage res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<SubscriberMessage> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int messageParts=1;
@@ -3109,9 +3599,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField messageParts=new org.ebfhub.fastprotobuf.FastProtoField("messageParts",FieldNum.messageParts,FieldBit.messageParts,WireFormat.FieldType.MESSAGE,true,SubscriberMessagePart.class);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -3130,6 +3617,16 @@ public class SampleMessageFast {
                 this.messageParts=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit.messageParts)!=0) {
+                for(int n=0,__numItems=messageParts.size();n<__numItems;n++){
+                    size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum.messageParts,messageParts.get(n));
+                }
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit.messageParts)!=0) {
                 for(int n=0,size=messageParts.size();n<size;n++){
@@ -3146,6 +3643,10 @@ public class SampleMessageFast {
                 return SubscriberMessage.this.field_add(field);
             }
             @Override
+            public void field_set(int field, int val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
             public void field_set(int field, double val) {
                 SubscriberMessage.this.field_set(field,val);
             }
@@ -3154,15 +3655,11 @@ public class SampleMessageFast {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, int val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
             public void field_set(int field, boolean val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
@@ -3213,6 +3710,11 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+            }
+        }
         private void field_set(int field, double val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
@@ -3223,19 +3725,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
-        private void field_set(int field, int val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
         private void field_set(int field, boolean val) {
             switch(field) {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -3281,8 +3778,7 @@ public class SampleMessageFast {
         }
 
     }
-    public static class AllTypes implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
-        private org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    public static class AllTypes  extends org.ebfhub.fastprotobuf.FastProtoMessageBase<AllTypes> implements org.ebfhub.fastprotobuf.FastProtoMessage,org.ebfhub.fastprotobuf.FastProtoWritable{
         private int _sint32;
         private long _sint64;
         private StringBuilder _string;
@@ -3300,18 +3796,48 @@ public class SampleMessageFast {
         private long _uint64;
         private int _sfixed32;
         private long _sfixed64;
-
-
-        private int fieldsSet=0;
-
         private AllTypes (org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
-            this.pool=pool;
+            super(pool);
         }
         public static AllTypes create(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
             return new AllTypes(pool);
         }
-        public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
-            return this.pool;
+        private static AllTypes DEFAULT_INSTANCE=null;
+        public static AllTypes getDefaultInstance() {
+            if(DEFAULT_INSTANCE==null){
+                DEFAULT_INSTANCE=newBuilder();
+            }
+            return DEFAULT_INSTANCE;
+        }
+        public static AllTypes newBuilder() {
+            return getDefaultPool().take(AllTypes.class);
+        }
+        public AllTypes build(){
+            return this;
+        }
+        @Override
+        public com.google.protobuf.Parser<? extends com.google.protobuf.Message> getParserForType() {
+            return PARSER;
+        }
+        private static final com.google.protobuf.Parser<AllTypes>
+        PARSER = new com.google.protobuf.AbstractParser<AllTypes>() {
+            public AllTypes parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+                org.ebfhub.fastprotobuf.FastProtoReader reader = getDefaultReader();
+                AllTypes res = newBuilder();
+                try {
+                    reader.parse(input,res.getSetter());
+                    } catch( java.io.IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return res;
+            }
+        };
+        
+        public static com.google.protobuf.Parser<AllTypes> parser() {
+            return PARSER;
         }
         private static class FieldNum {
             static final int _sint32=1;
@@ -3372,9 +3898,6 @@ public class SampleMessageFast {
             public static org.ebfhub.fastprotobuf.FastProtoField _sfixed64=new org.ebfhub.fastprotobuf.FastProtoField("_sfixed64",FieldNum._sfixed64,FieldBit._sfixed64,WireFormat.FieldType.SFIXED64,false,null);
         }
 
-        public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
-            return (fieldsSet & f.bit)!=0;
-        }
 
         @Override
         public String toString(){
@@ -3465,6 +3988,62 @@ public class SampleMessageFast {
                 this._null=null;
             }
         }
+        @Override
+        public int getSerializedSize() {
+            int size=0;
+            if((fieldsSet & FieldBit._sint32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeSInt32Size(FieldNum._sint32,_sint32);
+            }
+            if((fieldsSet & FieldBit._sint64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeSInt64Size(FieldNum._sint64,_sint64);
+            }
+            if((fieldsSet & FieldBit._string)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeStringSize(FieldNum._string,_string);
+            }
+            if((fieldsSet & FieldBit._int32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum._int32,_int32);
+            }
+            if((fieldsSet & FieldBit._int64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt64Size(FieldNum._int64,_int64);
+            }
+            if((fieldsSet & FieldBit._bool)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeBoolSize(FieldNum._bool,_bool);
+            }
+            if((fieldsSet & FieldBit._double)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeDoubleSize(FieldNum._double,_double);
+            }
+            if((fieldsSet & FieldBit._float)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeFloatSize(FieldNum._float,_float);
+            }
+            if((fieldsSet & FieldBit._ts)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeInt32Size(FieldNum._ts,_ts);
+            }
+            if((fieldsSet & FieldBit._stringList)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum._stringList,_stringList);
+            }
+            if((fieldsSet & FieldBit._null)!=0) {
+                size+=org.ebfhub.fastprotobuf.FastProtoMessageBase.computeMessageSize(FieldNum._null,_null);
+            }
+            if((fieldsSet & FieldBit._fixed32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeFixed32Size(FieldNum._fixed32,_fixed32);
+            }
+            if((fieldsSet & FieldBit._fixed64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeFixed64Size(FieldNum._fixed64,_fixed64);
+            }
+            if((fieldsSet & FieldBit._uint32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeUInt32Size(FieldNum._uint32,_uint32);
+            }
+            if((fieldsSet & FieldBit._uint64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeUInt64Size(FieldNum._uint64,_uint64);
+            }
+            if((fieldsSet & FieldBit._sfixed32)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeSFixed32Size(FieldNum._sfixed32,_sfixed32);
+            }
+            if((fieldsSet & FieldBit._sfixed64)!=0) {
+                size+=com.google.protobuf.CodedOutputStream.computeSFixed64Size(FieldNum._sfixed64,_sfixed64);
+            }
+            return size;
+        }
         public void write(CodedOutputStream os, org.ebfhub.fastprotobuf.FastProtoWriter writer) throws java.io.IOException {
             if((fieldsSet & FieldBit._sint32)!=0) {
                 os.writeSInt32(FieldNum._sint32,_sint32);
@@ -3526,16 +4105,7 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return AllTypes.this.field_add(field);
             }
-            @Override
-            public void field_set(int field, double val) {
-                AllTypes.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
-                AllTypes.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, StringList val) {
                 AllTypes.this.field_set(field,val);
             }
             @Override
@@ -3543,13 +4113,22 @@ public class SampleMessageFast {
                 AllTypes.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, boolean val) {
+            public void field_set(int field, double val) {
                 AllTypes.this.field_set(field,val);
             }
             public void field_set(int field, NullValue val) {
                 AllTypes.this.field_set(field,val);
             }
-            public void field_set(int field, StringList val) {
+            @Override
+            public void field_set(int field, long val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, boolean val) {
+                AllTypes.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, float val) {
                 AllTypes.this.field_set(field,val);
             }
             @Override
@@ -3605,62 +4184,31 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
-                case FieldNum._null:
-                    if (null==_null) {
-                        _null=pool.take(NullValue.class);
-                    }
-                    fieldsSet|=FieldBit._null;
-                    return _null;
                 case FieldNum._stringList:
                     if (null==_stringList) {
                         _stringList=pool.take(StringList.class);
                     }
                     fieldsSet|=FieldBit._stringList;
                     return _stringList;
+                case FieldNum._null:
+                    if (null==_null) {
+                        _null=pool.take(NullValue.class);
+                    }
+                    fieldsSet|=FieldBit._null;
+                    return _null;
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, double val) {
+        private void field_set(int field, StringList val) {
             switch(field) {
-                case FieldNum._double:
-                    this._double=val;
-                    fieldsSet|=64;
+                case FieldNum._stringList:
+                    if(this._stringList!=null){
+                        pool.returnSpecific(this._stringList);
+                    }
+                    this._stringList=val;
+                    fieldsSet|=512;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                case FieldNum._sint64:
-                    this._sint64=val;
-                    fieldsSet|=2;
-                    break;
-                case FieldNum._int64:
-                    this._int64=val;
-                    fieldsSet|=16;
-                    break;
-                case FieldNum._fixed64:
-                    this._fixed64=val;
-                    fieldsSet|=4096;
-                    break;
-                case FieldNum._uint64:
-                    this._uint64=val;
-                    fieldsSet|=16384;
-                    break;
-                case FieldNum._sfixed64:
-                    this._sfixed64=val;
-                    fieldsSet|=65536;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                case FieldNum._float:
-                    this._float=val;
-                    fieldsSet|=128;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
             }
         }
         private void field_set(int field, int val) {
@@ -3692,13 +4240,13 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                case FieldNum._bool:
-                    this._bool=val;
-                    fieldsSet|=32;
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=64;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
         private void field_set(int field, NullValue val) {
@@ -3713,16 +4261,47 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from NullValue");
             }
         }
-        private void field_set(int field, StringList val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                case FieldNum._stringList:
-                    if(this._stringList!=null){
-                        pool.returnSpecific(this._stringList);
-                    }
-                    this._stringList=val;
-                    fieldsSet|=512;
+                case FieldNum._sint64:
+                    this._sint64=val;
+                    fieldsSet|=2;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
+                case FieldNum._int64:
+                    this._int64=val;
+                    fieldsSet|=16;
+                    break;
+                case FieldNum._fixed64:
+                    this._fixed64=val;
+                    fieldsSet|=4096;
+                    break;
+                case FieldNum._uint64:
+                    this._uint64=val;
+                    fieldsSet|=16384;
+                    break;
+                case FieldNum._sfixed64:
+                    this._sfixed64=val;
+                    fieldsSet|=65536;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=32;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=128;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {

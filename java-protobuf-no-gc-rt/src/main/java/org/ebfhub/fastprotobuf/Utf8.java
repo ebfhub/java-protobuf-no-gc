@@ -26,6 +26,56 @@ public final class Utf8 {
 
     private Utf8() { }
 
+    public static int encodedLength(CharSequence sequence) {
+        int utf16Length = sequence.length();
+        int utf8Length = utf16Length;
+
+        int i;
+        for(i = 0; i < utf16Length && sequence.charAt(i) < 128; ++i) {
+        }
+
+        while(i < utf16Length) {
+            char c = sequence.charAt(i);
+            if (c >= 2048) {
+                utf8Length += encodedLengthGeneral(sequence, i);
+                break;
+            }
+
+            utf8Length += 127 - c >>> 31;
+            ++i;
+        }
+
+        if (utf8Length < utf16Length) {
+            throw new IllegalArgumentException("UTF-8 length does not fit in int: " + ((long)utf8Length + 4294967296L));
+        } else {
+            return utf8Length;
+        }
+    }
+
+    private static int encodedLengthGeneral(CharSequence sequence, int start) {
+        int utf16Length = sequence.length();
+        int utf8Length = 0;
+
+        for(int i = start; i < utf16Length; ++i) {
+            char c = sequence.charAt(i);
+            if (c < 2048) {
+                utf8Length += 127 - c >>> 31;
+            } else {
+                utf8Length += 2;
+                if ('\ud800' <= c && c <= '\udfff') {
+                    int cp = Character.codePointAt(sequence, i);
+                    if (cp < 65536) {
+                        throw Utf8CodingException.unpairedSurrogate(c);
+                    }
+
+                    ++i;
+                }
+            }
+        }
+
+        return utf8Length;
+    }
+
 
     public abstract static class ByteProvider
     {

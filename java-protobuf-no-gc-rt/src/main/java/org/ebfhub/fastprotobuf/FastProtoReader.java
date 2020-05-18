@@ -40,8 +40,10 @@ public class FastProtoReader {
      * @throws java.io.IOException if any.
      */
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
-        while(!is.isAtEnd()) {
+        while(true) {
             int tag = is.readTag();
+            if(tag==0)
+                break;
             int wt = WireFormat.getTagWireType(tag);
             int field = WireFormat.getTagFieldNumber(tag);
             FastProtoField fd = setter.field_getDef(field);

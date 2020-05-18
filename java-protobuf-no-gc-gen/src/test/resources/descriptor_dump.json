@@ -391,13 +391,24 @@
         "jsonName": "sfixed64"
       }]
     }],
+    "service": [{
+      "name": "MarketDataService",
+      "method": [{
+        "name": "SubscribeToMarketData",
+        "inputType": ".tutorial.DataMessage",
+        "outputType": ".tutorial.DataMessage",
+        "options": {
+        },
+        "serverStreaming": true
+      }]
+    }],
     "options": {
       "javaPackage": "com.github.ebfhub.fastprotobuf.sample.proto",
       "javaOuterClassname": "SampleMessage"
     },
     "sourceCodeInfo": {
       "location": [{
-        "span": [0, 0, 103, 1]
+        "span": [0, 0, 107, 1]
       }, {
         "path": [12],
         "span": [0, 0, 18]
@@ -1297,6 +1308,27 @@
       }, {
         "path": [4, 12, 2, 16, 3],
         "span": [101, 25, 27]
+      }, {
+        "path": [6, 0],
+        "span": [105, 0, 107, 1]
+      }, {
+        "path": [6, 0, 1],
+        "span": [105, 8, 25]
+      }, {
+        "path": [6, 0, 2, 0],
+        "span": [106, 4, 73]
+      }, {
+        "path": [6, 0, 2, 0, 1],
+        "span": [106, 8, 29]
+      }, {
+        "path": [6, 0, 2, 0, 2],
+        "span": [106, 30, 41]
+      }, {
+        "path": [6, 0, 2, 0, 6],
+        "span": [106, 52, 58]
+      }, {
+        "path": [6, 0, 2, 0, 3],
+        "span": [106, 59, 70]
       }]
     },
     "syntax": "proto3"
