@@ -7,6 +7,7 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -17,11 +18,18 @@ public class GrpcServer {
     private final Server server;
 
     private static class MDService extends MarketDataServiceFastGrpc.MarketDataServiceImplBase {
+        long lastLogged;
+
         @Override
         public void subscribeToMarketData(SampleMessageFast.DataMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
             int n=0;
             while(true) {
                 SampleMessageFast.DataMessage msg = SampleMessageFast.DataMessage.newBuilder().setSymbol("test").setSymbolId(n).build();
+                long now = System.currentTimeMillis();
+                if(now-lastLogged>4000){
+                    lastLogged=now;
+                    System.out.println(new Date()+": "+n+": message: "+msg);
+                }
                 responseObserver.onNext(msg);
                 try {
                     Thread.sleep(2000);

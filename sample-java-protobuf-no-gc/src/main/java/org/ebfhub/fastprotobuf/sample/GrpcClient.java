@@ -2,6 +2,7 @@ package org.ebfhub.fastprotobuf.sample;
 
 import com.github.ebfhub.fastprotobuf.sample.proto.MarketDataServiceFastGrpc;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessageFast;
+import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -25,6 +26,11 @@ public class GrpcClient {
 
             FastProtoObjectPool pool=new FastProtoObjectPool();
             SampleMessageFast.DataMessage request  = SampleMessageFast.DataMessage.create(pool);
+
+            channel.notifyWhenStateChanged(ConnectivityState.TRANSIENT_FAILURE, ()->{
+                System.out.println("State changed");
+            });
+
             client.asyncStub.subscribeToMarketData(request, new StreamObserver<SampleMessageFast.DataMessage>() {
 
                 int updates=0;
@@ -35,7 +41,7 @@ public class GrpcClient {
                     //System.out.println("message: "+dataMessage);
                     updates++;
                     long now = System.currentTimeMillis();
-                    if(now-lastLogged>2000){
+                    if(now-lastLogged>4000){
                         lastLogged=now;
                         System.out.println(new Date()+": "+updates+": message: "+dataMessage);
                     }

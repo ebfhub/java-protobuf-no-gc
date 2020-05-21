@@ -4,9 +4,11 @@ import com.github.ebfhub.fastprotobuf.sample.proto.MarketDataServiceGrpc;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessage;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.netty.shaded.io.netty.buffer.PooledByteBufAllocator;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -17,18 +19,25 @@ public class GrpcServer2 {
     private final Server server;
 
     private static class MDService extends MarketDataServiceGrpc.MarketDataServiceImplBase {
+        long lastLogged;
         @Override
         public void subscribeToMarketData(SampleMessage.DataMessage request, StreamObserver<SampleMessage.DataMessage> responseObserver) {
             int n=0;
             while(true) {
                 SampleMessage.DataMessage msg = SampleMessage.DataMessage.newBuilder().setSymbol("test").setSymbolId(n).build();
+                long now = System.currentTimeMillis();
+                if(now-lastLogged>4000){
+                    lastLogged=now;
+                    System.out.println(new Date()+": "+n+"\n");
+                }
                 responseObserver.onNext(msg);
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(4000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 n++;
+
                 //msg.release();
             }
         }
@@ -77,6 +86,9 @@ public class GrpcServer2 {
      * Main method.  This comment makes the linter happy.
      */
     public static void main(String[] args) throws Exception {
+        System.setProperty("io.grpc.netty.shaded.io.netty.allocator.numHeapArenas", "1");
+        System.setProperty("io.grpc.netty.shaded.io.netty.allocator.numDirectArenas", "1");
+
         GrpcServer2 server = new GrpcServer2(8980);
         server.start();
         server.blockUntilShutdown();
