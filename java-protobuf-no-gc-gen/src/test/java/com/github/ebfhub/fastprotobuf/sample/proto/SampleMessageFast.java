@@ -110,15 +110,7 @@ public class SampleMessageFast {
                 return StringList.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                StringList.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 StringList.this.field_set(field,val);
             }
             @Override
@@ -126,7 +118,15 @@ public class SampleMessageFast {
                 StringList.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                StringList.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 StringList.this.field_set(field,val);
             }
             @Override
@@ -169,19 +169,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -189,9 +179,19 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -362,15 +362,7 @@ public class SampleMessageFast {
                 return FieldSetDef.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                FieldSetDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
@@ -378,7 +370,15 @@ public class SampleMessageFast {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                FieldSetDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 FieldSetDef.this.field_set(field,val);
             }
             @Override
@@ -422,23 +422,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.fieldSetId:
-                    this.fieldSetId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -446,9 +432,23 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldSetId:
+                    this.fieldSetId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -614,15 +614,7 @@ public class SampleMessageFast {
                 return FieldIdDef.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                FieldIdDef.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
@@ -630,7 +622,15 @@ public class SampleMessageFast {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                FieldIdDef.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 FieldIdDef.this.field_set(field,val);
             }
             @Override
@@ -674,23 +674,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.fieldId:
-                    this.fieldId=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -698,9 +684,23 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.fieldId:
+                    this.fieldId=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -835,15 +835,7 @@ public class SampleMessageFast {
                 return NullValue.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                NullValue.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 NullValue.this.field_set(field,val);
             }
             @Override
@@ -851,7 +843,15 @@ public class SampleMessageFast {
                 NullValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                NullValue.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 NullValue.this.field_set(field,val);
             }
             @Override
@@ -893,19 +893,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -913,9 +903,19 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1180,11 +1180,11 @@ public class SampleMessageFast {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, int val) {
+            public void field_set(int field, float val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, double val) {
+            public void field_set(int field, boolean val) {
                 FieldAndValue.this.field_set(field,val);
             }
             public void field_set(int field, NullValue val) {
@@ -1195,11 +1195,11 @@ public class SampleMessageFast {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, boolean val) {
+            public void field_set(int field, double val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, int val) {
                 FieldAndValue.this.field_set(field,val);
             }
             @Override
@@ -1278,33 +1278,24 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.fieldId:
-                    this.fieldId=val;
-                    fieldsSet|=1;
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=64;
+                    oneOf=OneOf._float;
                     break;
-                case FieldNum._int32:
-                    this._int32=val;
-                    fieldsSet|=4;
-                    oneOf=OneOf._int32;
-                    break;
-                case FieldNum._ts:
-                    this._ts=val;
-                    fieldsSet|=128;
-                    oneOf=OneOf._ts;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
-        private void field_set(int field, double val) {
+        private void field_set(int field, boolean val) {
             switch(field) {
-                case FieldNum._double:
-                    this._double=val;
-                    fieldsSet|=32;
-                    oneOf=OneOf._double;
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=16;
+                    oneOf=OneOf._bool;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
         private void field_set(int field, NullValue val) {
@@ -1330,24 +1321,33 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                case FieldNum._bool:
-                    this._bool=val;
-                    fieldsSet|=16;
-                    oneOf=OneOf._bool;
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=32;
+                    oneOf=OneOf._double;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, int val) {
             switch(field) {
-                case FieldNum._float:
-                    this._float=val;
-                    fieldsSet|=64;
-                    oneOf=OneOf._float;
+                case FieldNum.fieldId:
+                    this.fieldId=val;
+                    fieldsSet|=1;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                case FieldNum._int32:
+                    this._int32=val;
+                    fieldsSet|=4;
+                    oneOf=OneOf._int32;
+                    break;
+                case FieldNum._ts:
+                    this._ts=val;
+                    fieldsSet|=128;
+                    oneOf=OneOf._ts;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -1766,19 +1766,8 @@ public class SampleMessageFast {
             public org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
                 return DataMessage.this.field_add(field);
             }
-            public void field_set(int field, FieldSetDef val) {
-                DataMessage.this.field_set(field,val);
-            }
             @Override
-            public void field_set(int field, int val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                DataMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 DataMessage.this.field_set(field,val);
             }
             @Override
@@ -1786,7 +1775,18 @@ public class SampleMessageFast {
                 DataMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                DataMessage.this.field_set(field,val);
+            }
+            public void field_set(int field, FieldSetDef val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                DataMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 DataMessage.this.field_set(field,val);
             }
             @Override
@@ -1834,14 +1834,6 @@ public class SampleMessageFast {
         // Private impls
         private org.ebfhub.fastprotobuf.FastProtoMessage field_add(int field) {
             switch(field) {
-                case FieldNum.values:
-                    if (null==values) {
-                        values=pool.takeList();
-                    }
-                    fieldsSet|=256;
-                    FieldAndValue values_res = pool.take(FieldAndValue.class);
-                    values.add(values_res);
-                    return values_res;
                 case FieldNum.fieldIdDefs:
                     if (null==fieldIdDefs) {
                         fieldIdDefs=pool.takeList();
@@ -1850,6 +1842,14 @@ public class SampleMessageFast {
                     FieldIdDef fieldIdDefs_res = pool.take(FieldIdDef.class);
                     fieldIdDefs.add(fieldIdDefs_res);
                     return fieldIdDefs_res;
+                case FieldNum.values:
+                    if (null==values) {
+                        values=pool.takeList();
+                    }
+                    fieldsSet|=256;
+                    FieldAndValue values_res = pool.take(FieldAndValue.class);
+                    values.add(values_res);
+                    return values_res;
                 case FieldNum.defineFieldSet:
                     if (null==defineFieldSet) {
                         defineFieldSet=pool.take(FieldSetDef.class);
@@ -1857,6 +1857,29 @@ public class SampleMessageFast {
                     fieldsSet|=FieldBit.defineFieldSet;
                     return defineFieldSet;
                 default: throw new UnsupportedOperationException("Unable to add");
+            }
+        }
+        private void field_set(int field, float val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, long val) {
+            switch(field) {
+                case FieldNum.sourceTs:
+                    this.sourceTs=val;
+                    fieldsSet|=4;
+                    break;
+                case FieldNum.sentTs:
+                    this.sentTs=val;
+                    fieldsSet|=16;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
         private void field_set(int field, FieldSetDef val) {
@@ -1869,6 +1892,11 @@ public class SampleMessageFast {
                     fieldsSet|=64;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from FieldSetDef");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
         private void field_set(int field, int val) {
@@ -1886,34 +1914,6 @@ public class SampleMessageFast {
                     fieldsSet|=32;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                case FieldNum.sourceTs:
-                    this.sourceTs=val;
-                    fieldsSet|=4;
-                    break;
-                case FieldNum.sentTs:
-                    this.sentTs=val;
-                    fieldsSet|=16;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, boolean val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2231,15 +2231,7 @@ public class SampleMessageFast {
                 return SubscriberMessagePriority.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessagePriority.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
@@ -2247,7 +2239,15 @@ public class SampleMessageFast {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessagePriority.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessagePriority.this.field_set(field,val);
             }
             @Override
@@ -2292,18 +2292,14 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
-        private void field_set(int field, double val) {
+        private void field_set(int field, boolean val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
         private void field_set(int field, long val) {
@@ -2315,14 +2311,18 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, int val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2517,15 +2517,7 @@ public class SampleMessageFast {
                 return SubscriberMessageSubscribe.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessageSubscribe.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
@@ -2533,7 +2525,15 @@ public class SampleMessageFast {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessageSubscribe.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessageSubscribe.this.field_set(field,val);
             }
             @Override
@@ -2577,23 +2577,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.pri:
-                    this.pri=val;
-                    fieldsSet|=2;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -2601,9 +2587,23 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.pri:
+                    this.pri=val;
+                    fieldsSet|=2;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2764,15 +2764,7 @@ public class SampleMessageFast {
                 return SubscriberMessageQueueRate.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessageQueueRate.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
@@ -2780,7 +2772,15 @@ public class SampleMessageFast {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessageQueueRate.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessageQueueRate.this.field_set(field,val);
             }
             @Override
@@ -2823,9 +2823,19 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+            }
+        }
+        private void field_set(int field, boolean val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+            }
+        }
+        private void field_set(int field, long val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
         private void field_set(int field, double val) {
@@ -2837,19 +2847,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, long val) {
+        private void field_set(int field, int val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
-            }
-        }
-        private void field_set(int field, boolean val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -2969,15 +2969,7 @@ public class SampleMessageFast {
                 return SubscriberMessageFlow.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessageFlow.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
@@ -2985,7 +2977,15 @@ public class SampleMessageFast {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessageFlow.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessageFlow.this.field_set(field,val);
             }
             @Override
@@ -3028,23 +3028,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum.bytes:
-                    this.bytes=val;
-                    fieldsSet|=1;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -3052,9 +3038,23 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                case FieldNum.bytes:
+                    this.bytes=val;
+                    fieldsSet|=1;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -3246,32 +3246,32 @@ public class SampleMessageFast {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
+            public void field_set(int field, float val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             public void field_set(int field, SubscriberMessagePriority val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, boolean val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             public void field_set(int field, SubscriberMessageSubscribe val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
-            @Override
-            public void field_set(int field, boolean val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, float val) {
-                SubscriberMessagePart.this.field_set(field,val);
-            }
             public void field_set(int field, SubscriberMessageFlow val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, long val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessagePart.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessagePart.this.field_set(field,val);
             }
             @Override
@@ -3358,14 +3358,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageQueueRate");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, SubscriberMessagePriority val) {
@@ -3381,9 +3376,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessagePriority");
             }
         }
-        private void field_set(int field, long val) {
+        private void field_set(int field, boolean val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
         private void field_set(int field, SubscriberMessageSubscribe val) {
@@ -3399,16 +3394,6 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageSubscribe");
             }
         }
-        private void field_set(int field, boolean val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
-            }
-        }
-        private void field_set(int field, float val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
-            }
-        }
         private void field_set(int field, SubscriberMessageFlow val) {
             switch(field) {
                 case FieldNum.flow:
@@ -3420,6 +3405,21 @@ public class SampleMessageFast {
                     oneOf=OneOf.flow;
                     break;
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from SubscriberMessageFlow");
+            }
+        }
+        private void field_set(int field, long val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -3643,15 +3643,7 @@ public class SampleMessageFast {
                 return SubscriberMessage.this.field_add(field);
             }
             @Override
-            public void field_set(int field, int val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, double val) {
-                SubscriberMessage.this.field_set(field,val);
-            }
-            @Override
-            public void field_set(int field, long val) {
+            public void field_set(int field, float val) {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
@@ -3659,7 +3651,15 @@ public class SampleMessageFast {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, long val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, double val) {
+                SubscriberMessage.this.field_set(field,val);
+            }
+            @Override
+            public void field_set(int field, int val) {
                 SubscriberMessage.this.field_set(field,val);
             }
             @Override
@@ -3710,19 +3710,9 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to add");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
-            }
-        }
-        private void field_set(int field, double val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
-            }
-        }
-        private void field_set(int field, long val) {
-            switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
         private void field_set(int field, boolean val) {
@@ -3730,9 +3720,19 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, long val) {
             switch(field) {
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
+            }
+        }
+        private void field_set(int field, double val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+            }
+        }
+        private void field_set(int field, int val) {
+            switch(field) {
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
@@ -4109,11 +4109,11 @@ public class SampleMessageFast {
                 AllTypes.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, int val) {
+            public void field_set(int field, float val) {
                 AllTypes.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, double val) {
+            public void field_set(int field, boolean val) {
                 AllTypes.this.field_set(field,val);
             }
             public void field_set(int field, NullValue val) {
@@ -4124,11 +4124,11 @@ public class SampleMessageFast {
                 AllTypes.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, boolean val) {
+            public void field_set(int field, double val) {
                 AllTypes.this.field_set(field,val);
             }
             @Override
-            public void field_set(int field, float val) {
+            public void field_set(int field, int val) {
                 AllTypes.this.field_set(field,val);
             }
             @Override
@@ -4211,42 +4211,22 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from StringList");
             }
         }
-        private void field_set(int field, int val) {
+        private void field_set(int field, float val) {
             switch(field) {
-                case FieldNum._sint32:
-                    this._sint32=val;
-                    fieldsSet|=1;
+                case FieldNum._float:
+                    this._float=val;
+                    fieldsSet|=128;
                     break;
-                case FieldNum._int32:
-                    this._int32=val;
-                    fieldsSet|=8;
-                    break;
-                case FieldNum._ts:
-                    this._ts=val;
-                    fieldsSet|=256;
-                    break;
-                case FieldNum._fixed32:
-                    this._fixed32=val;
-                    fieldsSet|=2048;
-                    break;
-                case FieldNum._uint32:
-                    this._uint32=val;
-                    fieldsSet|=8192;
-                    break;
-                case FieldNum._sfixed32:
-                    this._sfixed32=val;
-                    fieldsSet|=32768;
-                    break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
             }
         }
-        private void field_set(int field, double val) {
+        private void field_set(int field, boolean val) {
             switch(field) {
-                case FieldNum._double:
-                    this._double=val;
-                    fieldsSet|=64;
+                case FieldNum._bool:
+                    this._bool=val;
+                    fieldsSet|=32;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
             }
         }
         private void field_set(int field, NullValue val) {
@@ -4286,22 +4266,42 @@ public class SampleMessageFast {
                 default: throw new UnsupportedOperationException("Unable to set field "+field+" from long");
             }
         }
-        private void field_set(int field, boolean val) {
+        private void field_set(int field, double val) {
             switch(field) {
-                case FieldNum._bool:
-                    this._bool=val;
-                    fieldsSet|=32;
+                case FieldNum._double:
+                    this._double=val;
+                    fieldsSet|=64;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from boolean");
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from double");
             }
         }
-        private void field_set(int field, float val) {
+        private void field_set(int field, int val) {
             switch(field) {
-                case FieldNum._float:
-                    this._float=val;
-                    fieldsSet|=128;
+                case FieldNum._sint32:
+                    this._sint32=val;
+                    fieldsSet|=1;
                     break;
-                default: throw new UnsupportedOperationException("Unable to set field "+field+" from float");
+                case FieldNum._int32:
+                    this._int32=val;
+                    fieldsSet|=8;
+                    break;
+                case FieldNum._ts:
+                    this._ts=val;
+                    fieldsSet|=256;
+                    break;
+                case FieldNum._fixed32:
+                    this._fixed32=val;
+                    fieldsSet|=2048;
+                    break;
+                case FieldNum._uint32:
+                    this._uint32=val;
+                    fieldsSet|=8192;
+                    break;
+                case FieldNum._sfixed32:
+                    this._sfixed32=val;
+                    fieldsSet|=32768;
+                    break;
+                default: throw new UnsupportedOperationException("Unable to set field "+field+" from int");
             }
         }
         private StringBuilder field_builder(int field) {
