@@ -1,4 +1,4 @@
-package org.ebfhub.fastprotobuf.sample;
+package com.github.ebfhub.fastprotobuf;
 
 import com.github.ebfhub.fastprotobuf.sample.proto.MarketDataServiceFastGrpc;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessageFast;
@@ -21,7 +21,7 @@ public class GrpcServer {
         long lastLogged;
 
         @Override
-        public void subscribeToMarketData(SampleMessageFast.DataMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
+        public void subscribeToMarketData(SampleMessageFast.QueryMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
             int n=0;
             while(true) {
                 SampleMessageFast.DataMessage msg = SampleMessageFast.DataMessage.newBuilder().setSymbol("test").setSymbolId(n).build();

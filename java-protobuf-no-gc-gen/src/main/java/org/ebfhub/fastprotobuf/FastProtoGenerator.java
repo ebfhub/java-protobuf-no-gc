@@ -9,6 +9,7 @@ import com.salesforce.jprotoc.ProtocPlugin;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>FastProtoGenerator class.</p>
@@ -377,14 +378,10 @@ public class FastProtoGenerator extends Generator {
                 "     */\n" );
         for(MethodDetails method : methods)
         {
-            sb.line(
-                    "    public void " + method.methodName + "(" + method.inputType + " request,\n" +
-                            "        io.grpc.stub.StreamObserver<" + method.outputType + "> responseObserver) {\n" +
-                            "      asyncServerStreamingCall(\n" +
-                            "          getChannel().newCall(" + method.mName + ", getCallOptions()), request, " + wrapObserver(method, "responseObserver") + "" + ");\n" +
-                            "    }\n" +
-                            "  }\n");
+            method.genMethod(sb,  CallType.ASYNC);
         }
+        sb.line("}");
+
         sb.line(
                 "\n" +
                 "  /**\n" +
@@ -409,15 +406,11 @@ public class FastProtoGenerator extends Generator {
                 "     */\n" );
         for(MethodDetails method : methods)
         {
-            sb.line(
-                    "    public java.util.Iterator<"+method.outputType+"> subscribeToMarketData(\n" +
-                            "        "+method.inputType+" request) {\n" +
-                            "      return blockingServerStreamingCall(\n" +
-                            "          getChannel(), "+method.mName+", getCallOptions(), request);\n" +
-                            "    }\n" +
-                            "  }\n" +
-                            "\n");
+            method.genMethod(sb,  CallType.BLOCKING);
         }
+
+        sb.line("}");
+
         sb.line(
                 "  /**\n" +
                 "   */\n" +
@@ -522,6 +515,7 @@ public class FastProtoGenerator extends Generator {
 
         return className;
     }
+
 
     private String wrapObserver(MethodDetails method, String var) {
         return "new "+FastProtoStreamObserver.class.getName()+"<" + method.outputType + ">("+var+")";
@@ -1508,11 +1502,14 @@ public class FastProtoGenerator extends Generator {
         final int idNum;
         final String name;
         final String methodName;
+        final boolean clientStream;
+        final boolean serverStream;
 
         public MethodDetails(DescriptorProtos.FileDescriptorProto protoFile, DescriptorProtos.MethodDescriptorProto method, int num) {
             name = method.getName();
             methodName = method.getName().substring(0,1).toLowerCase()+method.getName().substring(1);
-
+            serverStream=method.getServerStreaming();
+            clientStream=method.getClientStreaming();
             mName = "METHOD" + method.getName().replaceAll("([A-Z])", "_$1").toUpperCase();
             idName = "METHODID" + method.getName().replaceAll("([A-Z])", "_$1").toUpperCase();
             idNum=num;
@@ -1525,7 +1522,47 @@ public class FastProtoGenerator extends Generator {
 
         }
 
+        public String serverStreamingCall(CallType async) {
+            return (async==CallType.ASYNC?"async":"blocking")+(serverStream?(clientStream?"BidiStreamingCall":"ServerStreamingCall"):(clientStream?"ClientStreamingCall":"UnaryCall"));
+        }
+
+
+        void genMethod(JavaOutput sb,  CallType async) {
+            MethodDetails method=this;
+            if(async==CallType.BLOCKING && method.clientStream){
+                return;
+            }
+
+            sb.line(
+                    "public "+
+                            (async==CallType.ASYNC&&method.clientStream?"io.grpc.stub.StreamObserver<" + method.inputType + ">":
+                                    async==CallType.BLOCKING&&method.serverStream?"java.util.Iterator<"+method.outputType+">":
+                                    async==CallType.BLOCKING?method.outputType:
+                                    "void")
+                            +" " + method.methodName + "(" +
+                            (method.clientStream?"":method.inputType + " request,\n" )+
+                            "io.grpc.stub.StreamObserver<" + method.outputType + "> responseObserver) {\n" +
+                            (method.clientStream||async==CallType.BLOCKING?"return ":"")+method.serverStreamingCall(async)+"(\n" +
+                            toArgs(
+                            (async==CallType.ASYNC?"getChannel().newCall(" +toArgs(method.mName, "getCallOptions()")+")":toArgs("getChannel()", method.mName, "getCallOptions()")),
+                            (method.clientStream?"":" request"),
+                            (async==CallType.BLOCKING?"":method.clientStream?"responseObserver":wrapObserver(method, "responseObserver"))
+                            )+
+                            "" + ");\n" +
+                            "  }\n");
+        }
     }
+    enum CallType
+    {
+        ASYNC,
+        BLOCKING
+    }
+
+
+    static String toArgs(String... vals){
+        return Stream.of(vals).filter(a->a.length()>0).collect(Collectors.joining(", "));
+    }
+
 //
 //    private String getComments(DescriptorProtos.SourceCodeInfo.Location location) {
 //        return location.getLeadingComments().isEmpty() ? location.getTrailingComments() : location.getLeadingComments();

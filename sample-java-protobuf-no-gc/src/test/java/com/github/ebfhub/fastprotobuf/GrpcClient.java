@@ -1,4 +1,4 @@
-package org.ebfhub.fastprotobuf.sample;
+package com.github.ebfhub.fastprotobuf;
 
 import com.github.ebfhub.fastprotobuf.sample.proto.MarketDataServiceFastGrpc;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessageFast;
@@ -24,8 +24,7 @@ public class GrpcClient {
         try {
             GrpcClient client = new GrpcClient(channel);
 
-            FastProtoObjectPool pool=new FastProtoObjectPool();
-            SampleMessageFast.DataMessage request  = SampleMessageFast.DataMessage.create(pool);
+            SampleMessageFast.QueryMessage request  = SampleMessageFast.QueryMessage.newBuilder();
 
             channel.notifyWhenStateChanged(ConnectivityState.TRANSIENT_FAILURE, ()->{
                 System.out.println("State changed");

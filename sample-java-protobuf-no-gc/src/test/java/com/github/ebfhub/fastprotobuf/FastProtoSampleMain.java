@@ -1,4 +1,4 @@
-package org.ebfhub.fastprotobuf.sample;
+package com.github.ebfhub.fastprotobuf;
 
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessage;
 import com.github.ebfhub.fastprotobuf.sample.proto.SampleMessageFast;
