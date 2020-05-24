@@ -843,7 +843,14 @@ public class FastProtoGenerator extends Generator {
                     field.getType()== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE
             ) {
                 sb.line("if(this."+ field.getName()+"!=null){");
-                sb.line("this.pool.returnSpecific(this."+ field.getName()+");");
+                if(field.getType()== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE&&ti.repeated) {
+                    sb.line("this.pool.returnMessageList(this." + field.getName() + ");");
+                } else if(field.getType()== DescriptorProtos.FieldDescriptorProto.Type.TYPE_MESSAGE) {
+                    sb.line("this." + field.getName() + ".release();");
+                } else {
+                    sb.line("this.pool.returnSpecific(this." + field.getName() + ");");
+                }
+
                 sb.line("this."+ field.getName()+"=null;");
                 sb.line("}");
             }

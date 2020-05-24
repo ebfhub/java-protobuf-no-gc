@@ -32,8 +32,7 @@ public class TestEncoding {
         byte[] bb = decode(bad2);
         CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
         FastProtoReader reader=new FastProtoReader();
-        FastProtoObjectPool pool=new FastProtoObjectPool();
-        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,msg.getSetter());
 
         System.out.println(msg);
@@ -45,8 +44,7 @@ public class TestEncoding {
         byte[] bb = decode(bad);
         CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
         FastProtoReader reader=new FastProtoReader();
-        FastProtoObjectPool pool=new FastProtoObjectPool();
-        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,msg.getSetter());
 
         System.out.println(msg);
@@ -58,8 +56,7 @@ public class TestEncoding {
         byte[] bb = decode(good);
         CodedInputStream is = CodedInputStream.newInstance(bb, 2, bb.length - 2);
         FastProtoReader reader=new FastProtoReader();
-        FastProtoObjectPool pool=new FastProtoObjectPool();
-        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg =  SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,msg.getSetter());
 
         System.out.println(msg);
@@ -84,7 +81,6 @@ public class TestEncoding {
 
 
         byte[] bytes=msg.toByteArray();
-        System.out.println("Bytes = "+new String(bytes));
         System.out.println(ProtoDebug.decodeProto(bytes,false));
 
 
@@ -92,11 +88,10 @@ public class TestEncoding {
 
 
         FastProtoReader reader = new FastProtoReader();
-        FastProtoObjectPool pool = reader.getPool();
         FastProtoWriter writer=new FastProtoWriter();
 
 
-        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,msg1.getSetter());
 
 
@@ -109,8 +104,8 @@ public class TestEncoding {
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
-        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.newBuilder();
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.newBuilder();
         msg2.setSymbol("bye");
 
         for(int k=0;k<10;k++){
@@ -119,7 +114,6 @@ public class TestEncoding {
         }
 
         MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
-        CodedInputStream is3=CodedInputStream.newInstance(mis);
 
         List<String> s = Arrays.asList("one","two");
 
@@ -135,7 +129,7 @@ public class TestEncoding {
                             msg2.createValue()
                                 .setString("sym14")
                                 .setFieldId(1000)
-                                .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                .setStringList(SampleMessageFast.StringList.newBuilder().addStrings(s)
                                         .addString("onwe")
                                         .addString("strTwo")
                                         .addString("ninety")
@@ -172,7 +166,7 @@ public class TestEncoding {
                             m.createValue()
                                     .setString("sym14")
                                     .setFieldId(1000)
-                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                    .setStringList(SampleMessageFast.StringList.newBuilder().addStrings(s)
                                             .addString("a")
                                             .addString("b")
                                             .addString("c")
@@ -202,7 +196,7 @@ public class TestEncoding {
                             m.createValue()
                                     .setString("sym14")
                                     .setFieldId(1000)
-                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s))
+                                    .setStringList(SampleMessageFast.StringList.newBuilder().addStrings(s))
 
                     )
                     .addValue(
@@ -241,9 +235,9 @@ public class TestEncoding {
         FastProtoWriter writer=new FastProtoWriter();
         FastProtoObjectPool pool = reader.getPool();
 
-        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.newBuilder();
         setup.accept(pool,msg2);
-        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.newBuilder();
 
         asserting.accept(msg2);
 
@@ -271,8 +265,8 @@ public class TestEncoding {
         FastProtoReader reader = new FastProtoReader();
         FastProtoObjectPool pool = reader.getPool();
         FastProtoWriter writer = new FastProtoWriter();
-        SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.create(pool);
-        SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.newBuilder();
+        SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.newBuilder();
         msg2
                 .setSymbol("sym12")
                 .addValue(
@@ -308,39 +302,41 @@ public class TestEncoding {
         for(int n=0;n<1000;n++) {
 
 
-            SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.create(pool);
-            SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.create(pool);
+            SampleMessageFast.DataMessage msg2 = SampleMessageFast.DataMessage.newBuilder();
+            SampleMessageFast.DataMessage msg3 = SampleMessageFast.DataMessage.newBuilder();
 
             List<String> s = Arrays.asList("one", "two");
 
             msg2
                     .setSymbol("sym12")
                     .addValue(
-                            msg2.createValue()
+                            SampleMessageFast.FieldAndValue.newBuilder()
                                     .setFieldId(1000)
-                                    .setStringList(SampleMessageFast.StringList.create(pool).addStrings(s)
+                                    .setStringList(SampleMessageFast.StringList.newBuilder().addStrings(s)
                                             .addString("a")
                                             .addString("b")
                                             .addString("c")
-                                            .addString("d1000"))
+                                            .addString("d1000").build())
 
                     )
                     .addValue(
-                            msg2.createValue()
+                            SampleMessageFast.FieldAndValue.newBuilder()
                                     .setFieldId(1003)
                                     .setDouble(Math.random()*n)
+                                    .build()
 
                     )
                     .addValue(
-                            msg2.createValue()
+                            SampleMessageFast.FieldAndValue.newBuilder()
                                     .setFieldId(1003)
                                     .setBool(true)
+                                    .build()
 
                     )
             ;
 
             SampleMessageFast.StringList sl = msg2.getValues().get(0).getStringList();
-            assertEquals(Arrays.asList("one", "two", "a", "b", "c", "d1000"), sl.getStrings().stream().map(a -> a.toString()).collect(Collectors.toList()));
+            assertEquals("it"+n, Arrays.asList("one", "two", "a", "b", "c", "d1000"), sl.getStrings().stream().map(CharSequence::toString).collect(Collectors.toList()));
 
             ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
             CodedOutputStream o2 = CodedOutputStream.newInstance(os1);
@@ -359,13 +355,11 @@ public class TestEncoding {
             List<SampleMessageFast.FieldAndValue> vals = msg3.getValues();
             assertTrue( vals.size()>=1);
             SampleMessageFast.StringList list = vals.get(0).getStringList();
-            assertEquals(Arrays.asList("one", "two", "a", "b", "c", "d1000"), list.getStrings().stream().map(a -> a.toString()).collect(Collectors.toList()));
+            assertEquals(Arrays.asList("one", "two", "a", "b", "c", "d1000"), list.getStrings().stream().map(CharSequence::toString).collect(Collectors.toList()));
 
             assertEquals(msg2.toString(),msg3.toString());
-            pool.returnOne(msg2);
-            pool.returnOne(msg3);
-
-
+            msg2.release();
+            msg3.release();
         }
     }
 }

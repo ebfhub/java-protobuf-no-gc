@@ -45,14 +45,11 @@ public class FastProtoSampleMain {
         System.out.println("Bytes = "+new String(bytes));
         System.out.println(ProtoDebug.decodeProto(bytes,false));
 
-
         CodedInputStream is=CodedInputStream.newInstance(bytes);
 
-
         FastProtoReader reader = new FastProtoReader();
-        FastProtoObjectPool pool= reader.getPool();
 
-        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg1 = SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,msg1.getSetter());
 
 
@@ -66,8 +63,8 @@ public class FastProtoSampleMain {
         byte[] bytes2=os1.toByteArray();
 
         byte[] bytes3=null;
-        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.create(pool);
-        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.newBuilder();
+        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.newBuilder();
         msg2.setSymbol("bye");
 
         for(int k=0;k<10;k++){

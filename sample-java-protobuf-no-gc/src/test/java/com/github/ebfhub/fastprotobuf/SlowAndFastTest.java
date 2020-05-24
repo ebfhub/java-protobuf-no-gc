@@ -45,13 +45,10 @@ public class SlowAndFastTest {
         CodedInputStream is=CodedInputStream.newInstance(bytes);
 
         FastProtoReader reader = new FastProtoReader();
-        FastProtoObjectPool pool = reader.getPool();
         FastProtoWriter writer=new FastProtoWriter();
 
-
-        SampleMessageFast.DataMessage newMsg = SampleMessageFast.DataMessage.create(pool);
+        SampleMessageFast.DataMessage newMsg = SampleMessageFast.DataMessage.newBuilder();
         reader.parse(is,newMsg.getSetter());
-
 
         ReusableByteArrayOutputStream os1 = new ReusableByteArrayOutputStream();
         CodedOutputStream o2 =  CodedOutputStream.newInstance(os1);

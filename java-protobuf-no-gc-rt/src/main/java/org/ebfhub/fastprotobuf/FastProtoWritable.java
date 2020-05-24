@@ -17,4 +17,9 @@ public interface FastProtoWritable {
      * @throws java.io.IOException if any.
      */
     void write(CodedOutputStream os, FastProtoWriter writer) throws java.io.IOException;
+
+    /**
+     * Free and object and all children
+     */
+    void release();
 }

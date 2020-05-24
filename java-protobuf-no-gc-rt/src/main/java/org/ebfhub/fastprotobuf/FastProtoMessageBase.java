@@ -7,9 +7,11 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public abstract class FastProtoMessageBase<T extends FastProtoMessage> implements FastProtoMessage,FastProtoWritable, com.google.protobuf.Message {
     protected int fieldsSet=0;
     protected org.ebfhub.fastprotobuf.FastProtoObjectPool pool;
+    private int refCount=1;
 
     /** Create default instance - used by GRPC */
     @SuppressWarnings("WeakerAccess")
@@ -21,6 +23,7 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     protected static FastProtoReader getDefaultReader(){
         return DEFAULT_PARSER.get();
     }
+    @SuppressWarnings("WeakerAccess")
     protected static FastProtoWriter getDefaultWriter(){
         return DEFAULT_WRITER.get();
     }
@@ -31,9 +34,24 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     protected FastProtoMessageBase(org.ebfhub.fastprotobuf.FastProtoObjectPool pool){
         this.pool=pool;
     }
+
+    public T retain(){
+        refCount++;
+        //noinspection unchecked
+        return (T)this;
+    }
+
+    public void release(){
+        if(--refCount==0) {
+            pool.returnSpecific(this);
+        }
+    }
+
     protected static FastProtoObjectPool getDefaultPool(){
         return getDefaultReader().getPool();
     }
+
+    @SuppressWarnings("unused")
     public boolean isSet(org.ebfhub.fastprotobuf.FastProtoField f){
         return (fieldsSet & f.bit)!=0;
     }
@@ -62,9 +80,6 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     @Override
     public abstract int getSerializedSize();
 
-    public void release(){
-        pool.returnOne(this);
-    }
 
     @Override
     public Parser<? extends com.google.protobuf.Message> getParserForType() {
@@ -87,7 +102,7 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     }
 
     @Override
-    public void writeDelimitedTo(OutputStream outputStream) throws IOException {
+    public void writeDelimitedTo(OutputStream outputStream) {
         throw new UnsupportedOperationException();
     }
 

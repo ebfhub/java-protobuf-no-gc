@@ -5,13 +5,13 @@ import gnu.trove.list.array.TIntArrayList;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class FastProtoObjectPool {
-    private Map<Class<?>, PoolInstance> pool = new HashMap<>();
+    private Map<Class<?>, PoolInstance> pool = new ConcurrentHashMap<>();
     private PoolInstance stringBuilderPool = new PoolInstance(StringBuilder::new);
     private PoolInstance arrayListPool = new PoolInstance(ArrayList::new);
 
@@ -20,13 +20,14 @@ public class FastProtoObjectPool {
         pool.put(ArrayList.class,arrayListPool);
     }
 
+    private final int MAX_INSTANCES=Integer.getInteger("PROTOBUF_POOL_MAX_INSTANCES",1024);
+    private final int DEF_CAPACITY=Integer.getInteger("PROTOBUF_POOL_DEF_CAPACITY",1024);
+
     private class PoolInstance
     {
-        List<Object> instances=new ArrayList<>();
+        final List<Object> instances=new ArrayList<>(DEF_CAPACITY);
         Supplier<Object> creator;
-        void add(Object o){
-            instances.add(o);
-        }
+
         PoolInstance(Supplier<Object> s){
             creator=s;
         }
@@ -38,7 +39,7 @@ public class FastProtoObjectPool {
                 creator=ArrayList::new;
             } else {
                 try {
-                    Method method = cl.getMethod("create", FastProtoObjectPool.class);
+                    @SuppressWarnings("unchecked") Method method = cl.getMethod("create", FastProtoObjectPool.class);
                     creator=()-> {
                         try {
                             return method.invoke(null,FastProtoObjectPool.this);
@@ -53,40 +54,52 @@ public class FastProtoObjectPool {
             }
         }
 
+        void add(Object o){
+            synchronized (instances) {
+                if(instances.size()<MAX_INSTANCES) {
+                    instances.add(o);
+                }
+            }
+        }
+
         public int size() {
-            return instances.size();
+            synchronized (instances) {
+                return instances.size();
+            }
         }
 
         Object take(){
-            if(instances.size()==0){
-                return creator.get();
+            synchronized (instances) {
+                int size=instances.size();
+                if (size != 0) {
+                    return instances.remove(size - 1);
+                }
             }
-            return instances.remove(instances.size()-1);
+            return creator.get();
         }
     }
 
-    public void returnOne(Object o) {
+    private void returnOne(Object o) {
         clear(o);
         Class<?> cl = o.getClass();
         PoolInstance l = getPoolInstance(cl);
         l.add(o);
     }
+
     public void returnSpecific(StringBuilder o) {
         o.setLength(0);
         stringBuilderPool.add(o);
     }
+
     public void returnSpecific(FastProtoMessage o) {
         o.clear();
         Class<?> cl = o.getClass();
         PoolInstance l = getPoolInstance(cl);
         l.add(o);
     }
-    private PoolInstance getPoolInstance(Class<?> cl) {
-        PoolInstance l = pool.get(cl);
-        if (l == null) {
-            pool.put(cl, l = new PoolInstance(cl));
-        }
-        return l;
+    public void returnMessageList(List<? extends FastProtoMessage> o) {
+        clearList(o);
+        arrayListPool.add(o);
     }
 
     public void returnSpecific(List<?> o) {
@@ -97,6 +110,15 @@ public class FastProtoObjectPool {
     public void returnSpecific(TIntArrayList o) {
         o.clear();
         arrayListPool.add(o);
+    }
+
+    private PoolInstance getPoolInstance(Class<?> cl) {
+        PoolInstance l = pool.get(cl);
+        if (l == null) {
+            // Do null check first, just in case lambda creation isn't optimized
+            l = pool.computeIfAbsent(cl, PoolInstance::new);
+        }
+        return l;
     }
     private void clear(Object o) {
         if( o instanceof FastProtoMessage){
@@ -111,12 +133,18 @@ public class FastProtoObjectPool {
         }
     }
 
-    public void clearList(List<?> list) {
+    private void clearList(List<?> list) {
         for(int size=list.size(),n=0;n<size;n++) {
-            returnOne(list.get(n));
+            Object o = list.get(n);
+            if(o instanceof FastProtoWritable){
+                ((FastProtoWritable)o).release();
+            } else {
+                returnOne(o);
+            }
         }
         list.clear();
     }
+
     public <T> T take(Class<T> cl) {
         PoolInstance l = getPoolInstance(cl);
 
