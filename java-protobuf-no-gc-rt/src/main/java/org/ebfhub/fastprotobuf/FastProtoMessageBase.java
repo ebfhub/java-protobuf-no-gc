@@ -74,15 +74,19 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     }
     public static int computeStringSizeNoTag(CharSequence value) {
         int length = Utf8.encodedLength(value);
-        return CodedOutputStream.computeUInt32SizeNoTag(length) + length;
+        return computeLengthDelimitedFieldSize(length);
     }
 
     public static int computeStringSize(int fieldNumber, CharSequence value){
         return CodedOutputStream.computeTagSize(fieldNumber)+computeStringSizeNoTag(value);
     }
     public static int computeMessageSize(int fieldNumber, FastProtoMessageBase<?> value){
-        return CodedOutputStream.computeTagSize(fieldNumber)+value.getSerializedSize();
+        return CodedOutputStream.computeTagSize(fieldNumber)+computeLengthDelimitedFieldSize(value.getSerializedSize());
     }
+    static int computeLengthDelimitedFieldSize(int fieldLength) {
+        return CodedOutputStream.computeUInt32SizeNoTag(fieldLength) + fieldLength;
+    }
+
     public org.ebfhub.fastprotobuf.FastProtoObjectPool getPool(){
         return this.pool;
     }

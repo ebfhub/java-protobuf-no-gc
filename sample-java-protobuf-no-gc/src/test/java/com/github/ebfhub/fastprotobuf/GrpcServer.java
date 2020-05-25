@@ -21,6 +21,12 @@ public class GrpcServer {
         long lastLogged;
 
         @Override
+        public void setQuery(SampleMessageFast.QueryMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
+            responseObserver.onNext(SampleMessageFast.DataMessage.newBuilder().setSymbol("hello").build());
+            responseObserver.onCompleted();
+        }
+
+        @Override
         public void subscribeToMarketData(SampleMessageFast.QueryMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
             int n=0;
             while(true) {

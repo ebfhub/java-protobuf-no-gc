@@ -24,47 +24,85 @@ public class GrpcClient {
         try {
             GrpcClient client = new GrpcClient(channel);
 
-            SampleMessageFast.QueryMessage request  = SampleMessageFast.QueryMessage.newBuilder();
 
             channel.notifyWhenStateChanged(ConnectivityState.TRANSIENT_FAILURE, ()->{
                 System.out.println("State changed");
             });
 
-            client.asyncStub.subscribeToMarketData(request, new StreamObserver<SampleMessageFast.DataMessage>() {
+            setquery(client, ()->{
+                subscribeMD(client);
 
-                int updates=0;
-                long lastLogged;
-
-                @Override
-                public void onNext(SampleMessageFast.DataMessage dataMessage) {
-                    //System.out.println("message: "+dataMessage);
-                    updates++;
-                    long now = System.currentTimeMillis();
-                    if(now-lastLogged>4000){
-                        lastLogged=now;
-                        System.out.println(new Date()+": "+updates+": message: "+dataMessage);
-                    }
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    System.out.println("error");
-                    throwable.printStackTrace();
-
-                }
-
-                @Override
-                public void onCompleted() {
-                    System.out.println("complete");
-                    //channel.shutdownNow();
-
-                }
             });
+
+
             Thread.currentThread().join();
         } finally {
             channel.shutdownNow().awaitTermination(5, TimeUnit.MINUTES);
         }
 
+    }
+
+    private static void setquery(GrpcClient client, Runnable then) {
+
+        SampleMessageFast.QueryMessage msg = SampleMessageFast.QueryMessage.newBuilder()
+                .setData(SampleMessageFast.DataMessage.newBuilder().setSymbol("bye"));
+
+        client.asyncStub.setQuery(msg, new StreamObserver<SampleMessageFast.DataMessage>() {
+            @Override
+            public void onNext(SampleMessageFast.DataMessage dataMessage) {
+                System.out.println("Got "+dataMessage);
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("done");
+
+
+                then.run();
+            }
+        });
+    }
+
+    private static void subscribeMD(GrpcClient client) {
+        SampleMessageFast.QueryMessage request  = SampleMessageFast.QueryMessage.newBuilder();
+
+        client.asyncStub.subscribeToMarketData(request, new StreamObserver<SampleMessageFast.DataMessage>() {
+
+            int updates=0;
+            long lastLogged;
+
+            @Override
+            public void onNext(SampleMessageFast.DataMessage dataMessage) {
+                //System.out.println("message: "+dataMessage);
+                updates++;
+                long now = System.currentTimeMillis();
+                if(now-lastLogged>4000){
+                    lastLogged=now;
+                    System.out.println(new Date()+": "+updates+": message: "+dataMessage);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                System.out.println("error");
+                throwable.printStackTrace();
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("complete");
+                //channel.shutdownNow();
+
+            }
+        });
     }
 
     /** Construct client for accessing RouteGuide server using the existing channel. */
