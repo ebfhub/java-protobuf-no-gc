@@ -36,15 +36,25 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
     }
 
     public T retain(){
+        if(refCount<=0){
+            throw new UnsupportedOperationException("Unexpected ref count<1 "+refCount);
+        }
         refCount++;
         //noinspection unchecked
         return (T)this;
     }
 
     public void release(){
+        if(refCount<=0){
+            throw new UnsupportedOperationException("Unexpected ref count<1 "+refCount);
+        }
         if(--refCount==0) {
             pool.returnSpecific(this);
         }
+    }
+
+    public void setRefCount(int i){
+        refCount=i;
     }
 
     protected static FastProtoObjectPool getDefaultPool(){

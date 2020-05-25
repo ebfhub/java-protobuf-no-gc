@@ -42,7 +42,6 @@ public class FastProtoSampleMain {
 
 
         byte[] bytes=msg.toByteArray();
-        System.out.println("Bytes = "+new String(bytes));
         System.out.println(ProtoDebug.decodeProto(bytes,false));
 
         CodedInputStream is=CodedInputStream.newInstance(bytes);
@@ -64,7 +63,6 @@ public class FastProtoSampleMain {
 
         byte[] bytes3=null;
         SampleMessageFast.DataMessage msg2 =  SampleMessageFast.DataMessage.newBuilder();
-        SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.newBuilder();
         msg2.setSymbol("bye");
 
         for(int k=0;k<10;k++){
@@ -91,20 +89,31 @@ public class FastProtoSampleMain {
             msg1.write(o2,writer);
             o2.flush();
 
+            //System.out.println("Pool size1 "+msg2.getPool());
 
-            if(n<2) {
+
+            if(n<5) {
                 byte[] tmp=os1.toByteArray();
 
                 if (n > 0) {
-                    System.out.println("eq=" + Arrays.equals(tmp, bytes3) + ":" + new String(tmp));
+                    System.out.println("eq=" + Arrays.equals(tmp, bytes3));
                 }
                 bytes3 = tmp;
                 System.gc();
+                System.out.println("Pool sizez "+msg2.getPool());
+
             }
+            SampleMessageFast.DataMessage msg3 =  SampleMessageFast.DataMessage.newBuilder();
 
             byte[] tmp=os1.getBytes();
             int tmpLen = os1.size();
             reader.readItem(msg3,tmp,0,tmpLen);
+            //System.out.println("Pool size2 "+msg2.getPool());
+            //System.out.println("Pool sizez "+msg3.getPool());
+
+            msg3.release();
+
+            //System.out.println("Pool size3 "+msg2.getPool());
         }
     }
 

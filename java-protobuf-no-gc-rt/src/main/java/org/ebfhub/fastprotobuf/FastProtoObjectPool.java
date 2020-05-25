@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class FastProtoObjectPool {
@@ -20,23 +21,33 @@ public class FastProtoObjectPool {
         pool.put(ArrayList.class,arrayListPool);
     }
 
-    private final int MAX_INSTANCES=Integer.getInteger("PROTOBUF_POOL_MAX_INSTANCES",1024);
-    private final int DEF_CAPACITY=Integer.getInteger("PROTOBUF_POOL_DEF_CAPACITY",1024);
+    private static final int MAX_INSTANCES=Integer.getInteger("PROTOBUF_POOL_MAX_INSTANCES",1024);
+    private static final int DEF_CAPACITY=Integer.getInteger("PROTOBUF_POOL_DEF_CAPACITY",1024);
+
+    @Override
+    public String toString() {
+        return System.identityHashCode(this)+":"+pool.toString();
+    }
 
     private class PoolInstance
     {
         final List<Object> instances=new ArrayList<>(DEF_CAPACITY);
         Supplier<Object> creator;
+        Consumer<Object> cleaner;
 
         PoolInstance(Supplier<Object> s){
             creator=s;
+            cleaner=(a)->{};
+
         }
 
         PoolInstance(Class cl){
             if(cl == StringBuilder.class){
                 creator=StringBuffer::new;
+                cleaner=(a)->{};
             } else if (cl == ArrayList.class){
                 creator=ArrayList::new;
+                cleaner=(a)->{};
             } else {
                 try {
                     @SuppressWarnings("unchecked") Method method = cl.getMethod("create", FastProtoObjectPool.class);
@@ -51,6 +62,9 @@ public class FastProtoObjectPool {
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
+                cleaner=(a)->{
+                    ((FastProtoMessageBase)a).setRefCount(1);
+                };
             }
         }
 
@@ -68,11 +82,20 @@ public class FastProtoObjectPool {
             }
         }
 
+        @Override
+        public String toString() {
+            synchronized (instances) {
+                return String.valueOf(instances.size());
+            }
+        }
+
         Object take(){
             synchronized (instances) {
                 int size=instances.size();
                 if (size != 0) {
-                    return instances.remove(size - 1);
+                    Object inst = instances.remove(size - 1);
+                    cleaner.accept(inst);
+                    return inst;
                 }
             }
             return creator.get();
@@ -92,11 +115,17 @@ public class FastProtoObjectPool {
     }
 
     public void returnSpecific(FastProtoMessage o) {
-        o.clear();
+        clearFastProtoMessage(o);
         Class<?> cl = o.getClass();
         PoolInstance l = getPoolInstance(cl);
         l.add(o);
     }
+
+    private void clearFastProtoMessage(FastProtoMessage o) {
+        o.clear();
+        o.setRefCount(-100);
+    }
+
     public void returnMessageList(List<? extends FastProtoMessage> o) {
         clearList(o);
         arrayListPool.add(o);
@@ -122,7 +151,7 @@ public class FastProtoObjectPool {
     }
     private void clear(Object o) {
         if( o instanceof FastProtoMessage){
-            ((FastProtoMessage) o).clear();
+            clearFastProtoMessage((FastProtoMessage) o);
         } else if ( o instanceof List){
             //noinspection rawtypes
             clearList((List)o);
