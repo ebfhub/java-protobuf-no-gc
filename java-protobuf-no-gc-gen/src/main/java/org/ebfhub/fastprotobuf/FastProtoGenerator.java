@@ -342,7 +342,8 @@ public class FastProtoGenerator extends Generator {
             sb.line(
                     "          .addMethod(\n" +
                             "            "+method.mName+",\n" +
-                            "            asyncServerStreamingCall(\n" +
+                            method.serverStreamingCall(CallType.ASYNC)+
+                            "(\n" +
                             "              new MethodHandlers<\n" +
                             "                "+method.inputType+",\n" +
                             "                "+method.outputType+">(\n" +
@@ -1537,7 +1538,8 @@ public class FastProtoGenerator extends Generator {
 
         public String serverStreamingCall(CallType async) {
             return (async==CallType.FUTURE?"future":async==CallType.ASYNC?"async":"blocking")+
-                    (serverStream?(clientStream?"BidiStreamingCall":"ServerStreamingCall"):(clientStream?"ClientStreamingCall":"UnaryCall"));
+                    (serverStream?(clientStream?"BidiStreaming":"ServerStreaming"):(clientStream?"ClientStreaming":"Unary"))+
+                    "Call";
         }
 
 

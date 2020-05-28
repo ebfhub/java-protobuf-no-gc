@@ -29,6 +29,9 @@ public class GrpcClient {
                 System.out.println("State changed");
             });
 
+
+
+
             setquery(client, ()->{
                 subscribeMD(client);
 
@@ -46,6 +49,9 @@ public class GrpcClient {
 
         SampleMessageFast.QueryMessage msg = SampleMessageFast.QueryMessage.newBuilder()
                 .setData(SampleMessageFast.DataMessage.newBuilder().setSymbol("bye"));
+
+        SampleMessageFast.DataMessage res2 = client.blockingStub.setQuery(msg.retain());
+        System.out.println("Got1 "+res2);
 
         client.asyncStub.setQuery(msg, new StreamObserver<SampleMessageFast.DataMessage>() {
             @Override
