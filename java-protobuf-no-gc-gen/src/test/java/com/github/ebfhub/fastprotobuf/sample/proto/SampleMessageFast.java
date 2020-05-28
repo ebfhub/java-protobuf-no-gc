@@ -21,7 +21,15 @@ public class SampleMessageFast {
         private static StringList DEFAULT_INSTANCE=null;
         public static StringList getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new StringList(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public StringList retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -260,7 +268,15 @@ public class SampleMessageFast {
         private static FieldSetDef DEFAULT_INSTANCE=null;
         public static FieldSetDef getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new FieldSetDef(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public FieldSetDef retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -516,7 +532,15 @@ public class SampleMessageFast {
         private static FieldIdDef DEFAULT_INSTANCE=null;
         public static FieldIdDef getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new FieldIdDef(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public FieldIdDef retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -767,7 +791,15 @@ public class SampleMessageFast {
         private static NullValue DEFAULT_INSTANCE=null;
         public static NullValue getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new NullValue(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public NullValue retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -951,7 +983,15 @@ public class SampleMessageFast {
         private static FieldAndValue DEFAULT_INSTANCE=null;
         public static FieldAndValue getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new FieldAndValue(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public FieldAndValue retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -1558,7 +1598,15 @@ public class SampleMessageFast {
         private static DataMessage DEFAULT_INSTANCE=null;
         public static DataMessage getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new DataMessage(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public DataMessage retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -2116,7 +2164,15 @@ public class SampleMessageFast {
         private static SubscriberMessagePriority DEFAULT_INSTANCE=null;
         public static SubscriberMessagePriority getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessagePriority(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessagePriority retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -2415,7 +2471,15 @@ public class SampleMessageFast {
         private static SubscriberMessageSubscribe DEFAULT_INSTANCE=null;
         public static SubscriberMessageSubscribe getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessageSubscribe(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessageSubscribe retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -2683,7 +2747,15 @@ public class SampleMessageFast {
         private static SubscriberMessageQueueRate DEFAULT_INSTANCE=null;
         public static SubscriberMessageQueueRate getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessageQueueRate(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessageQueueRate retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -2888,7 +2960,15 @@ public class SampleMessageFast {
         private static SubscriberMessageFlow DEFAULT_INSTANCE=null;
         public static SubscriberMessageFlow getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessageFlow(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessageFlow retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -3096,7 +3176,15 @@ public class SampleMessageFast {
         private static SubscriberMessagePart DEFAULT_INSTANCE=null;
         public static SubscriberMessagePart getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessagePart(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessagePart retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -3554,7 +3642,15 @@ public class SampleMessageFast {
         private static SubscriberMessage DEFAULT_INSTANCE=null;
         public static SubscriberMessage getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new SubscriberMessage(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public SubscriberMessage retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -3789,7 +3885,15 @@ public class SampleMessageFast {
         private static QueryMessage DEFAULT_INSTANCE=null;
         public static QueryMessage getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new QueryMessage(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public QueryMessage retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }
@@ -4044,7 +4148,15 @@ public class SampleMessageFast {
         private static AllTypes DEFAULT_INSTANCE=null;
         public static AllTypes getDefaultInstance() {
             if(DEFAULT_INSTANCE==null){
-                DEFAULT_INSTANCE=newBuilder();
+                DEFAULT_INSTANCE=new AllTypes(null){
+                    @Override
+                    public void release(){
+                    }
+                    @Override
+                    public AllTypes retain(){
+                        return this;
+                    }
+                };
             }
             return DEFAULT_INSTANCE;
         }

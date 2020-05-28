@@ -57,6 +57,10 @@ public abstract class FastProtoMessageBase<T extends FastProtoMessage> implement
         refCount=i;
     }
 
+    public int getRefCount() {
+        return refCount;
+    }
+
     protected static FastProtoObjectPool getDefaultPool(){
         return getDefaultReader().getPool();
     }

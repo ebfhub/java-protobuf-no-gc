@@ -140,7 +140,16 @@ public class FastProtoGenerator extends Generator {
                     /** Create default instance - used by GRPC */
                     sb.line("public static "+thisClass+" getDefaultInstance() {");
                     sb.line("if(DEFAULT_INSTANCE==null){");
-                    sb.line("DEFAULT_INSTANCE=newBuilder();");
+                    sb.line("DEFAULT_INSTANCE=new "+thisClass+"(null){");
+                    sb.line("@Override");
+                    sb.line("public void release(){");
+                    sb.line("}");
+                    sb.line("@Override");
+                    sb.line("public "+thisClass+" retain(){");
+                    sb.line("return this;");
+                    sb.line("}");
+
+                    sb.line("};");
                     sb.line("}");
                     sb.line("return DEFAULT_INSTANCE;");
                     sb.line("}");

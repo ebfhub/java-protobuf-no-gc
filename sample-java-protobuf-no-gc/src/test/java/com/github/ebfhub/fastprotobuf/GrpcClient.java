@@ -79,13 +79,13 @@ public class GrpcClient {
     private static void subscribeMD(GrpcClient client) {
         SampleMessageFast.QueryMessage request  = SampleMessageFast.QueryMessage.newBuilder();
 
-        client.asyncStub.subscribeToMarketData(request, new StreamObserver<SampleMessageFast.DataMessage>() {
+        client.asyncStub.subscribeToMarketData(request, new StreamObserver<SampleMessageFast.StreamMessage>() {
 
             int updates=0;
             long lastLogged;
 
             @Override
-            public void onNext(SampleMessageFast.DataMessage dataMessage) {
+            public void onNext(SampleMessageFast.StreamMessage dataMessage) {
                 //System.out.println("message: "+dataMessage);
                 updates++;
                 long now = System.currentTimeMillis();

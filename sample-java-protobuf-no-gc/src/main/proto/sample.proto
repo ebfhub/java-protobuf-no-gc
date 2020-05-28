@@ -81,6 +81,9 @@ message SubscriberMessage {
 message QueryMessage {
     DataMessage data = 1;
 }
+message StreamMessage {
+    DataMessage data = 1;
+}
 
 message AllTypes
 {
@@ -108,7 +111,7 @@ message AllTypes
 
 service MarketDataService {
     rpc SetQuery(QueryMessage) returns (DataMessage);
-    rpc SubscribeToMarketData(QueryMessage) returns (stream DataMessage);
+    rpc SubscribeToMarketData(QueryMessage) returns (stream StreamMessage);
     rpc PushToServer(stream QueryMessage) returns (DataMessage);
     rpc PushStreamToServer(stream QueryMessage) returns (stream DataMessage);
 }

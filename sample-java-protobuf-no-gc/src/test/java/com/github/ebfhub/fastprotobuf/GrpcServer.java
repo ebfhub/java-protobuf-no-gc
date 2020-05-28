@@ -27,16 +27,18 @@ public class GrpcServer {
         }
 
         @Override
-        public void subscribeToMarketData(SampleMessageFast.QueryMessage request, StreamObserver<SampleMessageFast.DataMessage> responseObserver) {
+        public void subscribeToMarketData(SampleMessageFast.QueryMessage request, StreamObserver<SampleMessageFast.StreamMessage> responseObserver) {
             int n=0;
             while(true) {
                 SampleMessageFast.DataMessage msg = SampleMessageFast.DataMessage.newBuilder().setSymbol("test").setSymbolId(n).build();
+                SampleMessageFast.StreamMessage sm = SampleMessageFast.StreamMessage.newBuilder().setData(msg).build();
+
                 long now = System.currentTimeMillis();
                 if(now-lastLogged>4000){
                     lastLogged=now;
-                    System.out.println(new Date()+": "+n+": message: "+msg);
+                    System.out.println(new Date()+": "+n+": message: "+sm);
                 }
-                responseObserver.onNext(msg);
+                responseObserver.onNext(sm);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
