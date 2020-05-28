@@ -428,7 +428,13 @@ public class FastProtoGenerator extends Generator {
                 "    protected "+svc.getName()+"FutureStub build(io.grpc.Channel channel,\n" +
                 "        io.grpc.CallOptions callOptions) {\n" +
                 "      return new "+svc.getName()+"FutureStub(channel, callOptions);\n" +
-                "    }\n" +
+                "    }\n" );
+        for(MethodDetails method : methods)
+        {
+            method.genMethod(sb,  CallType.FUTURE);
+        }
+
+        sb.line(
                 "  }\n" +
                 "\n" );
 
@@ -1530,7 +1536,8 @@ public class FastProtoGenerator extends Generator {
         }
 
         public String serverStreamingCall(CallType async) {
-            return (async==CallType.ASYNC?"async":"blocking")+(serverStream?(clientStream?"BidiStreamingCall":"ServerStreamingCall"):(clientStream?"ClientStreamingCall":"UnaryCall"));
+            return (async==CallType.FUTURE?"future":async==CallType.ASYNC?"async":"blocking")+
+                    (serverStream?(clientStream?"BidiStreamingCall":"ServerStreamingCall"):(clientStream?"ClientStreamingCall":"UnaryCall"));
         }
 
 
@@ -1539,21 +1546,27 @@ public class FastProtoGenerator extends Generator {
             if(async==CallType.BLOCKING && method.clientStream){
                 return;
             }
+            if(async==CallType.FUTURE && (method.clientStream||method.serverStream)){
+                return;
+            }
 
             sb.line(
                     "public "+
                             (async==CallType.ASYNC&&method.clientStream?"io.grpc.stub.StreamObserver<" + method.inputType + ">":
-                                    async==CallType.BLOCKING&&method.serverStream?"java.util.Iterator<"+method.outputType+">":
-                                    async==CallType.BLOCKING?method.outputType:
-                                    "void")
+                            async==CallType.BLOCKING&&method.serverStream?"java.util.Iterator<"+method.outputType+">":
+                            async==CallType.BLOCKING?method.outputType:
+                            async==CallType.FUTURE?"com.google.common.util.concurrent.ListenableFuture<"+method.outputType+">":
+                            "void")
                             +" " + method.methodName + "(" +
-                            (method.clientStream?"":method.inputType + " request,\n" )+
-                            "io.grpc.stub.StreamObserver<" + method.outputType + "> responseObserver) {\n" +
-                            (method.clientStream||async==CallType.BLOCKING?"return ":"")+method.serverStreamingCall(async)+"(\n" +
                             toArgs(
-                            (async==CallType.ASYNC?"getChannel().newCall(" +toArgs(method.mName, "getCallOptions()")+")":toArgs("getChannel()", method.mName, "getCallOptions()")),
+                            (method.clientStream?"":method.inputType + " request" ),
+                                    async==CallType.BLOCKING?"":("io.grpc.stub.StreamObserver<" + method.outputType + "> responseObserver" ) )+
+                            ") {\n" +
+                            (method.clientStream||async!=CallType.ASYNC?"return ":"")+method.serverStreamingCall(async)+"(\n" +
+                            toArgs(
+                            (async==CallType.ASYNC||async==CallType.FUTURE?"getChannel().newCall(" +toArgs(method.mName, "getCallOptions()")+")":toArgs("getChannel()", method.mName, "getCallOptions()")),
                             (method.clientStream?"":" request"),
-                            (async==CallType.BLOCKING?"":method.clientStream?"responseObserver":wrapObserver(method, "responseObserver"))
+                            (async!=CallType.ASYNC?"":method.clientStream?"responseObserver":wrapObserver(method, "responseObserver"))
                             )+
                             "" + ");\n" +
                             "  }\n");
@@ -1562,7 +1575,8 @@ public class FastProtoGenerator extends Generator {
     enum CallType
     {
         ASYNC,
-        BLOCKING
+        BLOCKING,
+        FUTURE;
     }
 
 
