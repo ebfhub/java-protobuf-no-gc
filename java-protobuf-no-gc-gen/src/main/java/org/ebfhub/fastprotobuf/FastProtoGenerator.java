@@ -511,7 +511,7 @@ public class FastProtoGenerator extends Generator {
                 "  public static io.grpc.ServiceDescriptor getServiceDescriptor() {\n" +
                 "    io.grpc.ServiceDescriptor result = serviceDescriptor;\n" +
                 "    if (result == null) {\n" +
-                "      synchronized ("+svc.getName()+"Grpc.class) {\n" +
+                "      synchronized ("+svc.getName()+classSuffix+"Grpc.class) {\n" +
                 "        result = serviceDescriptor;\n" +
                 "        if (result == null) {\n" +
                 "          serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)\n" +

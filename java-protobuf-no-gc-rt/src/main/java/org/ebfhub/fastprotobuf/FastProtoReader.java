@@ -24,13 +24,48 @@ public class FastProtoReader {
         return pool;
     }
 
-    FastProtoObjectPool pool=new FastProtoObjectPool();
-    Utf8.ByteProvider provider = new Utf8.ByteProvider() {
+    private final FastProtoObjectPool pool;
+    private final Utf8.ByteProvider provider = new Utf8.ByteProvider() {
         @Override
         byte getByte(Object src, long offset) {
             return ((byte[])src)[(int)offset];
         }
     };
+
+    private MutableByteArrayInputStream mis;
+    private CodedInputStream is3;
+
+    public FastProtoReader(){
+        this.pool=new FastProtoObjectPool();;
+        reset();
+    }
+
+    public FastProtoReader(FastProtoObjectPool pool){
+        this.pool=pool;
+        reset();
+    }
+
+    private void reset(){
+        mis = new MutableByteArrayInputStream();
+        is3 = CodedInputStream.newInstance(mis);
+    }
+
+    public void readItem(FastProtoMessage val, byte[] b, int offset, int len) throws IOException {
+        if(is3==null) {
+            reset();
+        }
+        val.clear();
+        mis.setBytes(b,offset,len);
+        parse(is3,val.getSetter());
+        if(is3!=null) {
+            is3.resetSizeCounter();
+        }
+    }
+
+    public void readItem(FastProtoMessage val, CodedInputStream is3) throws IOException {
+        val.clear();
+        parse(is3,val.getSetter());
+    }
 
     /**
      * <p>parse.</p>
@@ -40,6 +75,19 @@ public class FastProtoReader {
      * @throws java.io.IOException if any.
      */
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
+        try {
+            if(is3==null) {
+                reset();
+            }
+            parseInternal(is, setter);
+        } catch( IOException e ){
+            is3=null;
+            mis=null;
+            throw e;
+        }
+    }
+
+    private void parseInternal(CodedInputStream is, FastProtoSetter setter) throws IOException {
         while(true) {
             int tag = is.readTag();
             if(tag==0)
@@ -170,7 +218,7 @@ public class FastProtoReader {
                         case MESSAGE:
                         {
                             int l = is.pushLimit(size);
-                            parse(is,setter.field_add(field).getSetter());
+                            parseInternal(is,setter.field_add(field).getSetter());
                             is.popLimit(l);
                         }
                         break;
@@ -187,21 +235,5 @@ public class FastProtoReader {
                     throw new UnsupportedOperationException();
             }
         }
-    }
-
-    MutableByteArrayInputStream mis = new MutableByteArrayInputStream();
-    CodedInputStream is3=CodedInputStream.newInstance(mis);
-
-    public void readItem(FastProtoMessage val, byte[] b, int offset, int len) throws IOException {
-        val.clear();
-        mis.setBytes(b,offset,len);
-
-        parse(is3,val.getSetter());
-        is3.resetSizeCounter();
-    }
-
-    public void readItem(FastProtoMessage val, CodedInputStream is3) throws IOException {
-        val.clear();
-        parse(is3,val.getSetter());
     }
 }
