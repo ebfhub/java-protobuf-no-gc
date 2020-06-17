@@ -14,6 +14,8 @@ import java.io.IOException;
 public class FastProtoReader {
 
     private byte[] bb = new byte[0];
+    private final Object[] bbLock=new Object[0];
+    private FastProtoMutableCodedInputStream reused;
 
     /**
      * <p>Getter for the field <code>pool</code>.</p>
@@ -32,33 +34,28 @@ public class FastProtoReader {
         }
     };
 
-    private MutableByteArrayInputStream mis;
-    private CodedInputStream is3;
-
     public FastProtoReader(){
         this.pool=new FastProtoObjectPool();;
-        reset();
     }
 
     public FastProtoReader(FastProtoObjectPool pool){
         this.pool=pool;
-        reset();
-    }
-
-    private void reset(){
-        mis = new MutableByteArrayInputStream();
-        is3 = CodedInputStream.newInstance(mis);
     }
 
     public void readItem(FastProtoMessage val, byte[] b, int offset, int len) throws IOException {
-        if(is3==null) {
-            reset();
-        }
         val.clear();
-        mis.setBytes(b,offset,len);
-        parse(is3,val.getSetter());
-        if(is3!=null) {
-            is3.resetSizeCounter();
+        if(reused==null) {
+            reused = new FastProtoMutableCodedInputStream();
+        } else {
+            reused.reset();
+        }
+
+        reused.setBytes(b,offset,len);
+        try {
+            parse(reused.getCodedInputStream(), val.getSetter());
+        } catch (IOException e){
+            reused=null;
+            throw e;
         }
     }
 
@@ -75,16 +72,7 @@ public class FastProtoReader {
      * @throws java.io.IOException if any.
      */
     public void parse(CodedInputStream is, FastProtoSetter setter) throws java.io.IOException {
-        try {
-            if(is3==null) {
-                reset();
-            }
-            parseInternal(is, setter);
-        } catch( IOException e ){
-            is3=null;
-            mis=null;
-            throw e;
-        }
+        parseInternal(is, setter);
     }
 
     private void parseInternal(CodedInputStream is, FastProtoSetter setter) throws IOException {
@@ -195,23 +183,25 @@ public class FastProtoReader {
                     switch(lt){
                         case STRING:
                         {
-                            if(bb.length<size){
-                                bb=new byte[size];
-                            }
-                            for(int n=0;n<size;n++) {
-                                byte b = is.readRawByte();
-                                bb[n]=b;
-                            }
-                            if(fd.repeated){
-                                StringBuilder sb = setter.field_add_builder(field);
-                                sb.setLength(0);
-                                Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+                            synchronized (bbLock) {
 
-                            } else {
-                                StringBuilder sb = setter.field_builder(field);
-                                sb.setLength(0);
-                                Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+                                if(bb.length<size){
+                                    bb=new byte[size];
+                                }
+                                for (int n = 0; n < size; n++) {
+                                    byte b = is.readRawByte();
+                                    bb[n] = b;
+                                }
+                                if (fd.repeated) {
+                                    StringBuilder sb = setter.field_add_builder(field);
+                                    sb.setLength(0);
+                                    Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
 
+                                } else {
+                                    StringBuilder sb = setter.field_builder(field);
+                                    sb.setLength(0);
+                                    Utf8.getCharsFromUtf8(0, size, sb, 0, bb, provider);
+                                }
                             }
                         }
                         break;
