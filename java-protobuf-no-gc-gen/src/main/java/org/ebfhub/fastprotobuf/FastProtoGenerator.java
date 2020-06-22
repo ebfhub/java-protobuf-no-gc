@@ -986,8 +986,6 @@ public class FastProtoGenerator extends Generator {
         sb.line("}");
         sb.blank();
 
-        sb.line("private final java.util.List<"+FastProtoField.class.getName()+"> field_all = java.util.Arrays.asList("+
-                pp.getFieldList().stream().map(a->"Field."+a.getName()).collect(Collectors.joining(", "))+");");
         sb.blank();
         sb.line("@Override");
         sb.line("public java.util.List<"+FastProtoField.class.getName()+"> field_getAll(){");
@@ -1008,6 +1006,9 @@ public class FastProtoGenerator extends Generator {
         sb.line("};");
         sb.blank();
         sb.line("// Private impls");
+
+        sb.line("private static final java.util.List<"+FastProtoField.class.getName()+"> field_all = java.util.Arrays.asList("+
+                pp.getFieldList().stream().map(a->"Field."+a.getName()).collect(Collectors.joining(", "))+");");
 
         createAdd(sb, info, byType, "this.", true, false);
         createSet(sb, info, byType, "this.", true, false);
